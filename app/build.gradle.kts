@@ -7,6 +7,10 @@ android {
     namespace = "com.example.freemates_android"
     compileSdk = 35
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.freemates_android"
         minSdk = 24
