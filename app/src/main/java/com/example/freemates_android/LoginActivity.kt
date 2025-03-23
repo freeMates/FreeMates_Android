@@ -18,11 +18,15 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvRegisterLogin.setOnClickListener{
+        binding.btnLoginLogin.setOnClickListener {
+            val intent = Intent(this, LoginCompleteActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.tvRegisterLogin.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 }
