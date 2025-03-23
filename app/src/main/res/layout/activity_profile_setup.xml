@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="프리메이트를 시작합니다!"
+        android:text="기본 설정을 완료해주세요."
         android:textColor="@color/black"
         android:textSize="22sp"
         android:fontFamily="@font/paperlogy_6semibold"
@@ -61,6 +61,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <TextView
+        android:id="@+id/tvNicknameError_ProfileSetup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="40dp"
+        android:text="8자 이하로 입력해주세요."
+        android:textColor="@color/red_color"
+        android:textSize="12sp"
+        android:fontFamily="@font/suit_regular"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/etUserNickname_ProfileSetup"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <EditText
         android:id="@+id/etUserAge_ProfileSetup"
         android:layout_width="match_parent"
@@ -78,6 +92,8 @@
         android:maxLines="1"
         android:hint="나이를 입력해주세요."
         android:gravity="center"
+        android:inputType="number"
+        android:maxLength="3"
         app:layout_constraintTop_toBottomOf="@+id/etUserNickname_ProfileSetup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -103,8 +119,7 @@
         android:layout_marginTop="9dp"
         android:layout_marginEnd="4dp"
         android:elevation="6dp"
-        android:background="@drawable/roundedbox_50"
-        android:backgroundTint="@color/main_color"
+        android:background="@drawable/selector_gender_button"
         android:text="남성"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -121,8 +136,7 @@
         android:layout_marginTop="9dp"
         android:layout_marginStart="4dp"
         android:elevation="6dp"
-        android:background="@drawable/roundedbox_50"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/selector_gender_button"
         android:text="여성"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -142,10 +156,9 @@
         android:text="완료"
         android:textSize="18sp"
         android:fontFamily="@font/paperlogy_6semibold"
-        android:textColor="@color/black"
+        android:textColor="@color/unselected_color"
         android:elevation="6dp"
-        android:background="@drawable/roundedbox_50"
-        android:backgroundTint="@color/main_color"
+        android:background="@drawable/selector_complete_button"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
