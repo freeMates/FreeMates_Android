@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileSetupActivity">
+
+    <Button
+        android:id="@+id/btnBackToRegister_ProfileSetup"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_arrow_back"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/ivAppIcon_ProfileSetup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/ic_app_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvRegisterPrompt_ProfileSetup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="프리메이트를 시작합니다!"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_ProfileSetup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/etUserNickname_ProfileSetup"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="8dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textColorHint="@color/hint_color"
+        android:fontFamily="@font/suit_regular"
+        android:maxLines="1"
+        android:hint="닉네임을 입력해주세요."
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/tvRegisterPrompt_ProfileSetup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/etUserAge_ProfileSetup"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="8dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textColorHint="@color/hint_color"
+        android:fontFamily="@font/suit_regular"
+        android:maxLines="1"
+        android:hint="나이를 입력해주세요."
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/etUserNickname_ProfileSetup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvAgePrompt_ProfileSetup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="40dp"
+        android:text="성별을 선택해주세요."
+        android:textColor="@color/hint_color"
+        android:textSize="12sp"
+        android:fontFamily="@font/suit_regular"
+        app:layout_constraintTop_toBottomOf="@+id/etUserAge_ProfileSetup"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/btnMale_ProfileSetup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="4dp"
+        android:elevation="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:backgroundTint="@color/main_color"
+        android:text="남성"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:fontFamily="@font/suit_bold"
+        app:layout_constraintTop_toBottomOf="@+id/tvAgePrompt_ProfileSetup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnFemale_ProfileSetup" />
+
+    <Button
+        android:id="@+id/btnFemale_ProfileSetup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginStart="4dp"
+        android:elevation="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:backgroundTint="@color/white"
+        android:text="여성"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:fontFamily="@font/suit_bold"
+        app:layout_constraintTop_toBottomOf="@+id/tvAgePrompt_ProfileSetup"
+        app:layout_constraintStart_toEndOf="@+id/btnMale_ProfileSetup"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnCompleteProfile_ProfileSetup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:paddingVertical="17dp"
+        android:text="완료"
+        android:textSize="18sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:textColor="@color/black"
+        android:elevation="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:backgroundTint="@color/main_color"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

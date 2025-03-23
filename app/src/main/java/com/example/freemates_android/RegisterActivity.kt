@@ -1,5 +1,6 @@
 package com.example.freemates_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,6 +21,11 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnBackToLoginRegister.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         binding.etUserPasswordRegister.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -34,5 +40,10 @@ class RegisterActivity : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {
             }
         })
+
+        binding.btnRegisterRegister.setOnClickListener {
+            val intent = Intent(this, ProfileSetupActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
