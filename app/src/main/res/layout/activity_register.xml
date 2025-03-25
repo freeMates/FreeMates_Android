@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp">
 
     <Button
         android:id="@+id/btnBackToLogin_Register"
@@ -64,10 +64,10 @@
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintTop_toBottomOf="@+id/tvRegisterPrompt_Register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etUserIdDuplication_Register"/>
+        app:layout_constraintEnd_toStartOf="@+id/btnUserIdDuplication_Register"/>
 
     <Button
-        android:id="@+id/etUserIdDuplication_Register"
+        android:id="@+id/btnUserIdDuplication_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="60dp"
@@ -88,6 +88,7 @@
         app:layout_constraintStart_toEndOf="@+id/etUserId_Register"/>
 
     <TextView
+        android:id="@+id/tvUserIdAvailability_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -96,8 +97,37 @@
         android:textColor="@color/hint_color"
         android:textSize="12sp"
         android:fontFamily="@font/suit_regular"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@+id/etUserId_Register"
         app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvUserIdLengthError_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="40dp"
+            android:text="8자 이하로 입력해주세요."
+            android:textColor="@color/red_color"
+            android:textSize="12sp"
+            android:fontFamily="@font/suit_regular"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/etUserId_Register"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvUserIdDuplicateError_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="40dp"
+            android:text="중복되는 아이디입니다."
+            android:textColor="@color/red_color"
+            android:textSize="12sp"
+            android:fontFamily="@font/suit_regular"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/etUserId_Register"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
         android:id="@+id/etUserPassword_Register"
@@ -175,10 +205,10 @@
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintTop_toBottomOf="@+id/etUserPasswordCheck_Register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etUserPhoneVerify_Register"/>
+        app:layout_constraintEnd_toStartOf="@+id/btnUserPhoneVerify_Register"/>
 
     <Button
-        android:id="@+id/etUserPhoneVerify_Register"
+        android:id="@+id/btnUserPhoneVerify_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
@@ -218,10 +248,10 @@
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintTop_toBottomOf="@+id/etUserPhone_Register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etVerificationCodeCheck_Register"/>
+        app:layout_constraintEnd_toStartOf="@+id/btnVerificationCodeCheck_Register"/>
 
     <Button
-        android:id="@+id/etVerificationCodeCheck_Register"
+        android:id="@+id/btnVerificationCodeCheck_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -230,10 +260,9 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:text="확인"
-        android:textColor="@color/black"
+        android:textColor="@color/selector_complete_text"
         android:textSize="12sp"
-        android:background="@drawable/roundedbox_right_50"
-        android:backgroundTint="@color/main_color"
+        android:background="@drawable/selector_verification_code_button"
         android:elevation="6dp"
         android:fontFamily="@font/suit_bold"
         app:layout_constraintHorizontal_weight="0.2"
@@ -242,7 +271,7 @@
         app:layout_constraintStart_toEndOf="@+id/etVerificationCode_Register"/>
 
     <Button
-        android:id="@+id/btnRegister_Register"
+        android:id="@+id/btnCompleteRegister_Register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
@@ -252,10 +281,9 @@
         android:text="회원가입하기"
         android:textSize="18sp"
         android:fontFamily="@font/paperlogy_6semibold"
-        android:textColor="@color/black"
+        android:textColor="@color/selector_complete_text"
         android:elevation="6dp"
-        android:background="@drawable/roundedbox_50"
-        android:backgroundTint="@color/main_color"
+        android:background="@drawable/selector_complete_button"
         app:layout_constraintTop_toBottomOf="@+id/etVerificationCode_Register"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -156,7 +156,7 @@
         android:text="완료"
         android:textSize="18sp"
         android:fontFamily="@font/paperlogy_6semibold"
-        android:textColor="@color/unselected_color"
+        android:textColor="@color/selector_complete_text"
         android:elevation="6dp"
         android:background="@drawable/selector_complete_button"
         app:layout_constraintBottom_toBottomOf="parent" />

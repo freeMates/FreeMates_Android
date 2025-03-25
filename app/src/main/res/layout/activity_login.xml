@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="24dp"
     tools:context=".LoginActivity">
 
     <ImageView
@@ -23,6 +22,7 @@
         android:id="@+id/etUserId_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:paddingVertical="15dp"
         android:background="@drawable/roundedbox_50"
         android:elevation="6dp"
@@ -42,9 +42,10 @@
         android:id="@+id/etUserPassword_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
         android:paddingVertical="15dp"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:background="@drawable/roundedbox_50"
         android:elevation="6dp"
         android:textColor="@color/black"
@@ -58,10 +59,23 @@
         app:layout_constraintTop_toBottomOf="@+id/etUserId_Login"
         tools:text="ffdiks333"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="아이디 및 비밀번호가 맞지 않습니다."
+        android:textColor="@color/red_color"
+        android:textSize="12sp"
+        android:fontFamily="@font/suit_regular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUserPassword_Login"/>
+
     <Button
         android:id="@+id/btnLogin_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="45dp"
         android:paddingVertical="17dp"
         android:background="@drawable/roundedbox_50"

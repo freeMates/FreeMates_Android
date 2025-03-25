@@ -1,17 +1,14 @@
 package com.example.freemates_android
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
-import com.example.freemates_android.databinding.ActivityLoginBinding
 import com.example.freemates_android.databinding.ActivityProfileSetupBinding
 
 class ProfileSetupActivity : AppCompatActivity() {
@@ -127,12 +124,5 @@ class ProfileSetupActivity : AppCompatActivity() {
         val isValid = isValidProfileInput()
         binding.btnCompleteProfileProfileSetup.isSelected = isValid
         binding.btnCompleteProfileProfileSetup.isClickable = isValid
-
-        val color = if (isValid)
-            ContextCompat.getColor(this, R.color.black)
-        else
-            ContextCompat.getColor(this, R.color.unselected_color)
-
-        binding.btnCompleteProfileProfileSetup.setTextColor(color)
     }
 }

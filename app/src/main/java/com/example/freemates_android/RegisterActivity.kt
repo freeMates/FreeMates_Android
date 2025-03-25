@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,6 +15,8 @@ import com.example.freemates_android.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
+    private var isIdChecked = false
+    private var isPhoneVerified = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,28 +30,56 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.btnBackToLoginRegister.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
-        binding.etUserPasswordRegister.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                if (text != null) {
-//                    binding.tilUserPassword.isHintEnabled = text.isEmpty()
-//                }
-            }
+        binding.btnUserIdDuplicationRegister.setOnClickListener {
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
-
-        binding.btnRegisterRegister.setOnClickListener {
-            val intent = Intent(this, ProfileSetupActivity::class.java)
-            startActivity(intent)
         }
+
+        binding.btnCompleteRegisterRegister.setOnClickListener {
+//            submitUserInfo()
+        }
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        binding.btnUserIdDuplicationRegister.setOnClickListener {
+            val id = binding.etUserIdRegister.text.toString()
+            if (id.length > 8) {
+                showToast("아이디는 8자 이하여야 합니다.")
+                return@setOnClickListener
+            }
+            // TODO: 아이디 중복 확인 API 호출
+            isIdChecked = true
+        }
+
+        binding.btnUserPhoneVerifyRegister.setOnClickListener {
+            val phone = binding.etUserPhoneRegister.text.toString()
+            // TODO: 인증번호 전송 API
+        }
+
+        binding.btnVerificationCodeCheckRegister.setOnClickListener {
+            val code = binding.etVerificationCodeRegister.text.toString()
+            // TODO: 인증번호 확인 API
+            isPhoneVerified = true
+        }
+
+        binding.btnCompleteRegisterRegister.setOnClickListener {
+            if (!isIdChecked) {
+                showToast("아이디 중복 확인을 해주세요.")
+                return@setOnClickListener
+            }
+
+            if (!isPhoneVerified) {
+                showToast("전화번호 인증을 완료해주세요.")
+                return@setOnClickListener
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
