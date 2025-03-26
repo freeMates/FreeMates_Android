@@ -81,7 +81,7 @@ class RegisterActivity : AppCompatActivity() {
                 submitUserVerificationCode()
             }
             else
-                Toast.makeText(this, "인증하기 버튼을 눌러주세요", Toast.LENGTH_SHORT).show()
+                showToast("인증하기 버튼을 눌러주세요")
         }
 
         binding.btnCompleteRegisterRegister.setOnClickListener {
@@ -258,44 +258,6 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-    /****/
-
-    private fun setupListeners() {
-        binding.btnUserIdDuplicationRegister.setOnClickListener {
-            val id = binding.etUserIdRegister.text.toString()
-            if (id.length > 8) {
-                showToast("아이디는 8자 이하여야 합니다.")
-                return@setOnClickListener
-            }
-            // TODO: 아이디 중복 확인 API 호출
-            isIdChecked = true
-        }
-
-        binding.btnUserPhoneVerifyRegister.setOnClickListener {
-            val phone = binding.etUserPhoneRegister.text.toString()
-            // TODO: 인증번호 전송 API
-        }
-
-        binding.btnVerificationCodeCheckRegister.setOnClickListener {
-            val code = binding.etVerificationCodeRegister.text.toString()
-            // TODO: 인증번호 확인 API
-            isPhoneVerified = true
-        }
-
-        binding.btnCompleteRegisterRegister.setOnClickListener {
-            if (!isIdChecked) {
-                showToast("아이디 중복 확인을 해주세요.")
-                return@setOnClickListener
-            }
-
-            if (!isPhoneVerified) {
-                showToast("전화번호 인증을 완료해주세요.")
-                return@setOnClickListener
-            }
-        }
-    }
-
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

@@ -89,7 +89,7 @@ class ProfileSetupActivity : AppCompatActivity() {
 
         // TODO : 서버에 저장
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, RegisterCompleteActivity::class.java)
         startActivity(intent)
         finish()
     }
