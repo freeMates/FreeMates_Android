@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
 
     <Button
         android:id="@+id/btnBackToLogin_Register"
@@ -152,6 +148,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
+        android:id="@+id/tvUserPasswordPatternError_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -184,6 +181,20 @@
         app:layout_constraintTop_toBottomOf="@+id/etUserPassword_Register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvUserPasswordMatchError_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="40dp"
+            android:text="비밀번호가 일치하지 않습니다."
+            android:textColor="@color/red_color"
+            android:textSize="12sp"
+            android:fontFamily="@font/suit_regular"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/etUserPasswordCheck_Register"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
         android:id="@+id/etUserPhone_Register"
@@ -270,6 +281,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etVerificationCode_Register"/>
 
+        <TextView
+            android:id="@+id/tvVerificationCodeError_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="40dp"
+            android:text="인증번호가 일치하지 않습니다."
+            android:textColor="@color/red_color"
+            android:textSize="12sp"
+            android:fontFamily="@font/suit_regular"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/etVerificationCode_Register"
+            app:layout_constraintStart_toStartOf="parent"/>
+
     <Button
         android:id="@+id/btnCompleteRegister_Register"
         android:layout_width="match_parent"
@@ -284,8 +309,7 @@
         android:textColor="@color/selector_complete_text"
         android:elevation="6dp"
         android:background="@drawable/selector_complete_button"
-        app:layout_constraintTop_toBottomOf="@+id/etVerificationCode_Register"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
