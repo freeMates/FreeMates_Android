@@ -33,5 +33,11 @@ class FindIdActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        binding.tvRegisterFindId.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
