@@ -38,7 +38,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.tvFindIdLogin.setOnClickListener {
-
+            val intent = Intent(this, FindIdActivity::class.java)
+            startActivity(intent)
         }
 
         binding.etUserPasswordLogin.setOnTouchListener { v, event ->
