@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FindIdCompleteActivity">
+
+    <TextView
+        android:id="@+id/tvFindIdPrompt1_FindIdComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="289dp"
+        android:text="아이디는"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvUserId_FindIdComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFindIdPrompt1_FindIdComplete"
+        tools:text="\@fjkd388!"/>
+
+    <TextView
+        android:id="@+id/tvFindIdPrompt2_FindIdComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="입니다."
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserId_FindIdComplete"/>
+
+    <TextView
+        android:id="@+id/tvChangePassword_FindIdComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="비밀번호 변경"
+        android:textSize="12sp"
+        android:textColor="@color/hint_color"
+        android:fontFamily="@font/suit_regular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnGotoLogin_FindIdComplete"/>
+
+    <Button
+        android:id="@+id/btnGotoLogin_FindIdComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:paddingVertical="17dp"
+        android:text="로그인 하러가기"
+        android:textSize="18sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:textColor="@color/black"
+        android:elevation="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:backgroundTint="@color/main_color"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
