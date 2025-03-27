@@ -86,6 +86,7 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.btnCompleteRegisterRegister.setOnClickListener {
             updatePasswordErrorTextState()
+            updatePasswordCheckErrorTextState()
             submitUserInfo()
         }
 
