@@ -33,5 +33,11 @@ class ChangePasswordActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        binding.btnCompleteChangePasswordChangePassword.setOnClickListener {
+            val intent = Intent(this, ChangePasswordCompleteActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
