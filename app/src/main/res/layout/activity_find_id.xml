@@ -116,6 +116,20 @@
         app:layout_constraintStart_toEndOf="@+id/etVerificationCode_FindId"/>
 
     <TextView
+        android:id="@+id/tvVerificationCodeError_FindId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="40dp"
+        android:text="인증번호가 일치하지 않습니다."
+        android:textColor="@color/red_color"
+        android:textSize="12sp"
+        android:fontFamily="@font/suit_regular"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/etVerificationCode_FindId"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
         android:id="@+id/tvChangePassword_FindId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
