@@ -29,7 +29,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private fun showMapView() {
 
-        mapView = binding.mvKakaoMap
+        mapView = binding.mvMap
 
         // KakaoMapSDK 초기화!!
         KakaoMapSdk.init(requireContext(), KAKAO_MAP_KEY)

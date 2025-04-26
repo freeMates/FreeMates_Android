@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         initNavigation()
 
-        printKeyHash(this)
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id) {
                 R.id.placeInfoFragment -> { // newFragment에서 툴바 숨김
@@ -67,25 +65,28 @@ class MainActivity : AppCompatActivity() {
     private fun initNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.flContainer_Main) as NavHostFragment
         navController = navHostFragment.navController
-        binding.bottomNavigation.setupWithNavController(navController)
-    }
 
-    fun printKeyHash(context: Context) {
-        try {
-            val info = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-            val signatures = info.signingInfo?.apkContentsSigners
-
-            if (signatures != null) {
-                for (signature in signatures) {
-                    val md = MessageDigest.getInstance("SHA")
-                    md.update(signature.toByteArray())
-                    val keyHash = Base64.encodeToString(md.digest(), Base64.NO_WRAP)
-                    Log.d("KeyHash", "keyHash: $keyHash")
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> {
+                    navController.navigate(R.id.homeFragment)
+                    true
                 }
+                R.id.mapFragment -> {
+                    navController.navigate(R.id.mapFragment)
+                    true
+                }
+                R.id.recommendFragment -> {
+                    navController.navigate(R.id.recommendFragment)
+                    true
+                }
+                R.id.infoFragment -> {
+                    navController.navigate(R.id.infoFragment)
+                    true
+                }
+                else -> false
             }
-        } catch (e: Exception) {
-            Log.e("KeyHash", "Error getting KeyHash", e)
         }
+//        binding.bottomNavigation.setupWithNavController(navController)
     }
-
 }
