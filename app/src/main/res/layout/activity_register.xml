@@ -19,10 +19,10 @@
 
     <ImageView
         android:id="@+id/ivAppIcon_Register"
-        android:layout_width="178dp"
-        android:layout_height="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:src="@drawable/ic_app_icon_small"
+        android:src="@drawable/ic_app_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -31,12 +31,12 @@
         android:id="@+id/tvRegisterPrompt_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
         android:text="프리메이트를 시작합니다!"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:fontFamily="@font/paperlogy_6semibold"
-        app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_Register"
+        app:layout_constraintBottom_toBottomOf="@+id/ivAppIcon_Register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -44,7 +44,7 @@
         android:id="@+id/etUserId_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="59dp"
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:background="@drawable/roundedbox_left_50"
@@ -58,7 +58,7 @@
         android:gravity="center"
         android:layout_marginStart="24dp"
         app:layout_constraintHorizontal_weight="0.8"
-        app:layout_constraintTop_toBottomOf="@+id/tvRegisterPrompt_Register"
+        app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_Register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnUserIdDuplication_Register"/>
 
@@ -66,7 +66,7 @@
         android:id="@+id/btnUserIdDuplication_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="58dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
         android:paddingVertical="10dp"
@@ -79,7 +79,7 @@
         android:elevation="6dp"
         android:fontFamily="@font/suit_bold"
         app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintTop_toBottomOf="@+id/tvRegisterPrompt_Register"
+        app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etUserId_Register"/>
 

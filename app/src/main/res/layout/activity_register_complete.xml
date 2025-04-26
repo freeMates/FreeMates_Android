@@ -20,7 +20,7 @@
             android:id="@+id/ivAppIcon_RegisterComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_app_icon_big"
+            android:src="@drawable/ic_app_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -29,7 +29,7 @@
             android:id="@+id/tvWelcomePrompt_RegisterComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="-21dp"
             android:text="파인애플농부애옹님!\n공강을 채우러 가볼까요?"
             android:textColor="@color/black"
             android:textSize="18sp"
