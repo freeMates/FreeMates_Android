@@ -2,8 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="hint_color">#868686</color>
     <color name="main_color">#CCF6FF</color>
-    <color name="red_color">#FF5757</color>
-    <color name="unselected_color">#BDBDBD</color>
+    <color name="red">#FF5757</color>
+    <color name="navi_unselected_color">#C6C6C6</color>
+
+    <color name="primary400">#44DDFF</color>
+    <color name="natural300">#868686</color>
+    <color name="natural200">#BDBDBD</color>
+    <color name="secondary200">#415EAF</color>
+    <color name="primary100">#E8FBFF</color>
+    <color name="primary200">#CCF6FF</color>
+    <color name="primary300">#9DEDFF</color>
 </resources>

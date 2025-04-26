@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home_navi_on"
+        android:title="홈"/>
+
+    <item
+        android:id="@+id/menu_map"
+        android:icon="@drawable/ic_map_navi_off"
+        android:title="지도"/>
+
+    <item
+        android:id="@+id/menu_recommend"
+        android:icon="@drawable/ic_like_navi_off"
+        android:title="추천"/>
+
+    <item
+        android:id="@+id/menu_my"
+        android:icon="@drawable/ic_my_navi_off"
+        android:title="마이"/>
+
+</menu>

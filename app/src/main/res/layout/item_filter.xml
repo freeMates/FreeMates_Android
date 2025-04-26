@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="12dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/roundedbox_50_primary300">
+
+    <TextView
+        android:id="@+id/tvFilter_FilterItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="10sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_regular"
+        android:text="콘센트가 있어요" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

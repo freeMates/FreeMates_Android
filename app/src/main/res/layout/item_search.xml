@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/roundedbox_32"
+    android:backgroundTint="@color/primary100"
+    android:paddingVertical="6dp"
+    android:paddingHorizontal="12dp">
+
+    <TextView
+        android:id="@+id/tvSearchTitle_Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/suit_regular"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearchCancel_Search"
+        tools:text="공강 때 친구 없을 때 할 거 추천" />
+
+    <Button
+        android:id="@+id/btnSearchCancel_Search"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/ic_search_cancel"
+        app:layout_constraintStart_toEndOf="@+id/tvSearchTitle_Search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvSearchTitle_Search"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSearchTitle_Search"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

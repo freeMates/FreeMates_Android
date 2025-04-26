@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="124dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="8dp"
+    android:layout_marginBottom="20dp"
+    android:elevation="6dp"
+    android:clipToPadding="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/roundedbox_10">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivFavoriteImage_FavoriteItem"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
+        android:background="@drawable/roundedbox_4"
+        android:clipToOutline="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/image1"/>
+
+    <TextView
+        android:id="@+id/tvFavoriteTitle_FavoriteItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/primary400"
+        android:textSize="14sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@+id/ivFavoriteImage_FavoriteItem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="카공이 필요할 때카공이 필요할 때카공이 필요할 때"/>
+
+    <TextView
+        android:id="@+id/tvFavoriteUserName_FavoriteItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/natural300"
+        android:textSize="8sp"
+        android:fontFamily="@font/suit_regular"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@+id/tvFavoriteTitle_FavoriteItem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="\@파인애플농부애용"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

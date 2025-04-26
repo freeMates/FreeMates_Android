@@ -139,9 +139,9 @@ class ChangePasswordCompleteActivity : AppCompatActivity() {
      */
     private fun updatePasswordErrorTextState() {
         if(!isValidPassword())
-            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this, R.color.red_color))
+            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this, R.color.red))
         else
-            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this, R.color.hint_color))
+            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this, R.color.natural300))
     }
 
     private fun updatePasswordCheckErrorTextState(){

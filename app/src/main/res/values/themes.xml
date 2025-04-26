@@ -14,4 +14,15 @@
 <!--        <item name="android:windowSplashScreenAnimationDuration">1000</item>-->
 <!--        <item name="postSplashScreenTheme">@style/Theme.FreeMates_Android</item>-->
 <!--    </style>-->
+    <style name="BottomNavigationViewTextStyle" parent="Widget.Design.BottomNavigationView">
+        <!--    TextFont 설정    -->
+        <item name="fontFamily">@font/suit_regular</item>
+        <!--    TextSize 설정    -->
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BottomNavigationViewNoRipple" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:itemBackground">@android:color/transparent</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+    </style>
 </resources>

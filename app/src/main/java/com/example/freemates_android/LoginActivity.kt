@@ -1,6 +1,7 @@
 package com.example.freemates_android
 
 import android.content.Intent
+import android.graphics.Outline
 import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
@@ -8,7 +9,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import android.graphics.RenderEffect
+import android.graphics.RenderEffect.createBlurEffect
+import android.graphics.RenderEffect.createChainEffect
+import android.graphics.Shader
+import android.os.Build
+import android.view.ViewOutlineProvider
 import androidx.core.content.ContextCompat
+import androidx.core.util.TypedValueCompat.dpToPx
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.freemates_android.databinding.ActivityLoginBinding
@@ -62,6 +70,10 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun dpToPx(dp: Float): Float {
+        return dp * resources.displayMetrics.density
     }
 
     private fun togglePasswordVisibility() {

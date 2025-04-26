@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="6dp"
+    android:layout_marginHorizontal="16dp"
+    android:background="@drawable/roundedbox_10"
+    android:elevation="6dp">
+
+    <ImageView
+        android:id="@+id/ivPlaceImage_Recommend"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/roundedbox_4"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/image2"/>
+
+    <TextView
+        android:id="@+id/tvPlaceTitle_Recommend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_Recommend"
+        app:layout_constraintEnd_toStartOf="@+id/ibtnLike_Recommend"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="브랫서울"/>
+
+    <ImageButton
+        android:id="@+id/ibtnLike_Recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_like_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvLikeCnt_Recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="2dp"
+        android:textSize="5dp"
+        android:textColor="@color/natural200"
+        android:fontFamily="@font/suit_regular"
+        tools:text="1930"
+        app:layout_constraintTop_toBottomOf="@+id/ibtnLike_Recommend"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvPlaceAddress_Recommend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginTop="2dp"
+        android:textSize="8dp"
+        android:textColor="@color/natural300"
+        android:fontFamily="@font/suit_regular"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceTitle_Recommend"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_Recommend"
+        tools:text="서울 광진구 능동로 183 1층아아아아아ㅏ아아아아아..."/>
+
+    <TextView
+        android:id="@+id/tvCategory_Home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="3dp"
+        android:drawablePadding="4dp"
+        android:background="@drawable/roundedbox_50"
+        android:backgroundTint="@color/primary200"
+        android:textColor="@color/secondary200"
+        android:textSize="12sp"
+        android:fontFamily="@font/paperlogy_7bold"
+        app:drawableStartCompat="@drawable/ic_cafe_small"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_Recommend"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceAddress_Recommend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="1"
+        android:text="카페"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFilter_Home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="14dp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:clipToPadding="true"
+        android:clickable="false"
+        android:focusable="false"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintStart_toEndOf="@+id/tvCategory_Home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceAddress_Recommend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="1"
+        tools:listitem="@layout/item_filter"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

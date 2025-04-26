@@ -201,9 +201,9 @@ class RegisterActivity : AppCompatActivity() {
      */
     private fun updatePasswordErrorTextState() {
         if(!isValidPassword())
-            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this, R.color.red_color))
+            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this, R.color.red))
         else
-            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this, R.color.hint_color))
+            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this, R.color.natural300))
     }
 
     private fun updatePasswordCheckErrorTextState(){
