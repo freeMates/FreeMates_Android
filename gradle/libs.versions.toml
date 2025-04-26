@@ -1,5 +1,6 @@
 [versions]
-agp = "8.9.0"
+agp = "8.9.1"
+android = "2.9.5"
 coil = "3.1.0"
 coreSplashscreen = "1.0.1"
 flexbox = "3.0.0"
@@ -19,8 +20,12 @@ navigationFragmentKtx = "2.8.9"
 navigationFragmentKtxVersion = "2.7.7"
 navigationUiKtx = "2.7.7"
 uiGraphicsAndroid = "1.7.8"
+v2All = "3.3.3"
+identityAndroidLegacy = "202411.1"
+media3CommonKtx = "1.6.0"
 
 [libraries]
+android = { module = "com.kakao.maps.open:android", version.ref = "android" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-hilt-lifecycle-viewmodel = { module = "androidx.hilt:hilt-lifecycle-viewmodel", version.ref = "hiltLifecycleViewmodel" }
@@ -41,6 +46,9 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-ui-graphics-android = { group = "androidx.compose.ui", name = "ui-graphics-android", version.ref = "uiGraphicsAndroid" }
+v2-all = { module = "com.kakao.sdk:v2-all", version.ref = "v2All" }
+identity-android-legacy = { group = "com.android.identity", name = "identity-android-legacy", version.ref = "identityAndroidLegacy" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

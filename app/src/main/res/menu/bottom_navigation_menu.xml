@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home_navi_on"
         android:title="홈"/>
 
     <item
-        android:id="@+id/menu_map"
+        android:id="@+id/mapFragment"
         android:icon="@drawable/ic_map_navi_off"
         android:title="지도"/>
 
     <item
-        android:id="@+id/menu_recommend"
+        android:id="@+id/recommendFragment"
         android:icon="@drawable/ic_like_navi_off"
         android:title="추천"/>
 
     <item
-        android:id="@+id/menu_my"
+        android:id="@+id/infoFragment"
         android:icon="@drawable/ic_my_navi_off"
         android:title="마이"/>
 

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FreeMates_Android"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.kakao.vectormap.KAKAO_MAP_KEY"
+            android:value="a8d8be4d2934c5ed37fae968f6741d8d"/>
+
         <activity
             android:name=".ChangePasswordCompleteActivity"
             android:exported="false" />
@@ -22,9 +31,6 @@
             android:name=".ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".FindPasswordActivity"
-            android:exported="false" />
-        <activity
             android:name=".FindIdActivity"
             android:exported="false" />
         <activity
@@ -33,11 +39,7 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ProfileSetupActivity"
@@ -45,7 +47,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginCompleteActivity"

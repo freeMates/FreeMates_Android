@@ -1,59 +1,54 @@
 package com.example.freemates_android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.freemates_android.databinding.FragmentHomeBinding
+import com.example.freemates_android.databinding.FragmentMapBinding
+import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.KakaoMapReadyCallback
+import com.kakao.vectormap.KakaoMapSdk
+import com.kakao.vectormap.MapLifeCycleCallback
+import com.kakao.vectormap.MapView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MapFragment : Fragment(R.layout.fragment_map) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MapFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MapFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding : FragmentMapBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var mapView: MapView
+    private var kakaoMap: KakaoMap? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentMapBinding.bind(view)
+
+        showMapView()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false)
-    }
+    private fun showMapView() {
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MapFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MapFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        mapView = binding.mvKakaoMap
+
+        // KakaoMapSDK 초기화!!
+        KakaoMapSdk.init(requireContext(), KAKAO_MAP_KEY)
+
+        mapView.start(object : MapLifeCycleCallback() {
+            override fun onMapDestroy() {
+                // 지도 API가 정상적으로 종료될 때 호출
+                Log.d("KakaoMap", "onMapDestroy")
             }
+
+            override fun onMapError(p0: Exception?) {
+                // 인증 실패 및 지도 사용 중 에러가 발생할 때 호출
+                Log.e("KakaoMap", "onMapError")
+            }
+        }, object : KakaoMapReadyCallback() {
+            override fun onMapReady(kakaomap: KakaoMap) {
+                // 정상적으로 인증이 완료되었을 때 호출
+                kakaoMap = kakaomap
+            }
+        })
     }
 }

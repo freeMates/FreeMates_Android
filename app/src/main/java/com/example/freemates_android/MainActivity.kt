@@ -1,6 +1,10 @@
 package com.example.freemates_android
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.SearchView
@@ -15,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.freemates_android.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         initNavigation()
+
+        printKeyHash(this)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id) {
@@ -62,4 +69,23 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         binding.bottomNavigation.setupWithNavController(navController)
     }
+
+    fun printKeyHash(context: Context) {
+        try {
+            val info = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+            val signatures = info.signingInfo?.apkContentsSigners
+
+            if (signatures != null) {
+                for (signature in signatures) {
+                    val md = MessageDigest.getInstance("SHA")
+                    md.update(signature.toByteArray())
+                    val keyHash = Base64.encodeToString(md.digest(), Base64.NO_WRAP)
+                    Log.d("KeyHash", "keyHash: $keyHash")
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("KeyHash", "Error getting KeyHash", e)
+        }
+    }
+
 }
