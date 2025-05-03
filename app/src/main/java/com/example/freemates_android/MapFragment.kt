@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresPermission
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -15,9 +19,12 @@ import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.FilterItem
 import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.model.map.Place
+import com.example.freemates_android.sheet.CategoryResultSheet
+import com.example.freemates_android.sheet.PlacePreviewSheet
 import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
 import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.KakaoMapSdk
@@ -37,11 +44,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private var currentLatLng: LatLng = LatLng.from(37.5506, 127.0742)
 
+    private lateinit var sheetBehavior: BottomSheetBehavior<ConstraintLayout>
+
     private lateinit var mapView: MapView
     private var kakaoMap: KakaoMap? = null
 
     private lateinit var viewModel: MapViewModel
-    private var bottomSheet: MapBottomSheetDialogFragment? = null
 
 
     val places = listOf(
@@ -105,10 +113,38 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentMapBinding.bind(view)
 
+        initPersistentSheet()
         initCategoryRecycler()
         initViewModelAndCollector()
         initCurrentLocation()
         showMapView()
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
+    private fun initPersistentSheet() {
+        val sheetBinding = binding.persistentSheet                    // include 루트 id
+        val sheetView = sheetBinding.root
+        sheetBehavior = BottomSheetBehavior.from(sheetView).apply {
+            state      = BottomSheetBehavior.STATE_COLLAPSED
+            peekHeight = resources.getDimensionPixelSize(R.dimen.peek_height)
+            isHideable = false
+            skipCollapsed = false
+        }
+
+        // ─ Navigation 높이 + 인셋 보정 ─ //
+        val navView = requireActivity().findViewById<View>(R.id.bottom_navigation)
+        navView.doOnLayout {
+            val navH = navView.height
+            val insetBottom = ViewCompat.getRootWindowInsets(sheetView)
+                ?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
+
+            sheetView.setPadding(0, 0, 0, navH + insetBottom)
+            sheetBehavior.expandedOffset = navH + insetBottom
+        }
     }
 
     private fun initCategoryRecycler() {
@@ -124,6 +160,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         val spacingDecoration = HorizontalSpacingDecoration(requireContext(), 8)
         val adapter = CategorySmallAdapter(requireContext(), categoryList) { category ->
             viewModel.showCategoryResult(category, recommendList)
+
         }
 
         binding.rvPlaceCategoryMap.apply {
@@ -141,35 +178,35 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             viewModel.sheetState.collect { state ->
                 when (state) {
                     is MapViewModel.SheetState.Collapsed -> {
-                        ensureBottomSheet { it.collapse() }
+                        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
-
                     is MapViewModel.SheetState.PlacePreview,
                     is MapViewModel.SheetState.CategoryResult -> {
-                        ensureBottomSheet { it.updateContent(state) }
+                        updateSheetContent(state)
+                        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     }
-
                     is MapViewModel.SheetState.Hidden -> {
-                        bottomSheet?.dismissAllowingStateLoss()
-                        bottomSheet = null
+                        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
-                    else -> {
-
-                    }
+                    else -> {}
                 }
             }
         }
     }
 
-    private fun ensureBottomSheet(onReady: (MapBottomSheetDialogFragment) -> Unit) {
-        if (bottomSheet == null || !bottomSheet!!.isAdded) {
-            bottomSheet = MapBottomSheetDialogFragment()
-            // show( ) 는 메인 스레드 다음 프레임에서 실행 → attach 이후 onReady 보장
-            view?.post {
-                bottomSheet?.show(parentFragmentManager, "MapBottomSheet")
-            }
+    private fun updateSheetContent(state: MapViewModel.SheetState) {
+        val (fragment, tag) = when (state) {
+            is MapViewModel.SheetState.PlacePreview ->
+                PlacePreviewSheet.newInstance(state.place) to "PlacePreview"
+            is MapViewModel.SheetState.CategoryResult ->
+                CategoryResultSheet.newInstance(state.category, state.places) to "CategoryResult"
+            else -> return
         }
-        bottomSheet!!.doWhenSheetReady(onReady)
+
+        childFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .replace(R.id.sheet_container, fragment, tag)
+            .commit()
     }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
@@ -231,10 +268,5 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             // 여기서 place 객체(혹은 id)를 바로 태깅
             label?.tag = place            // ★ 핵심 ★
         }
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }

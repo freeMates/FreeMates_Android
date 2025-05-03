@@ -26,4 +26,9 @@
 
     </FrameLayout>
 
+    <include
+        android:id="@+id/persistent_sheet"
+        layout="@layout/persistent_bottom_sheet"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
