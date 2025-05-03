@@ -45,7 +45,9 @@ class PlaceInfoFragment : Fragment(R.layout.fragment_place_info) {
             spacingDp = 8,              // 아이템 간 간격
         )
 
-        val categorySmallAdapter = CategorySmallAdapter(requireContext(), categoryList)
+        val categorySmallAdapter = CategorySmallAdapter(requireContext(), categoryList){
+
+        }
 
         binding.rvPlaceCategoryPlaceInfo.apply {
             adapter = categorySmallAdapter

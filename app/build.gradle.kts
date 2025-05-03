@@ -4,6 +4,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    id("kotlin-parcelize")
 }
 
 val properties = Properties().apply {
@@ -21,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.freemates_android"
-        minSdk = 31
+        minSdk = 30
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -64,6 +66,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.ui.graphics.android)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,6 +83,6 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx.v277)
     implementation(libs.androidx.navigation.ui.ktx.v277)
     implementation(libs.flexbox)
-
+    implementation(libs.play.services.location)
     implementation(libs.android)
 }

@@ -11,7 +11,7 @@
     android:elevation="6dp">
 
     <ImageView
-        android:id="@+id/ivPlaceImage_Recommend"
+        android:id="@+id/ivPlaceImage_RecommendItem"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:background="@drawable/roundedbox_4"
@@ -22,7 +22,7 @@
         android:src="@drawable/image2"/>
 
     <TextView
-        android:id="@+id/tvPlaceTitle_Recommend"
+        android:id="@+id/tvPlaceTitle_RecommendItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
@@ -31,13 +31,13 @@
         android:fontFamily="@font/paperlogy_6semibold"
         android:maxLines="1"
         android:ellipsize="end"
-        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_Recommend"
-        app:layout_constraintEnd_toStartOf="@+id/ibtnLike_Recommend"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_RecommendItem"
+        app:layout_constraintEnd_toStartOf="@+id/ibtnLike_RecommendItem"
         app:layout_constraintTop_toTopOf="parent"
         android:text="브랫서울"/>
 
     <ImageButton
-        android:id="@+id/ibtnLike_Recommend"
+        android:id="@+id/ibtnLike_RecommendItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_like_button"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/tvLikeCnt_Recommend"
+        android:id="@+id/tvLikeCnt_RecommendItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
@@ -54,11 +54,11 @@
         android:textColor="@color/natural200"
         android:fontFamily="@font/suit_regular"
         tools:text="1930"
-        app:layout_constraintTop_toBottomOf="@+id/ibtnLike_Recommend"
+        app:layout_constraintTop_toBottomOf="@+id/ibtnLike_RecommendItem"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/tvPlaceAddress_Recommend"
+        android:id="@+id/tvPlaceAddress_RecommendItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -70,12 +70,12 @@
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlaceTitle_Recommend"
-        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_Recommend"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceTitle_RecommendItem"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_RecommendItem"
         tools:text="서울 광진구 능동로 183 1층아아아아아ㅏ아아아아아..."/>
 
     <TextView
-        android:id="@+id/tvCategory_Home"
+        android:id="@+id/tvCategory_RecommendItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -89,14 +89,14 @@
         android:textSize="12sp"
         android:fontFamily="@font/paperlogy_7bold"
         app:drawableStartCompat="@drawable/ic_cafe_small"
-        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_Recommend"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlaceAddress_Recommend"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaceImage_RecommendItem"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceAddress_RecommendItem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="1"
         android:text="카페"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFilter_Home"
+        android:id="@+id/rvFilter_RecommendItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -106,9 +106,9 @@
         android:clickable="false"
         android:focusable="false"
         android:nestedScrollingEnabled="false"
-        app:layout_constraintStart_toEndOf="@+id/tvCategory_Home"
+        app:layout_constraintStart_toEndOf="@+id/tvCategory_RecommendItem"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlaceAddress_Recommend"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceAddress_RecommendItem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="1"
         tools:listitem="@layout/item_filter"/>

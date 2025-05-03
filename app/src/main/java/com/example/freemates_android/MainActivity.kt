@@ -23,6 +23,10 @@ import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 
+    // cd C:\Users\HWAN\AppData\Local\Android\Sdk\platform-tools
+    // adb pair
+    // adb connect
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".sheet.FavoriteListSheet">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvFavoriteListPrompt_FavoriteList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/paperlogy_6semibold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="파인애플농부애옹님의 목록" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUserFavorite_FavoriteList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvFavoriteListPrompt_FavoriteList"
+            tools:listitem="@layout/item_recommend"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

@@ -1,5 +1,9 @@
 package com.example.freemates_android.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class RecommendItem(
     val placeImage: Int,
     val placeTitle: String,
@@ -9,4 +13,4 @@ data class RecommendItem(
     val placeCategoryImage: Int,
     val placeCategoryTitle: String,
     val filter: List<FilterItem>
-)
+): Parcelable

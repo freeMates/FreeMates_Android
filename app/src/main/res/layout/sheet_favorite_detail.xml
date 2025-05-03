@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="8dp"
+    tools:context=".sheet.FavoriteDetailSheet">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivFavoriteImage_FavoriteDetail"
+            android:layout_width="match_parent"
+            android:layout_height="166dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/image1"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTopContainer_FavoriteDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivFavoriteImage_FavoriteDetail">
+
+            <ImageView
+                android:id="@+id/ivFavoriteMarker_FavoriteDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/ic_blue_marker"/>
+
+            <TextView
+                android:id="@+id/tvFavoriteTitle_FavoriteDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/paperlogy_6semibold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivFavoriteMarker_FavoriteDetail"
+                app:layout_constraintEnd_toStartOf="@+id/btnShare_FavoriteDetail"
+                tools:text="절실한 카공이 필요할 때"/>
+
+            <ImageButton
+                android:id="@+id/btnShare_FavoriteDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_share"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnEdit_FavoriteDetail"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/btnEdit_FavoriteDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/ic_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvFavoriteDescription_FavoriteDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="48dp"
+            android:textColor="@color/natural300"
+            android:textSize="12sp"
+            android:fontFamily="@font/suit_semibold"
+            app:layout_constraintTop_toBottomOf="@+id/clTopContainer_FavoriteDetail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="느좋 카페만 추구합니다."/>
+
+        <TextView
+            android:id="@+id/tvPlaceCnt_FavoriteDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="32dp"
+            android:textSize="10sp"
+            android:textColor="@color/natural300"
+            android:fontFamily="@font/suit_regular"
+            app:layout_constraintTop_toBottomOf="@+id/tvFavoriteDescription_FavoriteDetail"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="35 장소"/>
+        
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlaceCnt_FavoriteDetail"
+            tools:listitem="@layout/item_recommend"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
