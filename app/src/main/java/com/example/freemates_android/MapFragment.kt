@@ -18,8 +18,10 @@ import com.example.freemates_android.databinding.FragmentMapBinding
 import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.FilterItem
 import com.example.freemates_android.model.RecommendItem
+import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.model.map.Place
 import com.example.freemates_android.sheet.CategoryResultSheet
+import com.example.freemates_android.sheet.FavoriteListSheet
 import com.example.freemates_android.sheet.PlacePreviewSheet
 import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
 import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
@@ -109,6 +111,19 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))),
     )
 
+    private val favoriteList = listOf(
+        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1, 24,
+            "서울 광진구 광나루로 410 1층 101호"),
+        FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", R.drawable.image2, 42,
+            "서울 광진구 광나루로 410 1층 101호"),
+        FavoriteList(R.drawable.ic_darkblue_marker, "브랫서울", R.drawable.image3, 24,
+            "서울 광진구 광나루로 410 1층 101호"),
+        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1, 24,
+            "서울 광진구 광나루로 410 1층 101호"),
+        FavoriteList(R.drawable.ic_skyblue_marker, "브랫서울", R.drawable.image1, 24,
+            "서울 광진구 광나루로 410 1층 101호"),
+    )
+
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentMapBinding.bind(view)
@@ -142,7 +157,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             val insetBottom = ViewCompat.getRootWindowInsets(sheetView)
                 ?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
 
-            sheetView.setPadding(0, 0, 0, navH + insetBottom)
             sheetBehavior.expandedOffset = navH + insetBottom
         }
     }
@@ -160,7 +174,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         val spacingDecoration = HorizontalSpacingDecoration(requireContext(), 8)
         val adapter = CategorySmallAdapter(requireContext(), categoryList) { category ->
             viewModel.showCategoryResult(category, recommendList)
-
         }
 
         binding.rvPlaceCategoryMap.apply {
@@ -174,21 +187,30 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private fun initViewModelAndCollector() {
         viewModel = ViewModelProvider(this)[MapViewModel::class.java]
 
+        viewModel.showFavoriteList(favoriteList)
+
         lifecycleScope.launchWhenStarted {
             viewModel.sheetState.collect { state ->
                 when (state) {
                     is MapViewModel.SheetState.Collapsed -> {
                         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
-                    is MapViewModel.SheetState.PlacePreview,
+                    is MapViewModel.SheetState.PlacePreview -> {
+                        updateSheetContent(state)
+                        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
                     is MapViewModel.SheetState.CategoryResult -> {
+                        updateSheetContent(state)
+                        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
+                    is MapViewModel.SheetState.FavoriteList -> {
                         updateSheetContent(state)
                         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     }
                     is MapViewModel.SheetState.Hidden -> {
                         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
-                    else -> {}
+                    else -> { }
                 }
             }
         }
@@ -200,6 +222,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 PlacePreviewSheet.newInstance(state.place) to "PlacePreview"
             is MapViewModel.SheetState.CategoryResult ->
                 CategoryResultSheet.newInstance(state.category, state.places) to "CategoryResult"
+            is MapViewModel.SheetState.FavoriteList ->
+                FavoriteListSheet.newInstance(state.favoritelist) to "FavoriteList"
             else -> return
         }
 
@@ -208,7 +232,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             .replace(R.id.sheet_container, fragment, tag)
             .commit()
     }
-
+    
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun initCurrentLocation() {
         LocationServices.getFusedLocationProviderClient(requireContext())
