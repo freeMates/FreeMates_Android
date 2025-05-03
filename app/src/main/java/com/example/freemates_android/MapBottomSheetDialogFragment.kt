@@ -2,7 +2,7 @@ package com.example.freemates_android
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,75 +11,76 @@ import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.freemates_android.sheet.CategoryResultSheet
-import com.example.freemates_android.sheet.FavoriteDetailSheet
-import com.example.freemates_android.sheet.FavoriteListSheet
 import com.example.freemates_android.sheet.PlacePreviewSheet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class MapBottomSheetDialogFragment : BottomSheetDialogFragment() {
-    private var currentFragmentTag: String? = null
+    private var currentTag: String? = null
     private lateinit var behavior: BottomSheetBehavior<FrameLayout> // ★ 추가
     private var readyAction: ((MapBottomSheetDialogFragment) -> Unit)? = null
+    private var peekHeight: Int = 0
+
+    private fun currentInnerFragment(): Fragment? =
+        childFragmentManager.findFragmentById(R.id.sheet_container)
 
     /** 호출 시점 보장용 */
     fun doWhenSheetReady(action: (MapBottomSheetDialogFragment) -> Unit) {
         readyAction = action
-        // 이미 보여진 뒤라면 즉시 실행
-        if (dialog?.isShowing == true) action(this)
-        if (isAdded) action(this)
+        if (dialog?.isShowing == true && isAdded) action(this)
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.behavior.apply {
-            behavior = this
-            isFitToContents = false
-            peekHeight = resources.getDimensionPixelSize(R.dimen.peek_height)  // ★ 추가
-            isHideable = false                                                 // ★ 추가
-            skipCollapsed = false
-            halfExpandedRatio = 0.5f
-            expandedOffset = 100
-            state = BottomSheetBehavior.STATE_COLLAPSED
-        }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        BottomSheetDialog(requireContext(), theme).apply {
 
-        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            this@MapBottomSheetDialogFragment.behavior = behavior.apply {
+                isFitToContents = false
+                peekHeight = resources.getDimensionPixelSize(R.dimen.peek_height)
+                isHideable = false
+                skipCollapsed = false
+                halfExpandedRatio = 0.5f
+                expandedOffset = 100
+                state = BottomSheetBehavior.STATE_COLLAPSED
+            }
 
-        dialog.setOnShowListener {
-            val bottomSheet =
-                dialog.findViewById<FrameLayout>(
-                    com.google.android.material.R.id.design_bottom_sheet)
+            peekHeight = behavior.peekHeight
+            Log.d("peekHeight : ", peekHeight.toString())
 
-            // ① BottomNavigationView 높이를 동적으로 구한다
-            val navHeight = requireActivity()
-                .findViewById<View>(R.id.bottom_navigation).height
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
-            // ② design_bottom_sheet 에 마진 or 패딩을 준다
-            bottomSheet?.let { sheet ->
-                // 마진 방식
-                (sheet.layoutParams as CoordinatorLayout.LayoutParams).apply {
-                    bottomMargin = navHeight
-                }
-                sheet.requestLayout()
+            setOnShowListener {
+                val sheet = findViewById<FrameLayout>(
+                    com.google.android.material.R.id.design_bottom_sheet
+                ) ?: return@setOnShowListener
 
-                // 배경도 같이 둥글게
-                sheet.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.roundedbox_top_20)
+                // BottomNavigationView 높이만큼 margin
+                val navHeight = requireActivity()
+                    .findViewById<View>(R.id.bottom_navigation).height
 
                 val insetBottom = WindowInsetsCompat.toWindowInsetsCompat(
                     sheet.rootWindowInsets
                 ).getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-                sheet.setPadding(0, 0, 0, navHeight + insetBottom)
-            }
 
-            readyAction?.invoke(this@MapBottomSheetDialogFragment)  // ★ 준비 완료 알림
-            readyAction = null
+                Log.d("태그 제발 : ", "")
+                val safeBottom = navHeight + insetBottom
+
+                (sheet.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = safeBottom
+                sheet.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.roundedbox_top_20)
+
+                sheet.setPadding(0, 0, 0, insetBottom)
+
+//                behavior.peekHeight      += safeBottom
+                behavior.expandedOffset   = safeBottom
+
+                readyAction?.invoke(this@MapBottomSheetDialogFragment)
+                readyAction = null
+            }
         }
 
-        return dialog
-    }
 
     private fun adjustForBottomNav(bottomSheetDialog: BottomSheetDialog) {
         val bottomNav = requireActivity().findViewById<View>(R.id.bottom_navigation)
@@ -111,40 +112,31 @@ class MapBottomSheetDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_map_bottom_sheet_dialog, container, false)
-    }
+    ): View = inflater.inflate(
+        R.layout.fragment_map_bottom_sheet_dialog, container, false
+    )
 
-    fun collapse() {                                                   // ★ 추가
+    fun collapse() =
         if (::behavior.isInitialized) {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-    }
+        } else Unit
 
     fun updateContent(state: MapViewModel.SheetState) {
-        if (state is MapViewModel.SheetState.Collapsed) {              // ★ 추가
-            collapse()
-            return
-        }
-
         val (fragment, tag) = when (state) {
             is MapViewModel.SheetState.PlacePreview ->
                 PlacePreviewSheet.newInstance(state.place) to "PlacePreview"
             is MapViewModel.SheetState.CategoryResult ->
                 CategoryResultSheet.newInstance(state.category, state.places) to "CategoryResult"
-//            is MapViewModel.SheetState.FavoriteList ->
-//                FavoriteListSheet.newInstance(state.lists) to "FavoriteList"
-//            is MapViewModel.SheetState.FavoriteDetail ->
-//                FavoriteDetailSheet.newInstance(state.list) to "FavoriteDetail"
             else -> return
         }
-
-        if (tag == currentFragmentTag) return
+        if (tag == currentTag) return  // 이미 같은 화면
 
         childFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
             .replace(R.id.sheet_container, fragment, tag)
             .commit()
 
-        currentFragmentTag = tag
+        currentTag = tag
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 }

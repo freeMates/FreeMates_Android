@@ -32,7 +32,8 @@ import com.kakao.vectormap.label.LabelStyles
 
 class MapFragment : Fragment(R.layout.fragment_map) {
 
-    private lateinit var binding: FragmentMapBinding
+    private var _binding: FragmentMapBinding? = null
+    private val binding get() = _binding!!
 
     private var currentLatLng: LatLng = LatLng.from(37.5506, 127.0742)
 
@@ -82,7 +83,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         )
     )
 
-    val recommendList = listOf(
+    private val recommendList = listOf(
         RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
             listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))),
@@ -102,7 +103,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = FragmentMapBinding.bind(view)
+        _binding = FragmentMapBinding.bind(view)
 
         initCategoryRecycler()
         initViewModelAndCollector()
@@ -140,22 +141,19 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             viewModel.sheetState.collect { state ->
                 when (state) {
                     is MapViewModel.SheetState.Collapsed -> {
-                        ensureBottomSheetExists { it.collapse() }
-//                        bottomSheet?.collapse()                       // 피크 고정
+                        ensureBottomSheet { it.collapse() }
                     }
 
                     is MapViewModel.SheetState.PlacePreview,
                     is MapViewModel.SheetState.CategoryResult -> {
-                        ensureBottomSheetExists{ it.updateContent(state) }
-                        bottomSheet?.updateContent(state)             // 내용 교체 + 확장
+                        ensureBottomSheet { it.updateContent(state) }
                     }
 
                     is MapViewModel.SheetState.Hidden -> {
-                        bottomSheet?.dismissAllowingStateLoss()       // 필요 시 완전 닫기
+                        bottomSheet?.dismissAllowingStateLoss()
                         bottomSheet = null
                     }
-
-                    else ->{
+                    else -> {
 
                     }
                 }
@@ -163,27 +161,24 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         }
     }
 
-    private fun ensureBottomSheetExists(onReady: (MapBottomSheetDialogFragment) -> Unit) {
+    private fun ensureBottomSheet(onReady: (MapBottomSheetDialogFragment) -> Unit) {
         if (bottomSheet == null || !bottomSheet!!.isAdded) {
-            bottomSheet = MapBottomSheetDialogFragment().apply {
-                /** dialog.behavior.state = COLLAPSED 로 시작하도록 내부에서 세팅돼 있음 */
-            }
-//            bottomSheet!!.show(parentFragmentManager, "MapBottomSheet") // ← 핵심: parentFM
-//            parentFragmentManager.executePendingTransactions()
-            view?.post {                   // ← Handler(Looper.getMainLooper()).post 와 동일
+            bottomSheet = MapBottomSheetDialogFragment()
+            // show( ) 는 메인 스레드 다음 프레임에서 실행 → attach 이후 onReady 보장
+            view?.post {
                 bottomSheet?.show(parentFragmentManager, "MapBottomSheet")
             }
         }
         bottomSheet!!.doWhenSheetReady(onReady)
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun initCurrentLocation() {
-        val fused = LocationServices.getFusedLocationProviderClient(requireContext())
-        fused.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                location?.let { currentLatLng = LatLng.from(it.latitude, it.longitude) }
+        LocationServices.getFusedLocationProviderClient(requireContext())
+            .lastLocation
+            .addOnSuccessListener { loc: Location? ->
+                loc?.let { currentLatLng = LatLng.from(it.latitude, it.longitude) }
             }
-            .addOnFailureListener { /* 실패해도 기본값 유지 */ }
     }
 
     private fun showMapView() {
@@ -236,5 +231,10 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             // 여기서 place 객체(혹은 id)를 바로 태깅
             label?.tag = place            // ★ 핵심 ★
         }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }
