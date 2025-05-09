@@ -5,55 +5,73 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.freemates_android.R
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoriteDetailSheet.newInstance] factory method to
- * create an instance of this fragment.
- */
-
-private const val ARG_PARAM1 = "arg_category"
-private const val ARG_PARAM2 = "arg_places"
+import com.example.freemates_android.databinding.SheetFavoriteDetailBinding
+import com.example.freemates_android.databinding.SheetFavoriteListBinding
+import com.example.freemates_android.model.map.FavoriteList
+import com.example.freemates_android.ui.adapter.favorite.UserFavoriteAdapter
+import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
+import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
 
 class FavoriteDetailSheet : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    companion object {
+        private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
+
+        fun newInstance(favoriteList: FavoriteList): FavoriteDetailSheet {
+            val fragment = FavoriteDetailSheet()
+            val args = Bundle()
+            args.putParcelable(ARG_FAVORITE_DETAIL, favoriteList)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    private lateinit var favoriteList: FavoriteList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            favoriteList = it.getParcelable(ARG_FAVORITE_DETAIL)!!
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.sheet_favorite_detail, container, false)
-    }
+        val binding = SheetFavoriteDetailBinding.inflate(inflater, container, false)
+        // UI 초기화 및 이벤트 설정
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoriteDetailSheet.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteDetailSheet().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        Log.d("Event Click : ", "fragment changed")
+        Glide.with(this)
+            .load(favoriteList.thumbnailUrl)
+            .into(binding.ivFavoriteImageFavoriteDetail)
+
+        Glide.with(this)
+            .load(favoriteList.markerColor)
+            .into(binding.ivFavoriteMarkerFavoriteDetail)
+
+        binding.tvFavoriteTitleFavoriteDetail.text = favoriteList.title
+        binding.tvFavoriteDescriptionFavoriteDetail.text = favoriteList.description
+        binding.tvPlaceCntFavoriteDetail.text = "${favoriteList.places.size} 장소"
+
+        val favoriteDetailVerticalSpacingDecoration = VerticalSpacingDecoration(
+            context = requireContext(),
+            spacingDp = 12,
+        )
+        val userFavoritePlacesAdapter = RecommendAdapter(requireContext(), ArrayList(favoriteList.places))
+        binding.rvFavoritePlacesFavoriteDetail.apply {
+            adapter = userFavoritePlacesAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(favoriteDetailVerticalSpacingDecoration)
+            setHasFixedSize(true)
+        }
+
+
+        return binding.root
     }
 }

@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -17,10 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FreeMates_Android"
         tools:targetApi="31">
+        <activity
+            android:name=".EditFavoriteActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.kakao.vectormap.KAKAO_MAP_KEY"
-            android:value="a8d8be4d2934c5ed37fae968f6741d8d"/>
+            android:value="a8d8be4d2934c5ed37fae968f6741d8d" />
 
         <activity
             android:name=".ChangePasswordCompleteActivity"
@@ -39,15 +42,13 @@
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ProfileSetupActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

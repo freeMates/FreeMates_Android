@@ -21,6 +21,7 @@ import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.model.map.Place
 import com.example.freemates_android.sheet.CategoryResultSheet
+import com.example.freemates_android.sheet.FavoriteDetailSheet
 import com.example.freemates_android.sheet.FavoriteListSheet
 import com.example.freemates_android.sheet.PlacePreviewSheet
 import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
@@ -112,16 +113,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     )
 
     private val favoriteList = listOf(
-        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1, 24,
-            "서울 광진구 광나루로 410 1층 101호"),
-        FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", R.drawable.image2, 42,
-            "서울 광진구 광나루로 410 1층 101호"),
-        FavoriteList(R.drawable.ic_darkblue_marker, "브랫서울", R.drawable.image3, 24,
-            "서울 광진구 광나루로 410 1층 101호"),
-        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1, 24,
-            "서울 광진구 광나루로 410 1층 101호"),
-        FavoriteList(R.drawable.ic_skyblue_marker, "브랫서울", R.drawable.image1, 24,
-            "서울 광진구 광나루로 410 1층 101호"),
+        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
+            "서울 광진구 광나루로 410 1층 101호", recommendList),
+        FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", R.drawable.image2,
+            "서울 광진구 광나루로 410 1층 101호", recommendList),
+        FavoriteList(R.drawable.ic_darkblue_marker, "브랫서울", R.drawable.image3,
+            "서울 광진구 광나루로 410 1층 101호", recommendList),
+        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
+            "서울 광진구 광나루로 410 1층 101호", recommendList),
+        FavoriteList(R.drawable.ic_skyblue_marker, "브랫서울", R.drawable.image1,
+            "서울 광진구 광나루로 410 1층 101호", recommendList),
     )
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
@@ -138,6 +139,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("Event Click : ", "MapFragment onResume 실행")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("Event Click : ", "MapFragment onStart 실행")
     }
 
     private fun initPersistentSheet() {
@@ -185,12 +196,13 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     }
 
     private fun initViewModelAndCollector() {
-        viewModel = ViewModelProvider(this)[MapViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[MapViewModel::class.java]
 
         viewModel.showFavoriteList(favoriteList)
 
         lifecycleScope.launchWhenStarted {
             viewModel.sheetState.collect { state ->
+                Log.d("Event Click : ", "상태 수집됨: $state")
                 when (state) {
                     is MapViewModel.SheetState.Collapsed -> {
                         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -207,6 +219,11 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                         updateSheetContent(state)
                         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     }
+                    is MapViewModel.SheetState.FavoriteDetail -> {
+                        Log.d("Event Click : ", "FavoriteDetail 상태로 전환")
+                        updateSheetContent(state)
+                        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
                     is MapViewModel.SheetState.Hidden -> {
                         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
@@ -216,7 +233,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         }
     }
 
-    private fun updateSheetContent(state: MapViewModel.SheetState) {
+    public fun updateSheetContent(state: MapViewModel.SheetState) {
         val (fragment, tag) = when (state) {
             is MapViewModel.SheetState.PlacePreview ->
                 PlacePreviewSheet.newInstance(state.place) to "PlacePreview"
@@ -224,6 +241,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 CategoryResultSheet.newInstance(state.category, state.places) to "CategoryResult"
             is MapViewModel.SheetState.FavoriteList ->
                 FavoriteListSheet.newInstance(state.favoritelist) to "FavoriteList"
+            is MapViewModel.SheetState.FavoriteDetail ->
+                FavoriteDetailSheet.newInstance(state.list) to "FavoriteDetail"
             else -> return
         }
 

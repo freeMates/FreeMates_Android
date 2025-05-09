@@ -5,23 +5,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.freemates_android.databinding.ItemFavoriteBinding
 import com.example.freemates_android.databinding.ItemUserFavoriteBinding
-import com.example.freemates_android.model.FavoriteItem
 import com.example.freemates_android.model.map.FavoriteList
 
-class UserFavoriteAdapter (val context: Context, val favoriteListItems: ArrayList<FavoriteList>) :
+class UserFavoriteAdapter (val context: Context, val favoriteListItems: ArrayList<FavoriteList>, private val onItemClick: (FavoriteList) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(item: FavoriteList)
-    }
-
-    private var itemClickListener: OnItemClickListener? = null
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.itemClickListener = listener
-    }
+//    interface OnItemClickListener {
+//        fun onItemClick(item: FavoriteList)
+//    }
+//
+//    private var itemClickListener: OnItemClickListener? = null
+//
+//    fun setOnItemClickListener(listener: UserFavoriteAdapter.OnItemClickListener?) {
+//        this.itemClickListener = listener
+//    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -52,8 +50,12 @@ class UserFavoriteAdapter (val context: Context, val favoriteListItems: ArrayLis
             Glide.with(context)
                 .load(favoriteListItems[position].thumbnailUrl) // 불러올 이미지 url
                 .into(holder.image) // 이미지를 넣을 뷰
-            holder.favoriteCnt.text = "${favoriteListItems[position].placeCnt} 장소"
+            holder.favoriteCnt.text = "${favoriteListItems[position].places.size} 장소"
             holder.description.text = favoriteListItems[position].description
+
+            holder.itemView.setOnClickListener{
+                onItemClick(favoriteListItems[position])
+            }
         }
     }
 }
