@@ -82,7 +82,9 @@ class FavoriteDetailSheet : Fragment() {
 
     private fun clickEvent(){
         binding.btnEditFavoriteDetail.setOnClickListener {
-            val intent = Intent(requireContext(), EditFavoriteActivity::class.java)
+            val intent = Intent(requireContext(), EditFavoriteActivity::class.java).apply {
+                putExtra(ARG_FAVORITE_DETAIL, favoriteList)
+            }
             startActivity(intent)
         }
     }
