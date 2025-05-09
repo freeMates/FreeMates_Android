@@ -1,5 +1,6 @@
 package com.example.freemates_android.sheet
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.freemates_android.EditFavoriteActivity
+import com.example.freemates_android.FindIdActivity
 import com.example.freemates_android.R
 import com.example.freemates_android.databinding.SheetFavoriteDetailBinding
 import com.example.freemates_android.databinding.SheetFavoriteListBinding
@@ -30,6 +33,7 @@ class FavoriteDetailSheet : Fragment() {
     }
 
     private lateinit var favoriteList: FavoriteList
+    private lateinit var binding: SheetFavoriteDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +47,7 @@ class FavoriteDetailSheet : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val binding = SheetFavoriteDetailBinding.inflate(inflater, container, false)
+        binding = SheetFavoriteDetailBinding.inflate(inflater, container, false)
         // UI 초기화 및 이벤트 설정
 
         Log.d("Event Click : ", "fragment changed")
@@ -71,7 +75,15 @@ class FavoriteDetailSheet : Fragment() {
             setHasFixedSize(true)
         }
 
+        clickEvent()
 
         return binding.root
+    }
+
+    private fun clickEvent(){
+        binding.btnEditFavoriteDetail.setOnClickListener {
+            val intent = Intent(requireContext(), EditFavoriteActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

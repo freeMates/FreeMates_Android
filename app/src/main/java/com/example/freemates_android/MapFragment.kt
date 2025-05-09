@@ -34,7 +34,6 @@ import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
-import com.kakao.vectormap.camera.CameraUpdateFactory
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
@@ -113,15 +112,15 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     )
 
     private val favoriteList = listOf(
-        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
+        FavoriteList(R.drawable.ic_red_marker_png, "브랫서울", R.drawable.image1,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
         FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", R.drawable.image2,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
         FavoriteList(R.drawable.ic_darkblue_marker, "브랫서울", R.drawable.image3,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
+        FavoriteList(R.drawable.ic_red_marker_png, "브랫서울", R.drawable.image1,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_skyblue_marker, "브랫서울", R.drawable.image1,
+        FavoriteList(R.drawable.ic_skyblue_marker_png, "브랫서울", R.drawable.image1,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
     )
 
@@ -301,7 +300,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         val layer = kakaoMap!!.labelManager!!.layer      // null 아님 확정
         places.forEach { place ->
             val style = kakaoMap!!.labelManager!!
-                .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_skyblue_marker)))
+                .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_skyblue_marker_png)))
 
             val options = LabelOptions.from(LatLng.from(place.latitude, place.longitude))
                 .setStyles(style)          // 마커 아이콘
