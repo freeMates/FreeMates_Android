@@ -288,6 +288,10 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                     val place = clickedLabel.tag as? Place ?: return@setOnLabelClickListener
                     viewModel.showPlacePreview(place)
                 }
+
+                kakaoMap!!.setOnMapClickListener { _, _, _, _ ->
+                    viewModel.showFavoriteList(favoriteList)
+                }
             }
 
             override fun getPosition(): LatLng {

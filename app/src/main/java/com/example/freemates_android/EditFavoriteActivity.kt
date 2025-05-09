@@ -37,6 +37,9 @@ class EditFavoriteActivity : AppCompatActivity() {
 
 
     private fun initUI(){
+        binding.btnCompleteEditEditFavorite.isSelected = false
+        binding.btnCompleteEditEditFavorite.isClickable = false
+
         Glide.with(this)
             .load(favoriteList.thumbnailUrl)
             .into(binding.ivFavoriteImageEditFavorite)
