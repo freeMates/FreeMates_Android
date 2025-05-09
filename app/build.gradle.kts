@@ -86,4 +86,5 @@ dependencies {
     implementation(libs.flexbox)
     implementation(libs.play.services.location)
     implementation(libs.android)
+    implementation(libs.circleimageview)
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/roundedbox_20">
+
+    <TextView
+        android:id="@+id/tvSharePrompt_DialogShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="공유하기"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/paperlogy_6semibold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivShareKakao_DialogShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_share_kakao"
+        app:layout_constraintTop_toBottomOf="@+id/tvSharePrompt_DialogShare"
+        app:layout_constraintEnd_toStartOf="@+id/vDivider_DialogShare"/>
+
+    <View
+        android:id="@+id/vDivider_DialogShare"
+        android:layout_width="48dp"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivShareUrl_DialogShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_share_url"
+        android:elevation="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvSharePrompt_DialogShare"
+        app:layout_constraintStart_toEndOf="@+id/vDivider_DialogShare"/>
+
+    <TextView
+        android:id="@+id/tvCancel_DialogShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="16dp"
+        android:text="취소"
+        android:textColor="@color/red"
+        android:textSize="15sp"
+        android:fontFamily="@font/suit_medium"
+        app:layout_constraintTop_toBottomOf="@+id/ivShareKakao_DialogShare"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.9.1"
 android = "2.9.5"
+circleimageview = "3.1.0"
 coil = "3.1.0"
 coreSplashscreen = "1.0.1"
 flexbox = "3.0.0"
@@ -37,6 +38,7 @@ androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fr
 androidx-navigation-fragment-ktx-v277 = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx-v277 = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
