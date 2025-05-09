@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditFavoriteActivity">
@@ -87,32 +88,33 @@
                 android:id="@+id/clFavoriteMarkerContainer_EditFavorite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginHorizontal="22dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="16dp"
+                android:paddingHorizontal="22dp"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toBottomOf="@+id/tvFavoriteMarkerPrompt_EditFavorite">
 
                 <FrameLayout
                     android:id="@+id/flRedMarkerContainer_EditFavorite"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_margin="7dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
                     <ImageView
                         android:id="@+id/ivRedMarker_EditFavorite"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="@drawable/ic_red_marker" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_red_marker_40" />
 
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/flYellowMarkerContainer_EditFavorite"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_margin="7dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/flRedMarkerContainer_EditFavorite"
@@ -120,17 +122,17 @@
 
                     <ImageView
                         android:id="@+id/flYellowMarker_EditFavorite"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="@drawable/ic_yellow_marker" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_yellow_marker_40" />
 
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/flGreenMarkerContainer_EditFavorite"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_margin="7dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/flYellowMarkerContainer_EditFavorite"
@@ -138,17 +140,17 @@
 
                     <ImageView
                         android:id="@+id/flGreenMarker_EditFavorite"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="@drawable/ic_green_marker" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_green_marker_40" />
 
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/flDarkBlueMarkerContainer_EditFavorite"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_margin="7dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/flGreenMarkerContainer_EditFavorite"
@@ -156,17 +158,17 @@
 
                     <ImageView
                         android:id="@+id/flDarkBlueMarker_EditFavorite"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="@drawable/ic_darkblue_marker" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_darkblue_marker_40" />
 
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/flPurpleMarkerContainer_EditFavorite"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_margin="7dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/flDarkBlueMarkerContainer_EditFavorite"
@@ -174,26 +176,26 @@
 
                     <ImageView
                         android:id="@+id/flPurpleMarker_EditFavorite"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="@drawable/ic_purple_marker" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_purple_marker_40" />
 
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/flPinkMarkerContainer_EditFavorite"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_margin="7dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <ImageView
                         android:id="@+id/flPinkMarker_EditFavorite"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="@drawable/ic_pink_marker" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_pink_marker_40" />
 
                 </FrameLayout>
 
@@ -203,7 +205,7 @@
                 android:id="@+id/tvFavoriteVisibilityStatus_EditFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:text="공개 범위"
                 android:textSize="16sp"

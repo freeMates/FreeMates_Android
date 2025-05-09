@@ -112,15 +112,15 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     )
 
     private val favoriteList = listOf(
-        FavoriteList(R.drawable.ic_red_marker_png, "브랫서울", R.drawable.image1,
+        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
         FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", R.drawable.image2,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
         FavoriteList(R.drawable.ic_darkblue_marker, "브랫서울", R.drawable.image3,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_red_marker_png, "브랫서울", R.drawable.image1,
+        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_skyblue_marker_png, "브랫서울", R.drawable.image1,
+        FavoriteList(R.drawable.ic_pink_marker, "브랫서울", R.drawable.image1,
             "서울 광진구 광나루로 410 1층 101호", recommendList),
     )
 

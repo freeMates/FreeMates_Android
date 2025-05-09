@@ -1,6 +1,7 @@
 package com.example.freemates_android
 
 import android.os.Bundle
+import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,6 +15,7 @@ import com.example.freemates_android.model.map.FavoriteList
 class EditFavoriteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditFavoriteBinding
     private lateinit var favoriteList: FavoriteList
+    private lateinit var markerContainers: List<FrameLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,46 @@ class EditFavoriteActivity : AppCompatActivity() {
         binding.etFavoriteTitleEditFavorite.setText(favoriteList.title)
         binding.btnFavoriteVisibilityPublicEditFavorite.isSelected = true
         binding.etFavoriteDescriptionEditFavorite.setText(favoriteList.description)
+
+        markerContainers = listOf(
+            findViewById(R.id.flRedMarkerContainer_EditFavorite),
+            findViewById(R.id.flYellowMarkerContainer_EditFavorite),
+            findViewById(R.id.flGreenMarkerContainer_EditFavorite),
+            findViewById(R.id.flDarkBlueMarkerContainer_EditFavorite),
+            findViewById(R.id.flPurpleMarkerContainer_EditFavorite),
+            findViewById(R.id.flPinkMarkerContainer_EditFavorite),
+        )
+
+        if (favoriteList.markerColor == R.drawable.ic_red_marker)
+            selectMarker(0)
+        else if(favoriteList.markerColor == R.drawable.ic_yellow_marker)
+            selectMarker(1)
+        else if(favoriteList.markerColor == R.drawable.ic_green_marker)
+            selectMarker(2)
+        else if(favoriteList.markerColor == R.drawable.ic_darkblue_marker)
+            selectMarker(3)
+        else if(favoriteList.markerColor == R.drawable.ic_purple_marker)
+            selectMarker(4)
+        else if(favoriteList.markerColor == R.drawable.ic_pink_marker)
+            selectMarker(5)
+
+        markerContainers.forEachIndexed { index, frameLayout ->
+            frameLayout.setOnClickListener {
+                selectMarker(index)
+            }
+        }
+    }
+
+    private fun selectMarker(selectedIndex: Int) {
+        markerContainers.forEachIndexed { index, frameLayout ->
+            if (index == selectedIndex) {
+                frameLayout.elevation = 20f // 그림자 높이
+                frameLayout.setBackgroundResource(R.drawable.shadow_marker_background)
+            } else {
+                frameLayout.elevation = 0f
+                frameLayout.setBackgroundResource(0) // 배경 제거
+            }
+        }
     }
 
     private fun clickEvent(){
