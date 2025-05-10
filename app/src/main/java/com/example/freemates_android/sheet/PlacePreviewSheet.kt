@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.freemates_android.AddFavoritePlaceSheet
 import com.example.freemates_android.databinding.SheetPlacePreviewBinding
 import com.example.freemates_android.model.map.Place
 
@@ -23,6 +24,7 @@ class PlacePreviewSheet : Fragment() {
     }
 
     private lateinit var place: Place
+    private lateinit var binding: SheetPlacePreviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +38,15 @@ class PlacePreviewSheet : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val binding = SheetPlacePreviewBinding.inflate(inflater, container, false)
-        // UI 초기화 및 이벤트 설정
+        binding = SheetPlacePreviewBinding.inflate(inflater, container, false)
 
+        initUI()
+        clickEvent()
+
+        return binding.root
+    }
+
+    private fun initUI(){
         Glide.with(this)
             .load(place.thumbnailUrl)
             .into(binding.ivPlaceImagePlacePreview)
@@ -46,7 +54,17 @@ class PlacePreviewSheet : Fragment() {
         binding.ibtnLikePlacePreview.isSelected = place.isFavorite
         binding.tvDistancePlacePreview.text = place.distance
         binding.tvAddressPlacePreview.text = place.address
+    }
 
-        return binding.root
+    private fun clickEvent(){
+        binding.ibtnLikePlacePreview.setOnClickListener {
+            val addFavoritePlace = AddFavoritePlaceSheet()
+
+//            // Place 데이터를 BottomSheet에 전달
+//            addFavoritePlace.setPlaceData(place)
+
+            // BottomSheet 띄우기
+            addFavoritePlace.show(childFragmentManager, addFavoritePlace.tag)
+        }
     }
 }

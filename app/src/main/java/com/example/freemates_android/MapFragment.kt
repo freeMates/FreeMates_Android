@@ -232,7 +232,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         }
     }
 
-    public fun updateSheetContent(state: MapViewModel.SheetState) {
+    fun updateSheetContent(state: MapViewModel.SheetState) {
         val (fragment, tag) = when (state) {
             is MapViewModel.SheetState.PlacePreview ->
                 PlacePreviewSheet.newInstance(state.place) to "PlacePreview"
@@ -289,9 +289,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                     viewModel.showPlacePreview(place)
                 }
 
-                kakaoMap!!.setOnMapClickListener { _, _, _, _ ->
-                    viewModel.showFavoriteList(favoriteList)
-                }
+//                kakaoMap!!.setOnMapClickListener { _, _, _, _ ->
+//                    viewModel.showFavoriteList(favoriteList)
+//                }
             }
 
             override fun getPosition(): LatLng {
