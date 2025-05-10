@@ -85,9 +85,9 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
         binding.rvFavoriteListAddFavoritePlace.adapter = adapter
         binding.rvFavoriteListAddFavoritePlace.layoutManager = LinearLayoutManager(context)
 
-//        adapter.setOnItemClickListener {
-//            showHeartAnimation()
-//        }
+        adapter.setOnItemClickListener {
+            HeartOverlayUtil.showHeartOverlay(requireContext())
+        }
     }
 
     private fun showAddFavoriteDialog() {
