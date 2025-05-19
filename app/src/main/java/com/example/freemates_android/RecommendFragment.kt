@@ -5,55 +5,131 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.freemates_android.databinding.FragmentHomeBinding
+import com.example.freemates_android.databinding.FragmentRecommendBinding
+import com.example.freemates_android.model.CategoryItem
+import com.example.freemates_android.model.Course
+import com.example.freemates_android.model.FavoriteItem
+import com.example.freemates_android.model.FilterItem
+import com.example.freemates_android.model.RecommendItem
+import com.example.freemates_android.ui.adapter.course.CourseAdapter
+import com.example.freemates_android.ui.adapter.favorite.FavoriteAdapter
+import com.example.freemates_android.ui.adapter.gridview.category.CategoryAdapter
+import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
+import com.example.freemates_android.ui.decoration.GridSpacingDecoration
+import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
+import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class RecommendFragment : Fragment(R.layout.fragment_recommend) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RecommendFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class RecommendFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = FragmentRecommendBinding.bind(view)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+        val courseList = ArrayList<Course>()
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠"))))
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠"))))
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠"))))
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠"))))
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recommend, container, false)
-    }
+        val courseVerticalSpacingDecoration = VerticalSpacingDecoration(
+            context = requireContext(), // or `this` in Activity
+            spacingDp = 12,              // 아이템 간 간격
+        )
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RecommendFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RecommendFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        val courseAdapter = CourseAdapter(requireContext(), courseList)
+        courseAdapter.setOnItemClickListener(object : CourseAdapter.OnItemClickListener {
+            override fun onItemClick(item: Course) {
+//                findNavController().navigate(R.id.action_homeFragment_to_placeInfoFragment)
             }
+        })
+
+        binding.rvPopularCourseRecommend.apply {
+            adapter = courseAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(courseVerticalSpacingDecoration)
+            setHasFixedSize(true)
+        }
+
+        val favoriteList = ArrayList<FavoriteItem>()
+        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
+        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
+        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
+        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
+        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
+        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
+
+        val favoriteHorizontalSpacingDecoration = HorizontalSpacingDecoration(
+            context = requireContext(), // or `this` in Activity
+            spacingDp = 8,              // 아이템 간 간격
+        )
+
+        val favoriteAdapter = FavoriteAdapter(requireContext(), favoriteList)
+        favoriteAdapter.setOnItemClickListener(object : FavoriteAdapter.OnItemClickListener {
+            override fun onItemClick(item: FavoriteItem) {
+                findNavController().navigate(R.id.action_homeFragment_to_placeInfoFragment)
+            }
+        })
+
+        binding.rvFavoriteListRecommend.apply {
+            adapter = favoriteAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            addItemDecoration(favoriteHorizontalSpacingDecoration)
+            setHasFixedSize(true)
+        }
+
+        val recommendList = ArrayList<RecommendItem>()
+        recommendList.add(
+            RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
+            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요")))
+        )
+        recommendList.add(
+            RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
+            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요")))
+        )
+        recommendList.add(
+            RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
+            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요")))
+        )
+        recommendList.add(
+            RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
+            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요")))
+        )
+        recommendList.add(
+            RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
+            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요")))
+        )
+        recommendList.add(
+            RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
+            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요")))
+        )
+
+
+        val recommendVerticalSpacingDecoration = VerticalSpacingDecoration(
+            context = requireContext(), // or `this` in Activity
+            spacingDp = 8,              // 아이템 간 간격
+        )
+
+        val recommendAdapter = RecommendAdapter(requireContext(), recommendList)
+        recommendAdapter.setOnItemClickListener(object : RecommendAdapter.OnItemClickListener {
+            override fun onItemClick(item: RecommendItem) {
+                findNavController().navigate(R.id.action_homeFragment_to_placeInfoFragment)
+            }
+        })
+
+        binding.rvPlaceListRecommend.apply {
+            adapter = recommendAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(recommendVerticalSpacingDecoration)
+            setHasFixedSize(true)
+        }
     }
 }

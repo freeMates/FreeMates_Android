@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/roundedbox_10"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:elevation="6dp">
 
     <ImageView
         android:id="@+id/ivCourseImage_CourseItem"

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RecommendFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivAds_Recommend"
@@ -42,6 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@+id/tvPopularCoursePrompt_Recommend"
         tools:listitem="@layout/item_course"/>
 
@@ -102,11 +108,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvPlaceListPrompt_Recommend"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tvPlaceList_Recommend"
+        android:id="@+id/rvPlaceList_Recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaceListPrompt_Recommend"
         tools:listitem="@layout/item_course"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
