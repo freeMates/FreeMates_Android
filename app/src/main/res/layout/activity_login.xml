@@ -80,7 +80,7 @@
         android:layout_marginTop="45dp"
         android:paddingVertical="17dp"
         android:background="@drawable/roundedbox_50"
-        android:backgroundTint="@color/main_color"
+        android:backgroundTint="@color/primary200"
         android:text="입장하기"
         android:textSize="18sp"
         android:textColor="@color/black"

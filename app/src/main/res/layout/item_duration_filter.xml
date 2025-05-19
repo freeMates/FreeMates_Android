@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="16dp"
+    android:background="@drawable/selector_duration_filter_state"
+    android:elevation="6dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tvDuration_DurationFilterItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/selector_duration_filter_text"
+        android:textSize="16sp"
+        android:fontFamily="@font/paperlogy_7bold"
+        tools:text="30분 코스"/>
+
+</LinearLayout>

@@ -73,7 +73,7 @@
         android:textColor="@color/black"
         android:elevation="6dp"
         android:background="@drawable/roundedbox_50"
-        android:backgroundTint="@color/main_color"
+        android:backgroundTint="@color/primary200"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

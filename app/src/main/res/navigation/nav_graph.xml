@@ -57,7 +57,19 @@
         android:id="@+id/recommendFragment"
         android:name="com.example.freemates_android.RecommendFragment"
         android:label="fragment_recommend"
-        tools:layout="@layout/fragment_recommend" />
+        tools:layout="@layout/fragment_recommend" >
+
+        <action
+            android:id="@+id/action_recommendFragment_to_durationCourseFragment"
+            app:destination="@id/durationCourseFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/durationCourseFragment"
+        android:name="com.example.freemates_android.DurationCourseFragment"
+        android:label="fragment_duration_course"
+        tools:layout="@layout/fragment_duration_course" />
 
     <fragment
         android:id="@+id/infoFragment"
