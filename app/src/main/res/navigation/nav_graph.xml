@@ -63,13 +63,49 @@
             android:id="@+id/action_recommendFragment_to_durationCourseFragment"
             app:destination="@id/durationCourseFragment" />
 
+        <action
+            android:id="@+id/action_recommendFragment_to_courseInfoFragment"
+            app:destination="@id/courseInfoFragment" />
+
+        <action
+            android:id="@+id/action_recommendFragment_to_sheetFavoriteDetailFragment"
+            app:destination="@id/sheetFavoriteDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/durationCourseFragment"
         android:name="com.example.freemates_android.DurationCourseFragment"
         android:label="fragment_duration_course"
-        tools:layout="@layout/fragment_duration_course" />
+        tools:layout="@layout/fragment_duration_course" >
+
+        <action
+            android:id="@+id/action_durationCourseFragment_to_courseInfoFragment"
+            app:destination="@id/courseInfoFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/courseInfoFragment"
+        android:name="com.example.freemates_android.CourseInfoFragment"
+        android:label="fragment_course_info"
+        tools:layout="@layout/fragment_course_info" >
+
+        <action
+            android:id="@+id/action_courseInfoFragment_to_recommendFragment"
+            app:destination="@id/recommendFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/sheetFavoriteDetailFragment"
+        android:name="com.example.freemates_android.sheet.FavoriteDetailSheet"
+        android:label="fragment_sheet_favorite_detail"
+        tools:layout="@layout/sheet_favorite_detail">
+
+        <action
+            android:id="@+id/action_sheetFavoriteDetailFragment_to_recommendFragment"
+            app:destination="@id/recommendFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/infoFragment"

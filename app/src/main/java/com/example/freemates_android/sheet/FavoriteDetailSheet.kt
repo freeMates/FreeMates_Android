@@ -28,10 +28,12 @@ import com.example.freemates_android.ui.adapter.favorite.UserFavoriteAdapter
 import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
 import androidx.core.graphics.drawable.toDrawable
+import androidx.navigation.fragment.findNavController
 
 class FavoriteDetailSheet : Fragment() {
     companion object {
-        private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
+        const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
+        const val ARG_FAVORITE_SOURCE = "arg_favorite_source"
 
         fun newInstance(favoriteList: FavoriteList): FavoriteDetailSheet {
             val fragment = FavoriteDetailSheet()
@@ -44,11 +46,13 @@ class FavoriteDetailSheet : Fragment() {
 
     private lateinit var favoriteList: FavoriteList
     private lateinit var binding: SheetFavoriteDetailBinding
+    private var sourceTag: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             favoriteList = it.getParcelable(ARG_FAVORITE_DETAIL)!!
+            sourceTag    = it.getString(ARG_FAVORITE_SOURCE)
         }
     }
 
@@ -59,6 +63,16 @@ class FavoriteDetailSheet : Fragment() {
     ): View? {
         binding = SheetFavoriteDetailBinding.inflate(inflater, container, false)
         // UI 초기화 및 이벤트 설정
+        Log.d("소스태그 : ",sourceTag.toString())
+        if(sourceTag == "recommend"){
+            binding.clTopContainerFavoriteDetail.visibility = View.VISIBLE
+        } else {
+            binding.clTopContainerFavoriteDetail.visibility = View.GONE
+        }
+
+        binding.btnBackToRecommendFavoriteDetail.setOnClickListener {
+            findNavController().navigate(R.id.action_sheetFavoriteDetailFragment_to_recommendFragment)
+        }
 
         Log.d("Event Click : ", "fragment changed")
         Glide.with(this)
@@ -77,6 +91,7 @@ class FavoriteDetailSheet : Fragment() {
             context = requireContext(),
             spacingDp = 12,
         )
+
         val userFavoritePlacesAdapter = RecommendAdapter(requireContext(), ArrayList(favoriteList.places))
         binding.rvFavoritePlacesFavoriteDetail.apply {
             adapter = userFavoritePlacesAdapter

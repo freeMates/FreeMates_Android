@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CourseInfoFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clAppbarContainer_CourseInfo"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btnBackToRecommend_CourseInfo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnCourseEdit_CourseInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/ic_edit"
+                android:backgroundTint="@color/natural300"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/clAppbarContainer_CourseInfo"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivCourseImage_CourseInfo"
+                android:layout_width="match_parent"
+                android:layout_height="166dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/image2"/>
+
+            <ImageView
+                android:id="@+id/ivCourseVisibilityStatus_CourseInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_lock"
+                app:layout_constraintTop_toTopOf="@+id/ivCourseImage_CourseInfo"
+                app:layout_constraintEnd_toEndOf="@+id/ivCourseImage_CourseInfo"/>
+
+            <TextView
+                android:id="@+id/tvCourseTitle_CourseInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="16dp"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/paperlogy_6semibold"
+                app:layout_constraintBottom_toTopOf="@+id/tvCourseCreator_CourseInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="맛집 탐방하기"/>
+
+            <TextView
+                android:id="@+id/tvCourseCreator_CourseInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="10sp"
+                android:textColor="@color/natural200"
+                android:fontFamily="@font/suit_regular"
+                app:layout_constraintBottom_toBottomOf="@id/ivCourseImage_CourseInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="\@파인애플농부애옹"/>
+
+            <TextView
+                android:id="@+id/tvCourseDuration_CourseInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/paperlogy_6semibold"
+                app:layout_constraintTop_toBottomOf="@+id/ivCourseImage_CourseInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="2시간 소요 코스"/>
+
+            <TextView
+                android:id="@+id/tvCourseDescription_CourseInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"
+                android:textColor="@color/natural400"
+                android:textSize="12sp"
+                android:fontFamily="@font/suit_regular"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseDuration_CourseInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/clLikeContainer_CourseInfo"
+                tools:text="광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clLikeContainer_CourseInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/ivCourseImage_CourseInfo"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageButton
+                    android:id="@+id/btnLike_CourseInfo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/selector_like_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvLikeCnt_CourseInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textSize="8dp"
+                    android:textColor="@color/natural200"
+                    android:fontFamily="@font/suit_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnLike_CourseInfo"
+                    tools:text="1930"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCoursePlace_CourseInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseDescription_CourseInfo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
