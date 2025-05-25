@@ -26,7 +26,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="20dp"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_university_logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivStartCircle_CoursePlaceItemHeader"/>
 
