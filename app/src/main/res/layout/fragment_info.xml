@@ -1,14 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".InfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/tvMyInfoPrompt_Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:text="내 계정"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvEditInfo_Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
+        android:text="변경"
+        android:textSize="12sp"
+        android:textColor="@color/natural200"
+        android:fontFamily="@font/suit_medium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/etUserId_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_medium"
+        android:maxLines="1"
+        app:layout_constraintTop_toBottomOf="@+id/tvMyInfoPrompt_Info"
+        tools:text="ffdiks333" />
+
+    <EditText
+        android:id="@+id/etUserPassword_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_medium"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etUserId_Info"
+        tools:text="ffdiks333" />
+
+    <EditText
+        android:id="@+id/etUserEmail_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_medium"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/etUserPassword_Info"
+        tools:text="ffdiks333@gmail.com" />
+
+    <TextView
+        android:id="@+id/tvLogout_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:text="로그아웃"
+        android:textSize="15sp"
+        android:textColor="@color/red"
+        android:fontFamily="@font/suit_medium"
+        android:drawablePadding="4dp"
+        android:drawableStart="@drawable/ic_logout"
+        app:layout_constraintTop_toBottomOf="@+id/etUserEmail_Info"/>
+
+    <TextView
+        android:id="@+id/tvBasicSettingPrompt_Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="24dp"
+        android:text="기본 설정"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/paperlogy_6semibold"
+        app:layout_constraintTop_toBottomOf="@+id/tvLogout_Info"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvEditBasicSetting_Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="24dp"
+        android:text="변경"
+        android:textSize="12sp"
+        android:textColor="@color/natural200"
+        android:fontFamily="@font/suit_medium"
+        app:layout_constraintTop_toBottomOf="@+id/tvLogout_Info"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/etUserName_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_medium"
+        android:maxLines="1"
+        app:layout_constraintTop_toBottomOf="@+id/tvBasicSettingPrompt_Info"
+        tools:text="파인애플농부애옹" />
+
+    <EditText
+        android:id="@+id/etUserAge_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_medium"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/etUserName_Info"
+        tools:text="23" />
+
+    <EditText
+        android:id="@+id/etUserGender_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_medium"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/etUserAge_Info"
+        tools:text="여성" />
+
+    <TextView
+        android:id="@+id/tvDeleteAccount_Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="@string/delete_account"
+        android:textColor="@color/natural200"
+        android:textSize="12sp"
+        android:fontFamily="@font/suit_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
