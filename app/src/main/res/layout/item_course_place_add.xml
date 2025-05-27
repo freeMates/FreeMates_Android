@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="24dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivMiddleCircle_CoursePlaceAddItem"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:src="@color/primary300"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="115dp"
+        android:background="@color/primary300"
+        app:layout_constraintTop_toBottomOf="@+id/ivMiddleCircle_CoursePlaceAddItem"
+        app:layout_constraintStart_toStartOf="@+id/ivMiddleCircle_CoursePlaceAddItem"
+        app:layout_constraintEnd_toEndOf="@+id/ivMiddleCircle_CoursePlaceAddItem"/>
+
+    <ImageView
+        android:id="@+id/ivAddCoursePlace_CoursePlaceAddItem"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_add_primary300"
+        app:layout_constraintStart_toEndOf="@+id/ivMiddleCircle_CoursePlaceAddItem"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

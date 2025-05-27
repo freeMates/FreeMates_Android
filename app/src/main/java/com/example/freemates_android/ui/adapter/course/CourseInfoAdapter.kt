@@ -89,18 +89,20 @@ class CourseInfoAdapter(
         } else if (holder is CourseInfoFooterViewHolder) {
             Log.d("아이템 뷰 : ", "footer")
             if(walkTime > 0)
-                holder.walkTime.text = "도보 ${walkTime}분"
+                holder.walkTime.text = "도보 30분"
             else
                 holder.walkTime.text = ""
 
             if(crosswalkCount > 0)
-                holder.crosswalkCount.text = "횡단보도 ${crosswalkCount}회"
+                holder.crosswalkCount.text = "횡단보도 5회"
             else
                 holder.crosswalkCount.text = ""
         } else if (holder is CourseInfoViewHolder){
             val pos = position - 1
             holder.title.text = courseInfoList[pos].title
 
+            walkTime += courseInfoList[pos].walkTime
+            crosswalkCount += courseInfoList[pos].crosswalkCount
             if(courseInfoList[pos].walkTime > 0)
                 holder.walkTime.text = "도보 ${courseInfoList[pos].walkTime}분"
             else

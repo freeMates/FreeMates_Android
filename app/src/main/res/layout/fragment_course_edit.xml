@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CourseEditFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAppbarContainer_CourseEdit"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnBackToCourseInfo_CourseEdit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/clAppbarContainer_CourseEdit"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivCourseImage_CourseEdit"
+                android:layout_width="match_parent"
+                android:layout_height="166dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/image2"/>
+
+            <TextView
+                android:id="@+id/tvCourseTitlePrompt_CourseEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:text="코스 제목"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/paperlogy_6semibold"
+                app:layout_constraintTop_toBottomOf="@+id/ivCourseImage_CourseEdit"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <EditText
+                android:id="@+id/etCourseTitle_CourseEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="13dp"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="24dp"
+                android:background="@drawable/roundedbox_50"
+                android:elevation="6dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/suit_medium"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseTitlePrompt_CourseEdit"
+                tools:text="맛집 탐방하기"/>
+
+            <TextView
+                android:id="@+id/tvCourseDurationPrompt_CourseEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:text="코스 소요 시간"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/paperlogy_6semibold"
+                app:layout_constraintTop_toBottomOf="@+id/etCourseTitle_CourseEdit"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <HorizontalScrollView
+                android:id="@+id/svCourseDurationContainer_CourseEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:scrollbars="none"
+                android:paddingStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseDurationPrompt_CourseEdit">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:clipToPadding="false">
+
+                    <Button
+                        android:id="@+id/btnCourseDuration30min_CourseEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:text="30분"
+                        android:textColor="@color/selector_complete_text"
+                        android:background="@drawable/selector_multiple_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <Button
+                        android:id="@+id/btnCourseDuration60min_CourseEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginStart="8dp"
+                        android:text="1시간"
+                        android:textColor="@color/selector_complete_text"
+                        android:background="@drawable/selector_multiple_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btnCourseDuration30min_CourseEdit"/>
+
+                    <Button
+                        android:id="@+id/btnCourseDuration90min_CourseEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginStart="8dp"
+                        android:text="1시간 30분"
+                        android:textColor="@color/selector_complete_text"
+                        android:background="@drawable/selector_multiple_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btnCourseDuration60min_CourseEdit" />
+
+
+                    <Button
+                        android:id="@+id/btnCourseDuration120min_CourseEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginStart="8dp"
+                        android:text="2시간"
+                        android:textColor="@color/selector_complete_text"
+                        android:background="@drawable/selector_multiple_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btnCourseDuration90min_CourseEdit"/>
+
+                    <Button
+                        android:id="@+id/btnCourseDuration150min_CourseEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginStart="8dp"
+                        android:text="2시간 30분"
+                        android:textColor="@color/selector_complete_text"
+                        android:background="@drawable/selector_multiple_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btnCourseDuration120min_CourseEdit"/>
+
+                    <Button
+                        android:id="@+id/btnCourseDuration180min_CourseEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginStart="8dp"
+                        android:text="3시간"
+                        android:textColor="@color/selector_complete_text"
+                        android:background="@drawable/selector_multiple_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btnCourseDuration150min_CourseEdit"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/tvCourseDescriptionPrompt_CourseEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:text="코스 상세 설명"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/paperlogy_6semibold"
+                app:layout_constraintTop_toBottomOf="@+id/svCourseDurationContainer_CourseEdit"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clCourseDescriptionContainer_CourseEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/roundedbox_50"
+                android:elevation="6dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseDescriptionPrompt_CourseEdit">
+
+                <EditText
+                    android:id="@+id/etCourseDescription_CourseEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="24dp"
+                    android:background="@null"
+                    android:maxEms="60"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/suit_medium"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="맛집 탐방하기"/>
+
+                <TextView
+                    android:id="@+id/tvCourseDescriptionLength_CourseEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="11dp"
+                    android:layout_marginEnd="24dp"
+                    android:textColor="@color/natural300"
+                    android:textSize="8sp"
+                    android:fontFamily="@font/suit_semibold"
+                    app:layout_constraintBottom_toBottomOf="@+id/etCourseDescription_CourseEdit"
+                    app:layout_constraintEnd_toEndOf="@+id/etCourseDescription_CourseEdit"
+                    tools:text="52/60"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCoursePlace_CourseEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/clCourseDescriptionContainer_CourseEdit"/>
+
+            <TextView
+                android:id="@+id/tvCourseVisibilityPrompt_CourseEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:text="공개 범위"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/paperlogy_6semibold"
+                app:layout_constraintTop_toBottomOf="@+id/rvCoursePlace_CourseEdit"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <Button
+                android:id="@+id/btnCourseVisibilityPublic_CourseEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="4dp"
+                android:elevation="6dp"
+                android:background="@drawable/selector_multiple_button"
+                android:text="공개"
+                android:textColor="@color/selector_complete_text"
+                android:textSize="15sp"
+                android:fontFamily="@font/suit_bold"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseVisibilityPrompt_CourseEdit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnCourseVisibilityPrivate_CourseEdit" />
+
+            <Button
+                android:id="@+id/btnCourseVisibilityPrivate_CourseEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="4dp"
+                android:elevation="6dp"
+                android:background="@drawable/selector_multiple_button"
+                android:text="비공개"
+                android:textColor="@color/selector_complete_text"
+                android:textSize="15sp"
+                android:fontFamily="@font/suit_bold"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseVisibilityPrompt_CourseEdit"
+                app:layout_constraintStart_toEndOf="@+id/btnCourseVisibilityPublic_CourseEdit"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnCourseEditComplete_CourseEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:elevation="6dp"
+                android:background="@drawable/selector_multiple_button"
+                android:text="완료"
+                android:textColor="@color/selector_complete_text"
+                android:textSize="18sp"
+                android:fontFamily="@font/paperlogy_6semibold"
+                app:layout_constraintTop_toBottomOf="@+id/btnCourseVisibilityPublic_CourseEdit"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

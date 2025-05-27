@@ -94,6 +94,10 @@
             android:id="@+id/action_courseInfoFragment_to_recommendFragment"
             app:destination="@id/recommendFragment" />
 
+        <action
+            android:id="@+id/action_courseInfoFragment_to_courseEditFragment"
+            app:destination="@id/courseEditFragment" />
+
     </fragment>
 
     <fragment
@@ -105,6 +109,19 @@
         <action
             android:id="@+id/action_sheetFavoriteDetailFragment_to_recommendFragment"
             app:destination="@id/recommendFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/courseEditFragment"
+        android:name="com.example.freemates_android.CourseEditFragment"
+        android:label="fragment_course_edit"
+        tools:layout="@layout/fragment_course_edit" >
+
+        <action
+            android:id="@+id/action_courseEditFragment_to_courseInfoFragment"
+            app:destination="@id/courseInfoFragment" />
+
     </fragment>
 
     <fragment

@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.sheetFavoriteDetailFragment -> {
                     binding.tbContainerMain.visibility = View.GONE
                 }
+                R.id.courseEditFragment -> {
+                    binding.tbContainerMain.visibility = View.GONE
+                }
                 else -> {
                     binding.tbContainerMain.visibility = View.VISIBLE
                 }

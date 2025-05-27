@@ -25,4 +25,8 @@
         <item name="android:itemBackground">@android:color/transparent</item>
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
+
+    <style name="TextInputCounterOverflow" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/natural300</item>
+    </style>
 </resources>

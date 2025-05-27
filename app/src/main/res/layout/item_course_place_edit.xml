@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="24dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivMiddleCircle_CoursePlaceEditItem"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:src="@color/primary300"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="115dp"
+        android:background="@color/primary300"
+        app:layout_constraintTop_toBottomOf="@+id/ivMiddleCircle_CoursePlaceEditItem"
+        app:layout_constraintStart_toStartOf="@+id/ivMiddleCircle_CoursePlaceEditItem"
+        app:layout_constraintEnd_toEndOf="@+id/ivMiddleCircle_CoursePlaceEditItem"/>
+
+    <EditText
+        android:id="@+id/etCourseTitle_CoursePlaceEditItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="16dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_medium"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivMiddleCircle_CoursePlaceEditItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="스시붐"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

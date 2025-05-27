@@ -47,6 +47,11 @@ class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
 //            if()
             binding.btnCourseEditCourseInfo.visibility = View.VISIBLE
 
+            binding.btnCourseEditCourseInfo.setOnClickListener {
+                val bundle = bundleOf("courseInfo" to course)
+                findNavController().navigate(R.id.action_courseInfoFragment_to_courseEditFragment, bundle)
+            }
+
             Glide.with(this)
                 .load(course.courseImage)
                 .into(binding.ivCourseImageCourseInfo)
