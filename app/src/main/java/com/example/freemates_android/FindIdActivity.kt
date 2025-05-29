@@ -32,21 +32,25 @@ class FindIdActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.etUserPhoneFindId.addTextChangedListener {
+        binding.etUserEmailFindId.addTextChangedListener {
+            binding.btnUserEmailVerifyFindId.isSelected = true
             binding.btnVerificationCodeCheckFindId.isSelected = false
         }
 
-        binding.btnUserPhoneVerifyFindId.setOnClickListener {
-            submitUserPhoneVerify()
-            isPhoneVerified = false
+        binding.btnUserEmailVerifyFindId.setOnClickListener {
+            if(binding.etUserEmailFindId.text.isNotEmpty()) {
+                submitUserPhoneVerify()
+                isPhoneVerified = false
+            }
         }
 
         binding.btnVerificationCodeCheckFindId.setOnClickListener {
-            if(binding.btnVerificationCodeCheckFindId.isSelected) {
-                submitUserVerificationCode()
+            if(binding.etVerificationCodeFindId.text.isNotEmpty()) {
+                if (binding.btnVerificationCodeCheckFindId.isSelected) {
+                    submitUserVerificationCode()
+                } else
+                    showToast("인증하기 버튼을 눌러주세요")
             }
-            else
-                showToast("인증하기 버튼을 눌러주세요")
         }
 
         binding.tvChangePasswordFindId.setOnClickListener {
@@ -67,17 +71,10 @@ class FindIdActivity : AppCompatActivity() {
     }
 
     private fun submitUserPhoneVerify(){
-        val phone = binding.etUserPhoneFindId.text.toString().trim()
-
-        if (!phone.matches(Regex("^01[0-9]{8,9}$"))) {
-            showToast("올바른 전화번호 형식을 입력해주세요.")
-            binding.btnVerificationCodeCheckFindId.isSelected = false
-            return
-        }
-
         // TODO : API 호출
 
         binding.tvVerificationCodeErrorFindId.visibility = View.INVISIBLE
+        binding.tvVerificationCodeOkayFindId.visibility = View.INVISIBLE
         binding.btnVerificationCodeCheckFindId.isSelected = true
 
         showToast("인증번호를 전송했습니다.")
@@ -91,10 +88,14 @@ class FindIdActivity : AppCompatActivity() {
 
         isPhoneVerified = state
 
-        if(isPhoneVerified)
+        if(isPhoneVerified) {
             binding.tvVerificationCodeErrorFindId.visibility = View.INVISIBLE
-        else
+            binding.tvVerificationCodeOkayFindId.visibility = View.VISIBLE
+        }
+        else {
             binding.tvVerificationCodeErrorFindId.visibility = View.VISIBLE
+            binding.tvVerificationCodeOkayFindId.visibility = View.INVISIBLE
+        }
 
         updateRegisterButtonState()
     }
@@ -109,6 +110,7 @@ class FindIdActivity : AppCompatActivity() {
             // TODO : 회원가입 API 호출
 
             val intent = Intent(this, FindIdCompleteActivity::class.java)
+            intent.putExtra("activity", "findId")
             startActivity(intent)
             finish()
         }

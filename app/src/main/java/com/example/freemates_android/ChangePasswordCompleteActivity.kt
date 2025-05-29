@@ -160,7 +160,8 @@ class ChangePasswordCompleteActivity : AppCompatActivity() {
         if(binding.btnCompleteChangePasswordChangePassword.isSelected) {
             // TODO : 비밀번호 변경 API 호출
 
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, FindIdCompleteActivity::class.java)
+            intent.putExtra("activity", "changePasswordComplete")
             startActivity(intent)
             finish()
         }

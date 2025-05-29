@@ -14,7 +14,7 @@ import com.example.freemates_android.databinding.ActivityFindIdBinding
 
 class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangePasswordBinding
-    private var isPhoneVerified = false
+    private var isEmailVerified = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,21 +32,25 @@ class ChangePasswordActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.etUserPhoneChangePassword.addTextChangedListener {
+        binding.etUserEmailChangePassword.addTextChangedListener {
             binding.btnVerificationCodeCheckChangePassword.isSelected = false
+            binding.btnUserEmailVerifyChangePassword.isSelected = true
         }
 
-        binding.btnUserPhoneVerifyChangePassword.setOnClickListener {
-            submitUserPhoneVerify()
-            isPhoneVerified = false
+        binding.btnUserEmailVerifyChangePassword.setOnClickListener {
+            if(binding.etUserEmailChangePassword.text.isNotEmpty()) {
+                submitUserPhoneVerify()
+                isEmailVerified = false
+            }
         }
 
         binding.btnVerificationCodeCheckChangePassword.setOnClickListener {
-            if(binding.btnVerificationCodeCheckChangePassword.isSelected) {
-                submitUserVerificationCode()
+            if(binding.etVerificationCodeChangePassword.text.isNotEmpty()) {
+                if (binding.btnVerificationCodeCheckChangePassword.isSelected) {
+                    submitUserVerificationCode()
+                } else
+                    showToast("인증하기 버튼을 눌러주세요")
             }
-            else
-                showToast("인증하기 버튼을 눌러주세요")
         }
 
         binding.tvFindIdChangePassword.setOnClickListener {
@@ -61,17 +65,10 @@ class ChangePasswordActivity : AppCompatActivity() {
     }
 
     private fun submitUserPhoneVerify(){
-        val phone = binding.etUserPhoneChangePassword.text.toString().trim()
-
-        if (!phone.matches(Regex("^01[0-9]{8,9}$"))) {
-            showToast("올바른 전화번호 형식을 입력해주세요.")
-            binding.btnVerificationCodeCheckChangePassword.isSelected = false
-            return
-        }
-
         // TODO : API 호출
 
         binding.tvVerificationCodeErrorChangePassword.visibility = View.INVISIBLE
+        binding.tvVerificationCodeOkayChangePassword.visibility = View.INVISIBLE
         binding.btnVerificationCodeCheckChangePassword.isSelected = true
 
         showToast("인증번호를 전송했습니다.")
@@ -83,18 +80,22 @@ class ChangePasswordActivity : AppCompatActivity() {
         // TODO : 나중에 값 변경!
         val state = true
 
-        isPhoneVerified = state
+        isEmailVerified = state
 
-        if(isPhoneVerified)
+        if(isEmailVerified) {
             binding.tvVerificationCodeErrorChangePassword.visibility = View.INVISIBLE
-        else
+            binding.tvVerificationCodeOkayChangePassword.visibility = View.VISIBLE
+        }
+        else {
             binding.tvVerificationCodeErrorChangePassword.visibility = View.VISIBLE
+            binding.tvVerificationCodeOkayChangePassword.visibility = View.INVISIBLE
+        }
 
         updateRegisterButtonState()
     }
 
     private fun updateRegisterButtonState() {
-        val isReady = isPhoneVerified
+        val isReady = isEmailVerified
         binding.btnCompleteChangePasswordChangePassword.isSelected = isReady
     }
 

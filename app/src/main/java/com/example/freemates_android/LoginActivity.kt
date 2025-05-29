@@ -2,6 +2,7 @@ package com.example.freemates_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import com.example.freemates_android.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -33,7 +35,8 @@ class LoginActivity : AppCompatActivity() {
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
         binding.btnLoginLogin.setOnClickListener {
-            attemptLogin()
+            if(binding.btnLoginLogin.isSelected)
+                attemptLogin()
         }
 
         binding.tvFindIdLogin.setOnClickListener {
@@ -61,10 +64,24 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-    }
 
-    private fun dpToPx(dp: Float): Float {
-        return dp * resources.displayMetrics.density
+        binding.etUserIdLogin.addTextChangedListener {
+            val id = binding.etUserIdLogin.text.toString().trim()
+            val pw = binding.etUserPasswordLogin.text.toString().trim()
+
+            binding.btnLoginLogin.isSelected = id.isNotEmpty() && pw.isNotEmpty()
+
+            Log.d("버튼 선택 : ", binding.btnLoginLogin.isSelected.toString())
+        }
+
+        binding.etUserPasswordLogin.addTextChangedListener {
+            val id = binding.etUserIdLogin.text.toString().trim()
+            val pw = binding.etUserPasswordLogin.text.toString().trim()
+
+            binding.btnLoginLogin.isSelected = id.isNotEmpty() && pw.isNotEmpty()
+
+            Log.d("버튼 선택 : ", binding.btnLoginLogin.isSelected.toString())
+        }
     }
 
     private fun togglePasswordVisibility() {
@@ -91,18 +108,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun attemptLogin() {
-        val id = binding.etUserIdLogin.text.toString().trim()
-        val pw = binding.etUserPasswordLogin.text.toString().trim()
-
-        if (id.isEmpty() || pw.isEmpty()) {
-            binding.tvUserLoginErrorLogin.visibility = View.VISIBLE
-            return
-        }
-
-        performLogin(id, pw)
-    }
-
-    private fun performLogin(id: String, pw: String) {
         // TODO: Retrofit 사용하여 서버에 로그인 요청
 
         // TODO : 나중에 값 변경하기!

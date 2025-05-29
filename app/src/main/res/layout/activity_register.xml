@@ -17,36 +17,39 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <ImageView
-        android:id="@+id/ivAppIcon_Register"
+    <TextView
+        android:id="@+id/tvAppIcon_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/ic_app_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="24dp"
+        android:text="Freemates"
+        android:textColor="@color/primary400"
+        android:textSize="34sp"
+        android:fontFamily="@font/paperlogy_9black"
+        app:layout_constraintTop_toBottomOf="@+id/btnBackToLogin_Register"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvRegisterPrompt_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="프리메이트를 시작합니다!"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:text="회원가입\n프리메이트를 시작합니다."
+        android:textSize="18sp"
         android:textColor="@color/black"
-        android:textSize="22sp"
         android:fontFamily="@font/paperlogy_6semibold"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAppIcon_Register"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvAppIcon_Register"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
         android:id="@+id/etUserId_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="96dp"
         android:paddingVertical="10dp"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:background="@drawable/roundedbox_left_50"
         android:elevation="6dp"
         android:textColor="@color/black"
@@ -55,10 +58,10 @@
         android:textColorHint="@color/natural300"
         android:fontFamily="@font/suit_regular"
         android:hint="아이디를 입력해주세요."
-        android:gravity="center"
+        android:gravity="start"
         android:layout_marginStart="24dp"
         app:layout_constraintHorizontal_weight="0.8"
-        app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_Register"
+        app:layout_constraintTop_toBottomOf="@+id/tvRegisterPrompt_Register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnUserIdDuplication_Register"/>
 
@@ -66,20 +69,20 @@
         android:id="@+id/btnUserIdDuplication_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="96dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:text="중복 확인"
-        android:textColor="@color/black"
+        android:textColor="@color/selector_black_to_natural200"
         android:textSize="12sp"
         android:background="@drawable/roundedbox_right_50"
-        android:backgroundTint="@color/primary200"
+        android:backgroundTint="@color/selector_primary400_to_natural100"
         android:elevation="6dp"
         android:fontFamily="@font/suit_bold"
         app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_Register"
+        app:layout_constraintTop_toBottomOf="@+id/tvRegisterPrompt_Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etUserId_Register"/>
 
@@ -132,7 +135,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginHorizontal="24dp"
         android:paddingVertical="10dp"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:background="@drawable/roundedbox_50"
         android:elevation="6dp"
         android:textColor="@color/black"
@@ -141,7 +144,7 @@
         android:textColorHint="@color/natural300"
         android:fontFamily="@font/suit_regular"
         android:hint="비밀번호를 입력해주세요."
-        android:gravity="center"
+        android:gravity="start"
         android:drawableEnd="@drawable/ic_password_visibility_off"
         app:layout_constraintTop_toBottomOf="@+id/etUserId_Register"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +170,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginHorizontal="24dp"
         android:paddingVertical="10dp"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:background="@drawable/roundedbox_50"
         android:elevation="6dp"
         android:textColor="@color/black"
@@ -176,7 +179,7 @@
         android:fontFamily="@font/suit_regular"
         android:maxLines="1"
         android:hint="비밀번호 확인"
-        android:gravity="center"
+        android:gravity="start"
         android:drawableEnd="@drawable/ic_password_visibility_off"
         app:layout_constraintTop_toBottomOf="@+id/etUserPassword_Register"
         app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +200,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
-        android:id="@+id/etUserPhone_Register"
+        android:id="@+id/etUserEmail_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
@@ -210,16 +213,16 @@
         android:textSize="15sp"
         android:textColorHint="@color/natural300"
         android:fontFamily="@font/suit_regular"
-        android:hint="전화번호를 입력해주세요."
+        android:hint="이메일을 입력해주세요."
         android:gravity="center"
         android:layout_marginStart="24dp"
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintTop_toBottomOf="@+id/etUserPasswordCheck_Register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnUserPhoneVerify_Register"/>
+        app:layout_constraintEnd_toStartOf="@+id/btnUserEmailVerify_Register"/>
 
     <Button
-        android:id="@+id/btnUserPhoneVerify_Register"
+        android:id="@+id/btnUserEmailVerify_Register"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
@@ -228,16 +231,16 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:text="인증하기"
-        android:textColor="@color/black"
+        android:textColor="@color/selector_black_to_natural200"
         android:textSize="12sp"
         android:background="@drawable/roundedbox_right_50"
-        android:backgroundTint="@color/primary200"
+        android:backgroundTint="@color/selector_primary400_to_natural100"
         android:elevation="6dp"
         android:fontFamily="@font/suit_bold"
         app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintTop_toBottomOf="@+id/etUserPasswordCheck_Register"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etUserPhone_Register"/>
+        app:layout_constraintStart_toEndOf="@+id/etUserEmail_Register"/>
 
     <EditText
         android:id="@+id/etVerificationCode_Register"
@@ -257,7 +260,7 @@
         android:gravity="center"
         android:layout_marginStart="24dp"
         app:layout_constraintHorizontal_weight="0.8"
-        app:layout_constraintTop_toBottomOf="@+id/etUserPhone_Register"
+        app:layout_constraintTop_toBottomOf="@+id/etUserEmail_Register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnVerificationCodeCheck_Register"/>
 
@@ -271,13 +274,14 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:text="확인"
-        android:textColor="@color/selector_complete_text"
+        android:textColor="@color/selector_black_to_natural200"
         android:textSize="12sp"
-        android:background="@drawable/selector_verification_code_button"
+        android:background="@drawable/roundedbox_right_50"
+        android:backgroundTint="@color/selector_primary400_to_natural100"
         android:elevation="6dp"
         android:fontFamily="@font/suit_bold"
         app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintTop_toBottomOf="@+id/etUserPhone_Register"
+        app:layout_constraintTop_toBottomOf="@+id/etUserEmail_Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etVerificationCode_Register"/>
 
@@ -295,20 +299,34 @@
             app:layout_constraintTop_toBottomOf="@+id/etVerificationCode_Register"
             app:layout_constraintStart_toStartOf="parent"/>
 
+    <TextView
+        android:id="@+id/tvVerificationCodeOkay_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="40dp"
+        android:text="확인되었습니다."
+        android:textColor="@color/natural300"
+        android:textSize="12sp"
+        android:fontFamily="@font/suit_regular"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/etVerificationCode_Register"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <Button
         android:id="@+id/btnCompleteRegister_Register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="80dp"
         android:paddingVertical="17dp"
         android:text="회원가입하기"
         android:textSize="18sp"
         android:fontFamily="@font/paperlogy_6semibold"
-        android:textColor="@color/selector_complete_text"
+        android:textColor="@color/selector_black_to_natural200"
         android:elevation="6dp"
-        android:background="@drawable/selector_complete_button"
+        android:background="@drawable/roundedbox_50"
+        android:backgroundTint="@color/selector_primary400_to_natural100"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 

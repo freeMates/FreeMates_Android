@@ -45,6 +45,11 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.etUserIdRegister.addTextChangedListener {
+            if(binding.etUserIdRegister.text.isNotEmpty())
+                binding.btnUserIdDuplicationRegister.isSelected = true
+            else
+                binding.btnUserIdDuplicationRegister.isSelected = false
+
             isIdChecked = false
 
             binding.tvUserIdAvailabilityRegister.visibility = View.INVISIBLE
@@ -67,13 +72,26 @@ class RegisterActivity : AppCompatActivity() {
             updateRegisterButtonState()
         }
 
-        binding.etUserPhoneRegister.addTextChangedListener {
-            binding.btnVerificationCodeCheckRegister.isSelected = false
+        binding.etUserEmailRegister.addTextChangedListener {
+            if(binding.etUserEmailRegister.text.isNotEmpty()){
+                binding.btnUserEmailVerifyRegister.isSelected = true
+                binding.btnVerificationCodeCheckRegister.isSelected = false
+            } else{
+                binding.btnUserEmailVerifyRegister.isSelected = false
+                binding.btnVerificationCodeCheckRegister.isSelected = false
+            }
         }
 
-        binding.btnUserPhoneVerifyRegister.setOnClickListener {
+        binding.btnUserEmailVerifyRegister.setOnClickListener {
             submitUserPhoneVerify()
             isPhoneVerified = false
+        }
+
+        binding.etVerificationCodeRegister.addTextChangedListener {
+            if(binding.etVerificationCodeRegister.text.isNotEmpty())
+                binding.btnVerificationCodeCheckRegister.isSelected = true
+            else
+                binding.btnVerificationCodeCheckRegister.isSelected = false
         }
 
         binding.btnVerificationCodeCheckRegister.setOnClickListener {
@@ -219,18 +237,13 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun submitUserPhoneVerify(){
-        val phone = binding.etUserPhoneRegister.text.toString().trim()
 
-        if (!phone.matches(Regex("^01[0-9]{8,9}$"))) {
-            showToast("올바른 전화번호 형식을 입력해주세요.")
-            binding.btnVerificationCodeCheckRegister.isSelected = false
-            return
-        }
+        binding.btnVerificationCodeCheckRegister.isSelected = false
 
         // TODO : API 호출
 
-        binding.tvVerificationCodeErrorRegister.visibility = View.INVISIBLE
-        binding.btnVerificationCodeCheckRegister.isSelected = true
+//        binding.tvVerificationCodeErrorRegister.visibility = View.INVISIBLE
+//        binding.btnVerificationCodeCheckRegister.isSelected = true
 
         showToast("인증번호를 전송했습니다.")
     }
@@ -243,10 +256,14 @@ class RegisterActivity : AppCompatActivity() {
 
         isPhoneVerified = state
 
-        if(isPhoneVerified)
+        if(isPhoneVerified){
             binding.tvVerificationCodeErrorRegister.visibility = View.INVISIBLE
-        else
+            binding.tvVerificationCodeOkayRegister.visibility = View.VISIBLE
+        }
+        else{
             binding.tvVerificationCodeErrorRegister.visibility = View.VISIBLE
+            binding.tvVerificationCodeOkayRegister.visibility = View.INVISIBLE
+        }
 
         updateRegisterButtonState()
     }

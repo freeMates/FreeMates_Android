@@ -7,34 +7,38 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <ImageView
-        android:id="@+id/ivAppIcon_Login"
+    <TextView
+        android:id="@+id/tvAppIcon_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="111dp"
+        android:layout_marginTop="151dp"
+        android:text="Freemates"
+        android:textColor="@color/primary400"
+        android:textSize="34sp"
+        android:fontFamily="@font/paperlogy_9black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_app_icon"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
         android:theme="@style/Theme.Material3.DayNight.NoActionBar"
         android:id="@+id/etUserId_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginHorizontal="24dp"
         android:paddingVertical="15dp"
-        android:background="@drawable/shadow"
-        android:elevation="3dp"
+        android:paddingHorizontal="24dp"
+        android:background="@drawable/roundedbox_50"
+        android:elevation="6dp"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:fontFamily="@font/suit_regular"
-        android:gravity="center"
+        android:gravity="start"
         android:hint="아이디를 입력해주세요."
         android:textColorHint="@color/natural300"
         android:maxLines="1"
-        app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_Login"
+        app:layout_constraintBottom_toTopOf="@+id/etUserPassword_Login"
         tools:text="ffdiks333"/>
 
     <EditText
@@ -42,85 +46,85 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:paddingVertical="15dp"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="24dp"
         android:background="@drawable/roundedbox_50"
         android:elevation="6dp"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:fontFamily="@font/suit_regular"
-        android:gravity="center"
+        android:gravity="start"
         android:maxLines="1"
         android:hint="비밀번호를 입력해주세요."
         android:textColorHint="@color/natural300"
         android:drawableEnd="@drawable/ic_password_visibility_off"
-        app:layout_constraintTop_toBottomOf="@+id/etUserId_Login"
+        app:layout_constraintBottom_toTopOf="@+id/tvUserLoginError_Login"
         tools:text="ffdiks333"/>
 
     <TextView
         android:id="@+id/tvUserLoginError_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginBottom="22dp"
+        android:layout_marginStart="40dp"
         android:text="아이디 및 비밀번호가 맞지 않습니다."
         android:textColor="@color/red"
         android:textSize="12sp"
         android:fontFamily="@font/suit_regular"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserPassword_Login"/>
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin_Login"/>
 
     <Button
         android:id="@+id/btnLogin_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginBottom="16dp"
         android:paddingVertical="17dp"
         android:background="@drawable/roundedbox_50"
-        android:backgroundTint="@color/primary200"
+        android:backgroundTint="@color/selector_primary400_to_natural100"
         android:text="입장하기"
         android:textSize="18sp"
-        android:textColor="@color/black"
+        android:textColor="@color/selector_black_to_natural200"
         android:fontFamily="@font/paperlogy_6semibold"
-        app:layout_constraintTop_toBottomOf="@+id/etUserPassword_Login"/>
+        app:layout_constraintBottom_toTopOf="@+id/tvFindId_Login"/>
 
     <TextView
         android:id="@+id/tvFindId_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="80dp"
         android:text="아이디 찾기"
         android:textColor="@color/natural300"
         android:textSize="12sp"
         android:fontFamily="@font/suit_regular"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin_Login"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/vDivider_Login"/>
     
     <View
         android:id="@+id/vDivider_Login"
         android:layout_width="1dp"
         android:layout_height="10dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginBottom="80dp"
         android:background="@color/natural300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin_Login"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/tvRegister_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="80dp"
         android:text="회원가입"
         android:textColor="@color/natural300"
         android:textSize="12sp"
         android:fontFamily="@font/suit_regular"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin_Login"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vDivider_Login"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.freemates_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,8 +23,30 @@ class FindIdCompleteActivity : AppCompatActivity() {
             insets
         }
 
+        val activityName = intent.getStringExtra("activity")
+
+        if(activityName == "findId") {
+            binding.tvFindIdPromptFindIdComplete.text = "아이디 찾기"
+            binding.tvFindIdPrompt1FindIdComplete.text = "아이디는"
+            binding.tvUserIdFindIdComplete.visibility = View.VISIBLE
+            binding.tvFindIdPrompt2FindIdComplete.visibility = View.VISIBLE
+            binding.tvChangePasswordFindIdComplete.text = "비밀번호 변경"
+        }
+        else if(activityName == "changePasswordComplete") {
+            binding.tvFindIdPromptFindIdComplete.text = "비밀번호 변경"
+            binding.tvFindIdPrompt1FindIdComplete.text = "비밀번호가 변경되었습니다."
+            binding.tvUserIdFindIdComplete.visibility = View.INVISIBLE
+            binding.tvFindIdPrompt2FindIdComplete.visibility = View.INVISIBLE
+            binding.tvChangePasswordFindIdComplete.text = "아이디 찾기"
+        }
+
+
         binding.tvChangePasswordFindIdComplete.setOnClickListener {
-            val intent = Intent(this, ChangePasswordActivity::class.java)
+            val intent: Intent
+            if(activityName == "findId")
+                intent = Intent(this, ChangePasswordActivity::class.java)
+            else
+                intent = Intent(this, FindIdActivity::class.java)
             startActivity(intent)
             finish()
         }

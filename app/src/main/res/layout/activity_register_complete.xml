@@ -16,20 +16,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
-            android:id="@+id/ivAppIcon_RegisterComplete"
+        <TextView
+            android:id="@+id/tvAppIcon_RegisterComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_app_icon"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Freemates"
+            android:textColor="@color/primary400"
+            android:textSize="34sp"
+            android:fontFamily="@font/paperlogy_9black"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/tvWelcomePrompt_RegisterComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-21dp"
+            android:layout_marginTop="40dp"
             android:text="파인애플농부애옹님!\n공강을 채우러 가볼까요?"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -37,7 +40,7 @@
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivAppIcon_RegisterComplete"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvAppIcon_RegisterComplete"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
