@@ -1,4 +1,4 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import com.example.freemates_android.R
+import com.example.freemates_android.api.dto.LoginRequest
+import com.example.freemates_android.api.dto.LoginResponse
+import com.example.freemates_android.api.RetrofitClient
 import com.example.freemates_android.databinding.ActivityLoginBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
@@ -71,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
 
             binding.btnLoginLogin.isSelected = id.isNotEmpty() && pw.isNotEmpty()
 
-            Log.d("버튼 선택 : ", binding.btnLoginLogin.isSelected.toString())
+            binding.tvUserLoginErrorLogin.visibility = View.INVISIBLE
         }
 
         binding.etUserPasswordLogin.addTextChangedListener {
@@ -80,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
 
             binding.btnLoginLogin.isSelected = id.isNotEmpty() && pw.isNotEmpty()
 
-            Log.d("버튼 선택 : ", binding.btnLoginLogin.isSelected.toString())
+            binding.tvUserLoginErrorLogin.visibility = View.INVISIBLE
         }
     }
 
@@ -108,16 +115,49 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun attemptLogin() {
-        // TODO: Retrofit 사용하여 서버에 로그인 요청
+        val id = binding.etUserIdLogin.text.toString()
+        val pw = binding.etUserPasswordLogin.text.toString()
 
-        // TODO : 나중에 값 변경하기!
-        val isSuccess = true
-        if (isSuccess) {
-            val intent = Intent(this, LoginCompleteActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-            binding.tvUserLoginErrorLogin.visibility = View.VISIBLE
-        }
+        RetrofitClient.authService.loginApp(
+            LoginRequest(id, pw)
+        ).enqueue(object :
+            Callback<LoginResponse> {
+            override fun onResponse(
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val value = response.body()
+                    Log.d("Login", "로그인 성공!")
+                    if (value != null) {
+                        Log.d("Login", "아이디 : ${value.nickname}")
+                    }
+
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                } else {
+                    val errorCode = response.errorBody()?.string()
+                    Log.e("Login", "응답 실패: ${response.code()} - $errorCode")
+                    binding.tvUserLoginErrorLogin.apply {
+                        text = "아이디 및 비밀번호가 맞지 않습니다."
+                        visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onFailure(
+                call: Call<LoginResponse>,
+                t: Throwable
+            ) {
+                val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                Log.d("Login", value)
+                binding.tvUserLoginErrorLogin.apply {
+                    text = "네트워크 오류가 발생했습니다."
+                    visibility = View.VISIBLE
+                }
+            }
+        })
     }
 }

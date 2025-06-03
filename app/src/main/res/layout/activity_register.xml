@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".Activity.RegisterActivity">
 
     <Button
         android:id="@+id/btnBackToLogin_Register"
@@ -205,7 +205,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
         android:paddingVertical="10dp"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:background="@drawable/roundedbox_left_50"
         android:elevation="6dp"
         android:maxLines="1"
@@ -214,7 +214,7 @@
         android:textColorHint="@color/natural300"
         android:fontFamily="@font/suit_regular"
         android:hint="이메일을 입력해주세요."
-        android:gravity="center"
+        android:gravity="start"
         android:layout_marginStart="24dp"
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintTop_toBottomOf="@+id/etUserPasswordCheck_Register"
@@ -248,7 +248,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
         android:paddingVertical="10dp"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:background="@drawable/roundedbox_left_50"
         android:elevation="6dp"
         android:textColor="@color/black"
@@ -257,7 +257,7 @@
         android:fontFamily="@font/suit_regular"
         android:maxLines="1"
         android:hint="인증번호를 입력해주세요."
-        android:gravity="center"
+        android:gravity="start"
         android:layout_marginStart="24dp"
         app:layout_constraintHorizontal_weight="0.8"
         app:layout_constraintTop_toBottomOf="@+id/etUserEmail_Register"

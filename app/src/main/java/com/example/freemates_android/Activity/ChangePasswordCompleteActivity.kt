@@ -1,4 +1,4 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
-import com.example.freemates_android.databinding.ActivityChangePasswordBinding
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ActivityChangePasswordCompleteBinding
 
 class ChangePasswordCompleteActivity : AppCompatActivity() {
@@ -95,10 +95,14 @@ class ChangePasswordCompleteActivity : AppCompatActivity() {
         val selection = binding.etUserPasswordChangePasswordComplete.selectionEnd
         if (isPasswordVisible) {
             binding.etUserPasswordChangePasswordComplete.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            binding.etUserPasswordChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_off), null)
+            binding.etUserPasswordChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_off
+            ), null)
         } else {
             binding.etUserPasswordChangePasswordComplete.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            binding.etUserPasswordChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_on), null)
+            binding.etUserPasswordChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_on
+            ), null)
         }
         isPasswordVisible = !isPasswordVisible
         binding.etUserPasswordChangePasswordComplete.setSelection(selection)
@@ -108,10 +112,14 @@ class ChangePasswordCompleteActivity : AppCompatActivity() {
         val selection = binding.etUserPasswordCheckChangePasswordComplete.selectionEnd
         if (isPasswordConfirmVisible) {
             binding.etUserPasswordCheckChangePasswordComplete.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            binding.etUserPasswordCheckChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_off), null)
+            binding.etUserPasswordCheckChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_off
+            ), null)
         } else {
             binding.etUserPasswordCheckChangePasswordComplete.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            binding.etUserPasswordCheckChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_on), null)
+            binding.etUserPasswordCheckChangePasswordComplete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_on
+            ), null)
         }
         isPasswordConfirmVisible = !isPasswordConfirmVisible
         binding.etUserPasswordCheckChangePasswordComplete.setSelection(selection)
@@ -139,9 +147,13 @@ class ChangePasswordCompleteActivity : AppCompatActivity() {
      */
     private fun updatePasswordErrorTextState() {
         if(!isValidPassword())
-            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this, R.color.red))
+            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this,
+                R.color.red
+            ))
         else
-            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this, R.color.natural300))
+            binding.tvUserPasswordPatternErrorChangePasswordComplete.setTextColor(ContextCompat.getColor(this,
+                R.color.natural300
+            ))
     }
 
     private fun updatePasswordCheckErrorTextState(){

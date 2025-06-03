@@ -1,4 +1,4 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ActivityFindIdCompleteBinding
-import com.example.freemates_android.databinding.ActivityLoginBinding
 
 class FindIdCompleteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFindIdCompleteBinding

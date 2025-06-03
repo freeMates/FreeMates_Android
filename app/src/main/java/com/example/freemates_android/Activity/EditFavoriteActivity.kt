@@ -1,4 +1,4 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -8,8 +8,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ActivityEditFavoriteBinding
-import com.example.freemates_android.databinding.ActivityLoginBinding
 import com.example.freemates_android.model.map.FavoriteList
 
 class EditFavoriteActivity : AppCompatActivity() {

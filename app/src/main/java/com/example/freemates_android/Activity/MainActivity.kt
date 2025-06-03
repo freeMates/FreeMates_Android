@@ -1,25 +1,15 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 

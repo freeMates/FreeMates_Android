@@ -1,10 +1,9 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -14,13 +13,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
-import com.example.freemates_android.databinding.ActivityLoginBinding
+import com.example.freemates_android.R
+import com.example.freemates_android.api.RetrofitClient
+import com.example.freemates_android.api.dto.MailSendResponse
 import com.example.freemates_android.databinding.ActivityRegisterBinding
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private var isIdChecked = false
-    private var isPhoneVerified = false
+    private var isEmailVerified = false
     private var isPasswordVisible = false
     private var isPasswordConfirmVisible = false
 
@@ -83,8 +88,8 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.btnUserEmailVerifyRegister.setOnClickListener {
-            submitUserPhoneVerify()
-            isPhoneVerified = false
+            submitUserEmailVerify()
+            isEmailVerified = false
         }
 
         binding.etVerificationCodeRegister.addTextChangedListener {
@@ -109,34 +114,61 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         setupPasswordVisibilityToggles()
-//        setupListeners()
     }
 
     private fun submitUserIdDuplicate(){
-        // TODO : API 연결
+        val username = binding.etUserIdRegister.text.toString()
 
-        // TODO : API 값에 따라 변경
-        val duplicateState = "success"
-
-        if(duplicateState == "success"){
-            binding.tvUserIdAvailabilityRegister.visibility = View.VISIBLE
-            binding.tvUserIdLengthErrorRegister.visibility = View.INVISIBLE
-            binding.tvUserIdDuplicateErrorRegister.visibility = View.INVISIBLE
-
-            isIdChecked = true
-        } else if(duplicateState == "length"){
+        if(username.length > 8){
             binding.tvUserIdAvailabilityRegister.visibility = View.INVISIBLE
             binding.tvUserIdLengthErrorRegister.visibility = View.VISIBLE
             binding.tvUserIdDuplicateErrorRegister.visibility = View.INVISIBLE
 
             isIdChecked = false
-        } else if(duplicateState == "duplicate"){
-            binding.tvUserIdAvailabilityRegister.visibility = View.INVISIBLE
-            binding.tvUserIdLengthErrorRegister.visibility = View.INVISIBLE
-            binding.tvUserIdDuplicateErrorRegister.visibility = View.VISIBLE
 
-            isIdChecked = false
+            return
         }
+
+        RetrofitClient.authService.duplicateUsername(
+            username
+        ).enqueue(object :
+            Callback<Boolean> {
+            override fun onResponse(
+                call: Call<Boolean>,
+                response: Response<Boolean>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Register", "isDuplicate : ${response.body()}")
+                    // 중복 x
+                    if(response.body() == false){
+                        binding.tvUserIdAvailabilityRegister.visibility = View.VISIBLE
+                        binding.tvUserIdLengthErrorRegister.visibility = View.INVISIBLE
+                        binding.tvUserIdDuplicateErrorRegister.visibility = View.INVISIBLE
+
+                        isIdChecked = true
+                    }
+                    else{
+                        binding.tvUserIdAvailabilityRegister.visibility = View.INVISIBLE
+                        binding.tvUserIdLengthErrorRegister.visibility = View.INVISIBLE
+                        binding.tvUserIdDuplicateErrorRegister.visibility = View.VISIBLE
+
+                        isIdChecked = false
+                    }
+
+                } else {
+                    val errorCode = response.errorBody()?.string()
+                    Log.e("Register", "응답 실패: ${response.code()} - $errorCode")
+                }
+            }
+
+            override fun onFailure(
+                call: Call<Boolean>,
+                t: Throwable
+            ) {
+                val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                Log.d("Register", value)
+            }
+        })
     }
 
     private fun setupPasswordVisibilityToggles() {
@@ -175,10 +207,14 @@ class RegisterActivity : AppCompatActivity() {
         val selection = binding.etUserPasswordRegister.selectionEnd
         if (isPasswordVisible) {
             binding.etUserPasswordRegister.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            binding.etUserPasswordRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_off), null)
+            binding.etUserPasswordRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_off
+            ), null)
         } else {
             binding.etUserPasswordRegister.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            binding.etUserPasswordRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_on), null)
+            binding.etUserPasswordRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_on
+            ), null)
         }
         isPasswordVisible = !isPasswordVisible
         binding.etUserPasswordRegister.setSelection(selection)
@@ -188,10 +224,14 @@ class RegisterActivity : AppCompatActivity() {
         val selection = binding.etUserPasswordCheckRegister.selectionEnd
         if (isPasswordConfirmVisible) {
             binding.etUserPasswordCheckRegister.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            binding.etUserPasswordCheckRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_off), null)
+            binding.etUserPasswordCheckRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_off
+            ), null)
         } else {
             binding.etUserPasswordCheckRegister.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            binding.etUserPasswordCheckRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_password_visibility_on), null)
+            binding.etUserPasswordCheckRegister.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,
+                R.drawable.ic_password_visibility_on
+            ), null)
         }
         isPasswordConfirmVisible = !isPasswordConfirmVisible
         binding.etUserPasswordCheckRegister.setSelection(selection)
@@ -219,9 +259,13 @@ class RegisterActivity : AppCompatActivity() {
      */
     private fun updatePasswordErrorTextState() {
         if(!isValidPassword())
-            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this, R.color.red))
+            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this,
+                R.color.red
+            ))
         else
-            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this, R.color.natural300))
+            binding.tvUserPasswordPatternErrorRegister.setTextColor(ContextCompat.getColor(this,
+                R.color.natural300
+            ))
     }
 
     private fun updatePasswordCheckErrorTextState(){
@@ -232,47 +276,104 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun updateRegisterButtonState() {
-        val isReady = isIdChecked && isPhoneVerified && isValidPassword() && passwordsMatch()
+        val isReady = isIdChecked && isEmailVerified && isValidPassword() && passwordsMatch()
         binding.btnCompleteRegisterRegister.isSelected = isReady
     }
 
-    private fun submitUserPhoneVerify(){
+    private fun submitUserEmailVerify(){
+        val email = binding.etUserEmailRegister.text.toString()
 
         binding.btnVerificationCodeCheckRegister.isSelected = false
 
-        // TODO : API 호출
+        RetrofitClient.mailService.mailSend(
+            email
+        ).enqueue(object :
+            Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    val responseText = response.body()!!.string()
+                    Log.d("Register", "Response Text: $responseText")
+                    showToast("메일 전송을 완료하였습니다.")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("Register", "Error response: $errorBody")
 
-//        binding.tvVerificationCodeErrorRegister.visibility = View.INVISIBLE
-//        binding.btnVerificationCodeCheckRegister.isSelected = true
+                    // 에러 코드 처리
+                    if (errorBody?.contains("INVALID_EMAIL") == true) {
+                        showToast("유효하지 않은 이메일입니다.")
+                    } else if (errorBody?.contains("DUPLICATE_EMAIL") == true) {
+                        binding.tvUserIdDuplicateErrorRegister.visibility = View.VISIBLE
+                        isIdChecked = false
+                    } else {
+                        showToast("알 수 없는 오류가 발생했습니다.")
+                    }
+                }
+            }
 
-        showToast("인증번호를 전송했습니다.")
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                Log.d("Register", value)
+            }
+        })
     }
 
     private fun submitUserVerificationCode(){
-        // TODO : API 호출
+        val email = binding.etUserEmailRegister.text.toString()
 
-        // TODO : 나중에 값 변경!
-        val state = true
+        isEmailVerified = false
+        RetrofitClient.mailService.mailCheckVerification(
+            email
+        ).enqueue(object :
+            Callback<Boolean> {
+            override fun onResponse(
+                call: Call<Boolean>,
+                response: Response<Boolean>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Register", "isCheckVerification : ${response.body()}")
+                    // 인증 o
+                    if(response.body() == true){
+                        binding.tvVerificationCodeErrorRegister.visibility = View.INVISIBLE
+                        binding.tvVerificationCodeOkayRegister.visibility = View.VISIBLE
 
-        isPhoneVerified = state
+                        isEmailVerified = true
+                    }
+                    else{
+                        binding.tvVerificationCodeErrorRegister.visibility = View.VISIBLE
+                        binding.tvVerificationCodeOkayRegister.visibility = View.INVISIBLE
 
-        if(isPhoneVerified){
-            binding.tvVerificationCodeErrorRegister.visibility = View.INVISIBLE
-            binding.tvVerificationCodeOkayRegister.visibility = View.VISIBLE
-        }
-        else{
-            binding.tvVerificationCodeErrorRegister.visibility = View.VISIBLE
-            binding.tvVerificationCodeOkayRegister.visibility = View.INVISIBLE
-        }
+                        isEmailVerified = false
+                    }
+                    updateRegisterButtonState()
+                } else {
+                    val errorCode = response.errorBody()?.string()
+                    Log.e("Register", "응답 실패: ${response.code()} - $errorCode")
+
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                Log.d("Register", value)
+            }
+        })
 
         updateRegisterButtonState()
     }
 
     private fun submitUserInfo(){
         if(binding.btnCompleteRegisterRegister.isSelected) {
-            // TODO : 회원가입 API 호출
+            val id = binding.etUserIdRegister.text.toString()
+            val password = binding.etUserPasswordRegister.text.toString()
+            val email = binding.etUserEmailRegister.text.toString()
 
             val intent = Intent(this, ProfileSetupActivity::class.java)
+            intent.putExtra("id", id)
+            intent.putExtra("password", password)
+            intent.putExtra("email", email)
             startActivity(intent)
         }
     }

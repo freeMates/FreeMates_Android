@@ -1,4 +1,4 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ActivityChangePasswordBinding
-import com.example.freemates_android.databinding.ActivityFindIdBinding
 
 class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangePasswordBinding

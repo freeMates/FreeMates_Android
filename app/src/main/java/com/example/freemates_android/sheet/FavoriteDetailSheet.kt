@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,14 +16,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color
-import com.example.freemates_android.EditFavoriteActivity
-import com.example.freemates_android.FindIdActivity
+import com.example.freemates_android.Activity.EditFavoriteActivity
 import com.example.freemates_android.R
 import com.example.freemates_android.databinding.SheetFavoriteDetailBinding
-import com.example.freemates_android.databinding.SheetFavoriteListBinding
 import com.example.freemates_android.model.map.FavoriteList
-import com.example.freemates_android.ui.adapter.favorite.UserFavoriteAdapter
 import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
 import androidx.core.graphics.drawable.toDrawable

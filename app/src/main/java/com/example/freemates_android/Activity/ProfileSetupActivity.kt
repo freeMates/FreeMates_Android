@@ -1,7 +1,8 @@
-package com.example.freemates_android
+package com.example.freemates_android.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -9,12 +10,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import com.example.freemates_android.R
+import com.example.freemates_android.api.RetrofitClient
+import com.example.freemates_android.api.dto.RegisterRequest
+import com.example.freemates_android.api.dto.RegisterResponse
 import com.example.freemates_android.databinding.ActivityProfileSetupBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProfileSetupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileSetupBinding
     private var selectedGender: String? = null
+
+    private lateinit var id: String
+    private lateinit var password: String
+    private lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +38,14 @@ class ProfileSetupActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        id = intent.getStringExtra("id").toString()
+        password = intent.getStringExtra("password").toString()
+        email = intent.getStringExtra("email").toString()
+
+        Log.d("ProfileSetup", "id : $id")
+        Log.d("ProfileSetup", "password : $password")
+        Log.d("ProfileSetup", "email : $email")
 
         // 기본값 설정
         binding.btnMaleProfileSetup.isSelected = true
@@ -82,16 +102,57 @@ class ProfileSetupActivity : AppCompatActivity() {
      * 입력된 프로필 정보 제출
      */
     private fun submitProfileInfo(){
+        val nickname = binding.etUserNicknameProfileSetup.text.toString()
+        val age = binding.etUserAgeProfileSetup.text.toString()
+        val gender: String
+        gender = if(binding.btnMaleProfileSetup.isSelected)
+            "MALE"
+        else
+            "FEMALE"
+
         if (!isValidProfileInput()) {
             Toast.makeText(this, "모든 정보를 정확히 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // TODO : 서버에 저장
+        RetrofitClient.authService.register(
+            RegisterRequest(
+                id,
+                password,
+                age.toInt(),
+                gender,
+                email,
+                nickname,
+            )
+        ).enqueue(object :
+            Callback<RegisterResponse> {
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
 
-        val intent = Intent(this, RegisterCompleteActivity::class.java)
-        startActivity(intent)
-        finish()
+                when (response.code()) {
+                    201 -> {
+                        Log.d("ProfileSetup", "isCheckVerification : ${response.body()}")
+
+                        val intent =
+                            Intent(this@ProfileSetupActivity, RegisterCompleteActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                    else -> {
+                        val errorCode = response.errorBody()?.string()
+                        Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                Log.d("ProfileSetup", value)
+            }
+        })
     }
 
     /**
