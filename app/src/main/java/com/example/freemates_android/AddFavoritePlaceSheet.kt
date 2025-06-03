@@ -27,20 +27,20 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
 
     private val recommendList = listOf(
         RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))),
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요")),
         RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))),
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요")),
         RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))),
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요")),
         RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))),
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요")),
         RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))),
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요")),
     )
 
     private val favoriteList = listOf(

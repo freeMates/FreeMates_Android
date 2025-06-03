@@ -38,15 +38,28 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tvCategoryPrompt_Home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="24dp"
+            android:text="어떻게 공강을 채워볼까요?"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/paperlogy_6semibold"
+            app:layout_constraintTop_toBottomOf="@+id/clAdsContainer_Home"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategory_Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="16dp"
             android:paddingHorizontal="16dp"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/clAdsContainer_Home"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategoryPrompt_Home"
             tools:listitem="@layout/item_category"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout

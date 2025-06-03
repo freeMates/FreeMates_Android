@@ -72,10 +72,10 @@ class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
 
     private fun recyclerviewInit(){
         val courseInfoList = ArrayList<CourseInfo>()
-        courseInfoList.add(CourseInfo("스시붐", 11, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(FilterItem("혼자서도 좋아요")), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 5, 3, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(FilterItem("혼자서도 좋아요")), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 3, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(FilterItem("혼자서도 좋아요")), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 11, 2, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(FilterItem("혼자서도 좋아요")), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 11, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 5, 3, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 3, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 11, 2, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")),listOf("혼자서도 좋아요"), R.drawable.image2))
 
         val courseInfoAdapter = CourseInfoAdapter(requireContext(), courseInfoList)
 //        courseInfoAdapter.setOnItemClickListener(object : CourseInfoAdapter.OnItemClickListener {

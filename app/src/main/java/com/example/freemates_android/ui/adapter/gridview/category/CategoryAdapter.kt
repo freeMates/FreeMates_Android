@@ -38,7 +38,6 @@ class CategoryAdapter (val context: Context, val categoryItemList: ArrayList<Cat
         if (holder is CategoryViewHolder) {
             Glide.with(context)
                 .load(categoryItemList[position].imageUrl) // 불러올 이미지 url
-                .circleCrop() // 동그랗게 자르기
                 .into(holder.categoryImage) // 이미지를 넣을 뷰
             holder.categoryText.text = categoryItemList[position].title
         }

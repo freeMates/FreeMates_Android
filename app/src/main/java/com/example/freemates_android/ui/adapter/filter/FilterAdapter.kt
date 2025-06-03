@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.freemates_android.databinding.ItemFilterBinding
 import com.example.freemates_android.model.FilterItem
 
-class FilterAdapter(val context: Context, val filterItemList: List<FilterItem>) :
+class FilterAdapter(val context: Context, val filterItemList: List<String>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -32,7 +32,7 @@ class FilterAdapter(val context: Context, val filterItemList: List<FilterItem>) 
         position: Int
     ) {
         if (holder is FilterViewHolder) {
-            holder.filterText.text = filterItemList[position].filterText
+            holder.filterText.text = filterItemList[position]
         }
     }
 }

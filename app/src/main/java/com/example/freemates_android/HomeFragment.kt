@@ -24,12 +24,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val binding = FragmentHomeBinding.bind(view)
 
         val categoryList = ArrayList<CategoryItem>()
-        categoryList.add(CategoryItem(R.drawable.ic_category_cafe, "카페"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_walk, "산책"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_activity, "놀거리"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_shopping, "쇼핑"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_foods, "먹거리"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_sports, "스포츠"))
+        categoryList.add(CategoryItem(R.drawable.ic_category_cafe_off, "카페"))
+        categoryList.add(CategoryItem(R.drawable.ic_category_leisure_off, "놀거리"))
+        categoryList.add(CategoryItem(R.drawable.ic_category_walk_off, "산책"))
+        categoryList.add(CategoryItem(R.drawable.ic_category_foods_off, "먹거리"))
+        categoryList.add(CategoryItem(R.drawable.ic_category_hospital_off, "병원"))
+        categoryList.add(CategoryItem(R.drawable.ic_category_shopping_off, "쇼핑"))
 
         val spacingDecoration = GridSpacingDecoration(
             context = requireContext(), // or `this` in Activity
@@ -74,23 +74,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val recommendList = ArrayList<RecommendItem>()
         recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))))
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
         recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))))
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
         recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))))
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
         recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))))
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
         recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))))
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
         recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small, "카페",
-            listOf(FilterItem("콘센트가 있어요"), FilterItem("조용해요"), FilterItem("좌석이 많아요"))))
+            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
 
 
         val recommendVerticalSpacingDecoration = VerticalSpacingDecoration(

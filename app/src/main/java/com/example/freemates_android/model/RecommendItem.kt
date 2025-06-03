@@ -12,5 +12,5 @@ data class RecommendItem(
     val placeAddress: String,
     val placeCategoryImage: Int,
     val placeCategoryTitle: String,
-    val filter: List<FilterItem>
+    val filter: List<String>
 ): Parcelable
