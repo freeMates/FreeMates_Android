@@ -1,20 +1,13 @@
 package com.example.freemates_android
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.freemates_android.databinding.FragmentHomeBinding
 import com.example.freemates_android.databinding.FragmentPlaceInfoBinding
-import com.example.freemates_android.model.CategoryItem
-import com.example.freemates_android.model.FavoriteItem
-import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
-import com.example.freemates_android.ui.adapter.favorite.FavoriteAdapter
-import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 import com.google.android.flexbox.FlexboxLayout
 
 class PlaceInfoFragment : Fragment(R.layout.fragment_place_info) {
@@ -37,24 +30,11 @@ class PlaceInfoFragment : Fragment(R.layout.fragment_place_info) {
             }
         }
 
-        val categoryList = ArrayList<CategoryItem>()
-        categoryList.add(CategoryItem(R.drawable.ic_cafe_on, "카페"))
+        binding.tvPlaceIntroPlaceInfo.text = "한 잔의 커피를 담습니다."
 
-        val favoriteHorizontalSpacingDecoration = HorizontalSpacingDecoration(
-            context = requireContext(), // or `this` in Activity
-            spacingDp = 8,              // 아이템 간 간격
-        )
-
-        val categorySmallAdapter = CategorySmallAdapter(requireContext(), categoryList){
-
-        }
-
-        binding.rvPlaceCategoryPlaceInfo.apply {
-            adapter = categorySmallAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            addItemDecoration(favoriteHorizontalSpacingDecoration)
-            setHasFixedSize(true)
-        }
+        binding.tvPlaceCategoryPlaceInfo.text = "먹거리"
+        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_foods_small_on)
+        binding.tvPlaceCategoryPlaceInfo.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
 
         val texts = listOf("다같이 즐길 수 있어요", "분위기가 좋아요", "조용해요", "와이파이 빵빵해요", "편하게 오래 앉을 수 있어요", "콘센트가 있어요", "혼자서도 좋아요", "화장실이 깨끗해요")
 

@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.freemates_android.databinding.FragmentRecommendBinding
+import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.Course
 import com.example.freemates_android.model.FavoriteItem
@@ -32,10 +33,10 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
 
     private fun recyclerviewInit(){
         val courseList = ArrayList<Course>()
-        courseList.add(Course(R.drawable.image2, "맛집 탐방하기1", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠")), true))
-        courseList.add(Course(R.drawable.image2, "맛집 탐방하기2", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠")), true))
-        courseList.add(Course(R.drawable.image2, "맛집 탐방하기3", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠")), true))
-        courseList.add(Course(R.drawable.image2, "맛집 탐방하기4", "파인애플농부애옹",true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(CategoryItem(R.drawable.ic_category_cafe, "카페"), CategoryItem(R.drawable.ic_category_sports, "스포츠")), true))
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기1", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기2", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기3", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
+        courseList.add(Course(R.drawable.image2, "맛집 탐방하기4", "파인애플농부애옹",true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
 
         val courseVerticalSpacingDecoration = VerticalSpacingDecoration(
             context = requireContext(), // or `this` in Activity

@@ -2,32 +2,32 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/clCategoryContainer_CategorySmall"
+    android:id="@+id/clCategoryContainer_CategoryLarge"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingVertical="5dp"
     android:paddingHorizontal="16dp"
     android:background="@drawable/roundedbox_30"
-    android:backgroundTint="@color/primary300"
+    android:backgroundTint="@color/primary400"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/ivCategoryImage_CategorySmall"
+        android:id="@+id/ivCategoryImage_CategoryLarge"
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:src="@drawable/ic_cafe_on"/>
+        tools:src="@drawable/ic_cafe_large_on"/>
 
     <TextView
-        android:id="@+id/tvCategoryText_CategorySmall"
+        android:id="@+id/tvCategoryText_CategoryLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:textColor="@color/secondary200"
         android:textSize="16sp"
         android:fontFamily="@font/paperlogy_7bold"
-        app:layout_constraintStart_toEndOf="@+id/ivCategoryImage_CategorySmall"
+        app:layout_constraintStart_toEndOf="@+id/ivCategoryImage_CategoryLarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

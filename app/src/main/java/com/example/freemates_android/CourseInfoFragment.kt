@@ -1,31 +1,18 @@
 package com.example.freemates_android
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.freemates_android.databinding.FragmentCourseInfoBinding
-import com.example.freemates_android.databinding.FragmentPlaceInfoBinding
+import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.Course
 import com.example.freemates_android.model.CourseInfo
-import com.example.freemates_android.model.FavoriteItem
-import com.example.freemates_android.model.FilterItem
-import com.example.freemates_android.model.RecommendItem
-import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
-import com.example.freemates_android.ui.adapter.course.CourseAdapter
 import com.example.freemates_android.ui.adapter.course.CourseInfoAdapter
-import com.example.freemates_android.ui.adapter.favorite.FavoriteAdapter
-import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
-import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
-import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
-import com.google.android.flexbox.FlexboxLayout
 
 class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
 
@@ -72,10 +59,10 @@ class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
 
     private fun recyclerviewInit(){
         val courseInfoList = ArrayList<CourseInfo>()
-        courseInfoList.add(CourseInfo("스시붐", 11, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 5, 3, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 3, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 11, 2, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")),listOf("혼자서도 좋아요"), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 11, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 5, 3, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 3, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+        courseInfoList.add(CourseInfo("스시붐", 11, 2, listOf(Category(R.drawable.ic_category_cafe, "카페")),listOf("혼자서도 좋아요"), R.drawable.image2))
 
         val courseInfoAdapter = CourseInfoAdapter(requireContext(), courseInfoList)
 //        courseInfoAdapter.setOnItemClickListener(object : CourseInfoAdapter.OnItemClickListener {

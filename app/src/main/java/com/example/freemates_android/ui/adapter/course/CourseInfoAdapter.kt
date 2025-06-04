@@ -3,24 +3,16 @@ package com.example.freemates_android.ui.adapter.course
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.freemates_android.R
-import com.example.freemates_android.databinding.ItemCourseBinding
-import com.example.freemates_android.databinding.ItemCourseHeaderBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceFooterBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceHeaderBinding
-import com.example.freemates_android.model.Course
 import com.example.freemates_android.model.CourseInfo
-import com.example.freemates_android.model.map.AddFavorite
-import com.example.freemates_android.model.map.Place
-import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
+import com.example.freemates_android.ui.adapter.category.CategoryLargeAdapter
+import com.example.freemates_android.ui.adapter.category.CategoryListAdapter
 import com.example.freemates_android.ui.adapter.filter.FilterAdapter
 import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 
@@ -121,7 +113,7 @@ class CourseInfoAdapter(
                 context = context, // or `this` in Activity
                 spacingDp = 4,              // 아이템 간 간격
             )
-            val categoryAdapter = CategorySmallAdapter(context, courseInfoList[pos].categories){}
+            val categoryAdapter = CategoryListAdapter(context, courseInfoList[pos].categories)
             holder.category.layoutManager =
                 LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
             holder.category.addItemDecoration(horizontalSpacingDecoration)

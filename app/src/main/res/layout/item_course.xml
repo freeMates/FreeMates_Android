@@ -101,6 +101,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvCourseDescription_CourseItem"
         app:layout_constraintStart_toEndOf="@+id/ivCourseImage_CourseItem"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_category_small"/>
+        tools:listitem="@layout/item_category_large"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

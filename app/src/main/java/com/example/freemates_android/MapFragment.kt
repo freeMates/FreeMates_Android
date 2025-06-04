@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.freemates_android.databinding.FragmentMapBinding
+import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CategoryItem
-import com.example.freemates_android.model.FilterItem
 import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.model.map.Place
@@ -24,7 +24,7 @@ import com.example.freemates_android.sheet.CategoryResultSheet
 import com.example.freemates_android.sheet.FavoriteDetailSheet
 import com.example.freemates_android.sheet.FavoriteListSheet
 import com.example.freemates_android.sheet.PlacePreviewSheet
-import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
+import com.example.freemates_android.ui.adapter.category.CategoryLargeAdapter
 import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -173,16 +173,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private fun initCategoryRecycler() {
         val categoryList = arrayListOf(
-            CategoryItem(R.drawable.ic_cafe_off, "카페"),
-            CategoryItem(R.drawable.ic_walk_off, "산책"),
-            CategoryItem(R.drawable.ic_activity_off, "놀거리"),
-            CategoryItem(R.drawable.ic_shopping_off, "쇼핑"),
-            CategoryItem(R.drawable.ic_foods_off, "먹거리"),
-            CategoryItem(R.drawable.ic_sports_off, "스포츠")
+            CategoryItem(R.drawable.ic_cafe_large_on, R.drawable.ic_cafe_large_off, "카페", true),
+            CategoryItem(R.drawable.ic_leisure_large_on,R.drawable.ic_leisure_large_off, "놀거리", false),
+            CategoryItem(R.drawable.ic_walk_large_on, R.drawable.ic_walk_large_off, "산책", false),
+            CategoryItem(R.drawable.ic_foods_large_on, R.drawable.ic_foods_large_off, "먹거리", false),
+            CategoryItem(R.drawable.ic_hospital_large_on, R.drawable.ic_hospital_large_off, "병원", false),
+            CategoryItem(R.drawable.ic_shopping_large_on, R.drawable.ic_shopping_large_off, "쇼핑", false),
         )
 
         val spacingDecoration = HorizontalSpacingDecoration(requireContext(), 8)
-        val adapter = CategorySmallAdapter(requireContext(), categoryList) { category ->
+        val adapter = CategoryLargeAdapter(requireContext(), categoryList) { category ->
             viewModel.showCategoryResult(category, recommendList)
         }
 

@@ -4,18 +4,12 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.freemates_android.databinding.ItemCoursePlaceAddBinding
-import com.example.freemates_android.databinding.ItemCoursePlaceBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceEditBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceFooterBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceHeaderBinding
 import com.example.freemates_android.model.CourseInfo
-import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
-import com.example.freemates_android.ui.adapter.filter.FilterAdapter
-import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 
 class CourseEditAdapter(
     val context: Context,

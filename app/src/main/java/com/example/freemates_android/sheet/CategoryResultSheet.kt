@@ -7,13 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.freemates_android.R
 import com.example.freemates_android.databinding.SheetCategoryResultBinding
-import com.example.freemates_android.databinding.SheetPlacePreviewBinding
 import com.example.freemates_android.model.RecommendItem
-import com.example.freemates_android.model.map.Category
-import com.example.freemates_android.model.map.Place
 import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
 

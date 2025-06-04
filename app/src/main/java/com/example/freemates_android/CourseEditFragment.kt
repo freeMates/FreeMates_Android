@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.freemates_android.databinding.FragmentCourseEditBinding
 import com.example.freemates_android.databinding.FragmentCourseInfoBinding
+import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.Course
 import com.example.freemates_android.model.CourseInfo
@@ -79,22 +80,22 @@ class CourseEditFragment : Fragment(R.layout.fragment_course_edit) {
     private fun recyclerviewInit(){
         val courseInfoList = ArrayList<CourseInfo>()
         courseInfoList.add(
-            CourseInfo("스시붐", 11, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(
+            CourseInfo("스시붐", 11, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf(
                 "혼자서도 좋아요"
             ), R.drawable.image2)
         )
         courseInfoList.add(
-            CourseInfo("스시붐", 5, 3, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(
+            CourseInfo("스시붐", 5, 3, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf(
                 "혼자서도 좋아요"
             ), R.drawable.image2)
         )
         courseInfoList.add(
-            CourseInfo("스시붐", 3, 0, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(
+            CourseInfo("스시붐", 3, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf(
                 "혼자서도 좋아요"
             ), R.drawable.image2)
         )
         courseInfoList.add(
-            CourseInfo("스시붐", 11, 2, listOf(CategoryItem(R.drawable.ic_category_cafe, "카페")), listOf(
+            CourseInfo("스시붐", 11, 2, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf(
                 "혼자서도 좋아요"
             ), R.drawable.image2)
         )

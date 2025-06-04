@@ -3,14 +3,9 @@ package com.example.freemates_android.ui.adapter.search
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.freemates_android.databinding.ItemCategorySmallBinding
 import com.example.freemates_android.databinding.ItemSearchBinding
-import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.SearchItem
-import com.example.freemates_android.ui.adapter.category.CategorySmallViewHolder
 
 class SearchAdapter (val context: Context, val searchItemList: List<SearchItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -10,7 +10,8 @@ import com.bumptech.glide.Glide
 import com.example.freemates_android.databinding.ItemCourseBinding
 import com.example.freemates_android.databinding.ItemCourseHeaderBinding
 import com.example.freemates_android.model.Course
-import com.example.freemates_android.ui.adapter.category.CategorySmallAdapter
+import com.example.freemates_android.ui.adapter.category.CategoryLargeAdapter
+import com.example.freemates_android.ui.adapter.category.CategoryListAdapter
 import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 
 class CourseAdapter(val context: Context, val courseItemList: ArrayList<Course>, val courseHeaderItemList: ArrayList<String>, val state: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -109,7 +110,7 @@ class CourseAdapter(val context: Context, val courseItemList: ArrayList<Course>,
                 context = context, // or `this` in Activity
                 spacingDp = 4,              // 아이템 간 간격
             )
-            val categoryAdapter = CategorySmallAdapter(context, courseItemList[holderPos].categories){}
+            val categoryAdapter = CategoryListAdapter(context, courseItemList[holderPos].categories)
             holder.category.layoutManager =
                 LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
             holder.category.addItemDecoration(categoryHorizontalSpacingDecoration)

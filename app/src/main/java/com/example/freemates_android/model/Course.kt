@@ -12,6 +12,6 @@ data class Course(
     val likeCnt: Int,
     val courseDuration: String,
     val courseDescription: String,
-    val categories: List<CategoryItem>,
+    val categories: List<Category>,
     val visibilityStatus: Boolean,
 ) : Parcelable

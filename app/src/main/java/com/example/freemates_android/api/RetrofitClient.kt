@@ -2,6 +2,7 @@ package com.example.freemates_android.api
 
 import com.example.freemates_android.api.service.AuthService
 import com.example.freemates_android.api.service.MailService
+import com.example.freemates_android.api.service.PlaceService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -50,4 +51,6 @@ private val retrofit: Retrofit = Retrofit.Builder()
     val authService: AuthService = retrofit.create(AuthService::class.java)
 
     val mailService: MailService = retrofit.create(MailService::class.java)
+
+    val placeService: PlaceService = retrofit.create(PlaceService::class.java)
 }

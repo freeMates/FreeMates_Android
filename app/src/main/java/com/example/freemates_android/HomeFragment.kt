@@ -2,11 +2,13 @@ package com.example.freemates_android
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.freemates_android.databinding.FragmentHomeBinding
+import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.FavoriteItem
 import com.example.freemates_android.model.FilterItem
@@ -19,31 +21,12 @@ import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = FragmentHomeBinding.bind(view)
+        binding = FragmentHomeBinding.bind(view)
 
-        val categoryList = ArrayList<CategoryItem>()
-        categoryList.add(CategoryItem(R.drawable.ic_category_cafe_off, "카페"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_leisure_off, "놀거리"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_walk_off, "산책"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_foods_off, "먹거리"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_hospital_off, "병원"))
-        categoryList.add(CategoryItem(R.drawable.ic_category_shopping_off, "쇼핑"))
-
-        val spacingDecoration = GridSpacingDecoration(
-            context = requireContext(), // or `this` in Activity
-            spanCount = 3,              // 예: 3열
-            spacingDp = 8,              // 아이템 간 간격
-            includeEdge = true          // 양쪽 간격 포함 여부
-        )
-
-        binding.rvCategoryHome.apply {
-            adapter = this@HomeFragment.context?.let { CategoryAdapter(it, categoryList) }
-            layoutManager = GridLayoutManager(context, 3)
-            addItemDecoration(spacingDecoration)
-            setHasFixedSize(true)
-        }
+        initUI()
 
         val favoriteList = ArrayList<FavoriteItem>()
         favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
@@ -111,5 +94,41 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             addItemDecoration(recommendVerticalSpacingDecoration)
             setHasFixedSize(true)
         }
+    }
+
+    private fun initUI(){
+        val categoryList = ArrayList<Category>()
+        categoryList.add(Category(R.drawable.ic_category_cafe_off, "카페"))
+        categoryList.add(Category(R.drawable.ic_category_leisure_off, "놀거리"))
+        categoryList.add(Category(R.drawable.ic_category_walk_off, "산책"))
+        categoryList.add(Category(R.drawable.ic_category_foods_off, "먹거리"))
+        categoryList.add(Category(R.drawable.ic_category_hospital_off, "병원"))
+        categoryList.add(Category(R.drawable.ic_category_shopping_off, "쇼핑"))
+
+        val spacingDecoration = GridSpacingDecoration(
+            context = requireContext(), // or `this` in Activity
+            spanCount = 3,              // 예: 3열
+            spacingDp = 8,              // 아이템 간 간격
+            includeEdge = true          // 양쪽 간격 포함 여부
+        )
+
+        val categoryAdapter = CategoryAdapter(requireContext(), categoryList)
+        categoryAdapter.setOnItemClickListener(object : CategoryAdapter.OnItemClickListener {
+            override fun onItemClick(item: Category) {
+                val bundle = bundleOf("categoryTitle" to item.categoryTitle)
+                findNavController().navigate(R.id.action_homeFragment_to_categoryFragment, bundle)
+            }
+        })
+
+        binding.rvCategoryHome.apply {
+            adapter = categoryAdapter
+            layoutManager = GridLayoutManager(context, 3)
+            addItemDecoration(spacingDecoration)
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun getData(){
+        
     }
 }
