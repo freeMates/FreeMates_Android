@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class RecommendItem(
-    val placeImage: Int,
+    val placeImage: String,
     val placeTitle: String,
     val like: Boolean,
     val likeCnt: Int,

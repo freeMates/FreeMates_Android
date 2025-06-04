@@ -1,12 +1,21 @@
 package com.example.freemates_android
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.freemates_android.Activity.RegisterCompleteActivity
+import com.example.freemates_android.TokenManager.getRefreshToken
+import com.example.freemates_android.api.RetrofitClient
+import com.example.freemates_android.api.dto.CategoryResponse
+import com.example.freemates_android.api.dto.RegisterRequest
+import com.example.freemates_android.api.dto.RegisterResponse
 import com.example.freemates_android.databinding.FragmentHomeBinding
 import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CategoryItem
@@ -19,14 +28,23 @@ import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
 import com.example.freemates_android.ui.decoration.GridSpacingDecoration
 import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
+    val recommendList = ArrayList<RecommendItem>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentHomeBinding.bind(view)
 
         initUI()
+        getData()
+        recommendRecyclerviewInit()
 
         val favoriteList = ArrayList<FavoriteItem>()
         favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
@@ -55,45 +73,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setHasFixedSize(true)
         }
 
-        val recommendList = ArrayList<RecommendItem>()
-        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
+//        val recommendList = ArrayList<RecommendItem>()
+//        recommendList.add(RecommendItem(
+//            R.drawable.image2.toString(), "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
+//        recommendList.add(RecommendItem(
+//            R.drawable.image2.toString(), "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
+//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
+//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
+//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
+//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
 
-
-        val recommendVerticalSpacingDecoration = VerticalSpacingDecoration(
-            context = requireContext(), // or `this` in Activity
-            spacingDp = 8,              // 아이템 간 간격
-        )
-
-        val recommendAdapter = RecommendAdapter(requireContext(), recommendList)
-        recommendAdapter.setOnItemClickListener(object : RecommendAdapter.OnItemClickListener {
-            override fun onItemClick(item: RecommendItem) {
-                findNavController().navigate(R.id.action_homeFragment_to_placeInfoFragment)
-            }
-        })
-
-        binding.rvRecommendListHome.apply {
-            adapter = recommendAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(recommendVerticalSpacingDecoration)
-            setHasFixedSize(true)
-        }
     }
 
     private fun initUI(){
@@ -129,6 +130,98 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun getData(){
-        
+        viewLifecycleOwner.lifecycleScope.launch {
+            // ① suspend 함수 안전 호출
+            val refreshToken = requireContext().getRefreshToken()
+            Log.d("Home", "refreshToken : ${refreshToken}")
+            RetrofitClient.placeService.placeCategory(
+                "Bearer $refreshToken",
+                "",
+                0,
+                10
+            ).enqueue(object :
+                Callback<CategoryResponse> {
+                override fun onResponse(
+                    call: Call<CategoryResponse>,
+                    response: Response<CategoryResponse>
+                ) {
+                    Log.d("Home", "response code :${response.code()}")
+                    when (response.code()) {
+                        200 -> {
+                            if (response.body()?.empty == false) {
+                                for (items in response.body()!!.content) {
+                                    val selectedIconRes: Int =
+                                        when (items.categoryType.uppercase()) {
+                                            "CAFE" -> R.drawable.ic_cafe_small_on
+                                            "FOOD" -> R.drawable.ic_foods_small_on
+                                            "SHOPPING" -> R.drawable.ic_shopping_small_on
+                                            "WALK" -> R.drawable.ic_walk_small_on
+                                            "PLAY" -> R.drawable.ic_leisure_small_on
+                                            "HOSPITAL" -> R.drawable.ic_hospital_small_on
+                                            else -> R.drawable.ic_cafe_small_on
+                                        }
+                                    val selectedCategory: String =
+                                        when (items.categoryType.uppercase()) {
+                                            "CAFE" -> "카페"
+                                            "FOOD" -> "먹거리"
+                                            "SHOPPING" -> "쇼핑"
+                                            "WALK" -> "산책"
+                                            "PLAY" -> "놀거리"
+                                            "HOSPITAL" -> "병원"
+                                            else -> "카페"
+                                        }
+
+                                    val item = RecommendItem(
+                                        items.imageUrl,
+                                        items.placeName,
+                                        false,
+                                        items.likeCount,
+                                        items.roadAddressName,
+                                        selectedIconRes,
+                                        selectedCategory,
+                                        items.tags
+                                    )
+                                    recommendList.add(item)
+                                }
+
+
+                            }
+                            recommendRecyclerviewInit()
+                        }
+
+                        else -> {
+                            val errorCode = response.errorBody()?.string()
+                            Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+                    val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                    Log.d("ProfileSetup", value)
+                }
+            })
+        }
+    }
+
+    private fun recommendRecyclerviewInit(){
+        val recommendVerticalSpacingDecoration = VerticalSpacingDecoration(
+            context = requireContext(), // or `this` in Activity
+            spacingDp = 8,              // 아이템 간 간격
+        )
+
+        val recommendAdapter = RecommendAdapter(requireContext(), recommendList)
+        recommendAdapter.setOnItemClickListener(object : RecommendAdapter.OnItemClickListener {
+            override fun onItemClick(item: RecommendItem) {
+                findNavController().navigate(R.id.action_homeFragment_to_placeInfoFragment)
+            }
+        })
+
+        binding.rvRecommendListHome.apply {
+            adapter = recommendAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(recommendVerticalSpacingDecoration)
+            setHasFixedSize(true)
+        }
     }
 }

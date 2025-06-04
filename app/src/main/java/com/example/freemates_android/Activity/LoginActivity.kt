@@ -12,11 +12,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.example.freemates_android.R
+import com.example.freemates_android.TokenManager.getRefreshToken
+import com.example.freemates_android.TokenManager.saveTokens
 import com.example.freemates_android.api.dto.LoginRequest
 import com.example.freemates_android.api.dto.LoginResponse
 import com.example.freemates_android.api.RetrofitClient
 import com.example.freemates_android.databinding.ActivityLoginBinding
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -131,6 +135,19 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("Login", "로그인 성공!")
                     if (value != null) {
                         Log.d("Login", "아이디 : ${value.nickname}")
+                        Log.d("Login", "토큰 : ${value.accessToken}")
+                        Log.d("Login", "토큰 : ${value.refreshToken}")
+
+                        lifecycleScope.launch {
+                            applicationContext.saveTokens(          // ← TokenManager 확장함수
+                                accessToken  = value.accessToken,
+                                refreshToken = value.refreshToken
+                            )
+                        }
+                    }
+
+                    lifecycleScope.launch {
+                        Log.d("Login", "refreshToken : ${applicationContext.getRefreshToken()}")
                     }
 
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)

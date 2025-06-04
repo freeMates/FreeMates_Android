@@ -48,8 +48,9 @@ class RecommendAdapter (val context: Context, val recommendItemList: ArrayList<R
         position: Int
     ) {
         if (holder is RecommendViewHolder) {
+            val imageUrl = recommendItemList[position].placeImage.replaceFirst("http://", "https://")
             Glide.with(context)
-                .load(recommendItemList[position].placeImage)
+                .load(imageUrl)
                 .into(holder.image)
             holder.title.text = recommendItemList[position].placeTitle
             holder.likeState.isSelected = recommendItemList[position].like

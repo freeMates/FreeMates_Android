@@ -5,6 +5,7 @@ circleimageview = "3.1.0"
 coil = "3.1.0"
 converterGson = "2.9.0"
 coreSplashscreen = "1.0.1"
+datastorePreferences = "1.1.7"
 flexbox = "3.0.0"
 glide = "4.16.0"
 hiltAndroid = "2.48"
@@ -37,6 +38,7 @@ media3CommonKtxVersion = "1.6.1"
 android = { module = "com.kakao.maps.open:android", version.ref = "android" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-hilt-lifecycle-viewmodel = { module = "androidx.hilt:hilt-lifecycle-viewmodel", version.ref = "hiltLifecycleViewmodel" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-fragment-ktx-v277 = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }

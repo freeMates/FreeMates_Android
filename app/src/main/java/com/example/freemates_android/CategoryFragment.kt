@@ -21,42 +21,42 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         val recommendList = ArrayList<RecommendItem>()
         recommendList.add(
             RecommendItem(
-                R.drawable.image2, "브랫서울", true, 1345,
+                R.drawable.image2.toString(), "브랫서울", true, 1345,
                 "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
                 listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))
             )
         )
         recommendList.add(
             RecommendItem(
-                R.drawable.image2, "브랫서울", true, 1345,
+                R.drawable.image2.toString(), "브랫서울", true, 1345,
                 "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
                 listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))
             )
         )
         recommendList.add(
             RecommendItem(
-                R.drawable.image2, "브랫서울", true, 1345,
+                R.drawable.image2.toString(), "브랫서울", true, 1345,
                 "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
                 listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))
             )
         )
         recommendList.add(
             RecommendItem(
-                R.drawable.image2, "브랫서울", true, 1345,
+                R.drawable.image2.toString(), "브랫서울", true, 1345,
                 "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
                 listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))
             )
         )
         recommendList.add(
             RecommendItem(
-                R.drawable.image2, "브랫서울", true, 1345,
+                R.drawable.image2.toString(), "브랫서울", true, 1345,
                 "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
                 listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))
             )
         )
         recommendList.add(
             RecommendItem(
-                R.drawable.image2, "브랫서울", true, 1345,
+                R.drawable.image2.toString(), "브랫서울", true, 1345,
                 "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
                 listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))
             )
