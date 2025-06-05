@@ -35,8 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="166dp"
                 android:scaleType="centerCrop"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/image1"/>
+                android:background="@color/primary100"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/tvFavoriteTitlePrompt_EditFavorite"

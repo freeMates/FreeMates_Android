@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.freemates_android.AddFavoritePlaceSheet
 import com.example.freemates_android.databinding.SheetPlacePreviewBinding
 import com.example.freemates_android.model.map.Place
 import com.example.freemates_android.ui.adapter.filter.FilterAdapter

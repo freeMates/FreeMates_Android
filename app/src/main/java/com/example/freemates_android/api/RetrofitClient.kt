@@ -1,6 +1,7 @@
 package com.example.freemates_android.api
 
 import com.example.freemates_android.api.service.AuthService
+import com.example.freemates_android.api.service.BookmarkService
 import com.example.freemates_android.api.service.MailService
 import com.example.freemates_android.api.service.PlaceService
 import com.google.gson.Gson
@@ -17,7 +18,7 @@ object RetrofitClient {
 
     private fun createOkHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
 
         return OkHttpClient.Builder()
     .addInterceptor(interceptor)
@@ -54,4 +55,6 @@ private val retrofit: Retrofit = Retrofit.Builder()
     val mailService: MailService = retrofit.create(MailService::class.java)
 
     val placeService: PlaceService = retrofit.create(PlaceService::class.java)
+
+    val bookmarkService: BookmarkService = retrofit.create(BookmarkService::class.java)
 }
