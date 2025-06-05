@@ -116,6 +116,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val categoryAdapter = CategoryAdapter(requireContext(), categoryList)
         categoryAdapter.setOnItemClickListener(object : CategoryAdapter.OnItemClickListener {
             override fun onItemClick(item: Category) {
+//                val category: String =
+//                    when (item.categoryTitle) {
+//                        "카페" -> "CAFE"
+//                        "먹거리" -> "FOOD"
+//                        "쇼핑" -> "SHOPPING"
+//                        "산책" -> "WALK"
+//                        "놀거리" -> "PLAY"
+//                        "병원" -> "HOSPITAL"
+//                        else -> ""
+//                    }
                 val bundle = bundleOf("categoryTitle" to item.categoryTitle)
                 findNavController().navigate(R.id.action_homeFragment_to_categoryFragment, bundle)
             }
@@ -168,18 +178,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                             "WALK" -> "산책"
                                             "PLAY" -> "놀거리"
                                             "HOSPITAL" -> "병원"
-                                            else -> "카페"
+                                            else -> ""
                                         }
 
+                                    Log.d("Home", "category is $selectedCategory")
+
+                                    // TODO API 수정되면 items.distance 넣기
                                     val item = RecommendItem(
                                         items.imageUrl,
                                         items.placeName,
                                         false,
                                         items.likeCount,
-                                        items.roadAddressName,
+                                        items.addressName,
                                         selectedIconRes,
                                         selectedCategory,
-                                        items.tags
+                                        items.tags,
+                                        items.introText,
+                                        "743"
                                     )
                                     recommendList.add(item)
                                 }
@@ -213,7 +228,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val recommendAdapter = RecommendAdapter(requireContext(), recommendList)
         recommendAdapter.setOnItemClickListener(object : RecommendAdapter.OnItemClickListener {
             override fun onItemClick(item: RecommendItem) {
-                findNavController().navigate(R.id.action_homeFragment_to_placeInfoFragment)
+                val bundle = bundleOf("placeInfo" to item)
+                findNavController().navigate(R.id.action_homeFragment_to_placeInfoFragment, bundle)
             }
         })
 

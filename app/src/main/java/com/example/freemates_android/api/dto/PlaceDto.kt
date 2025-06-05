@@ -10,8 +10,8 @@ data class CategoryResponse(
     val content: List<PlaceDto>,
     val pageable: PageableDto,
     val last: Boolean,
-    val totalElements: Int,
     val totalPages: Int,
+    val totalElements: Int,
     val first: Boolean,
     val size: Int,
     val number: Int,
@@ -22,24 +22,33 @@ data class CategoryResponse(
 
 data class PlaceDto(
     val placeId: String,
-    val kakaoPlaceId: String,
-    val addressName: String,
-    val categoryGroupCode: String,
-    val distance: String,
-    val phone: String,
     val placeName: String,
-    val placeUrl: String,
-    val roadAddressName: String,
-    val x: String,
-    val y: String,
-    val imageUrl: String,
     val introText: String,
+    val addressName: String,
+    val imageUrl: String,
     val tags: List<String>,
+    val categoryType: String,
     val likeCount: Int,
     val viewCount: Int,
-    val categoryType: String,
-    val createdDate: String,
-    val updatedDate: String
+//
+//    val kakaoPlaceId: String,
+//    val addressName: String,
+//    val categoryGroupCode: String,
+//    val distance: String,
+//    val phone: String,
+//    val placeName: String,
+//    val placeUrl: String,
+//    val roadAddressName: String,
+//    val x: String,
+//    val y: String,
+//
+//    val introText: String,
+//
+//
+//
+//
+//    val createdDate: String,
+//    val updatedDate: String
 )
 
 data class PageableDto(

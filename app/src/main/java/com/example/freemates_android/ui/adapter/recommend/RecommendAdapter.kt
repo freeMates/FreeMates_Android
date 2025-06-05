@@ -48,22 +48,30 @@ class RecommendAdapter (val context: Context, val recommendItemList: ArrayList<R
         position: Int
     ) {
         if (holder is RecommendViewHolder) {
-            val imageUrl = recommendItemList[position].placeImage.replaceFirst("http://", "https://")
+            val imageUrl = recommendItemList[position].placeImage?.replaceFirst("http://", "https://")
             Glide.with(context)
                 .load(imageUrl)
                 .into(holder.image)
             holder.title.text = recommendItemList[position].placeTitle
-            holder.likeState.isSelected = recommendItemList[position].like
+            holder.likeState.isSelected = recommendItemList[position].like == true
             holder.likeCnt.text = recommendItemList[position].likeCnt.toString()
             holder.address.text = recommendItemList[position].placeAddress
             holder.category.text = recommendItemList[position].placeCategoryTitle
-            val drawable = ContextCompat.getDrawable(context, recommendItemList[position].placeCategoryImage)
+            val drawable = recommendItemList[position].placeCategoryImage?.let {
+                ContextCompat.getDrawable(context,
+                    it
+                )
+            }
             holder.category.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
             val filterHorizontalSpacingDecoration = HorizontalSpacingDecoration(
                 context = context, // or `this` in Activity
                 spacingDp = 2,              // 아이템 간 간격
             )
-            val filterAdapter = FilterAdapter(context, recommendItemList[position].filter)
+            val filterAdapter = recommendItemList[position].filter?.let {
+                FilterAdapter(context,
+                    it
+                )
+            }
             holder.filter.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
             holder.filter.addItemDecoration(filterHorizontalSpacingDecoration)
             holder.filter.adapter = filterAdapter

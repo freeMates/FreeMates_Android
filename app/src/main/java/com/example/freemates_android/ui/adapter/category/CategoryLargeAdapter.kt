@@ -2,6 +2,7 @@ package com.example.freemates_android.ui.adapter.category
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -40,7 +41,19 @@ class CategoryLargeAdapter (val context: Context, val items: List<CategoryItem>,
         if (holder is CategoryLargeViewHolder) {
             holder.bind(items[position]) { clickedItem ->
                 updateSelection(clickedItem)         // ① 내부 상태 갱신
-                externalClick(clickedItem.title)     // ② 화면 밖(뷰모델 등)으로 알림
+                val category: String =
+                    when (clickedItem.title) {
+                        "카페" -> "CAFE"
+                        "먹거리" -> "FOOD"
+                        "쇼핑" -> "SHOPPING"
+                        "산책" -> "WALK"
+                        "놀거리" -> "PLAY"
+                        "병원" -> "HOSPITAL"
+                        else -> ""
+                    }
+
+                Log.d("CategoryLarge", "category is $category")
+                externalClick(category)     // ② 화면 밖(뷰모델 등)으로 알림
             }
 //            var backgroundColor = ContextCompat.getColor(context, R.color.primary400)
 //            var textColor = ContextCompat.getColor(context, R.color.secondary200)

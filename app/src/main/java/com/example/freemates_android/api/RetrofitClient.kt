@@ -28,9 +28,10 @@ object RetrofitClient {
 //                val request = requestBuilder.build()
 //                chain.proceed(request)
 //            }
-    .connectTimeout(20, TimeUnit.SECONDS)
-    .readTimeout(20, TimeUnit.SECONDS)
-    .writeTimeout(20, TimeUnit.SECONDS)             //타임아웃 조건 추가
+    .connectTimeout(30, TimeUnit.SECONDS)
+    .readTimeout(30, TimeUnit.SECONDS)
+    .writeTimeout(30, TimeUnit.SECONDS)             //타임아웃 조건 추가
+    .callTimeout(0,  TimeUnit.SECONDS)
     .addNetworkInterceptor(interceptor)                     //로그용 okhttp 달아주고
     .build()
 }
