@@ -1,10 +1,12 @@
 package com.example.freemates_android
 
 import android.Manifest
+import android.graphics.PointF
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
@@ -14,10 +16,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.freemates_android.TokenManager.getRefreshToken
+import com.example.freemates_android.UserInfoManager.getNicknameInfo
+import com.example.freemates_android.api.RetrofitClient
+import com.example.freemates_android.api.dto.PlaceDto
 import com.example.freemates_android.databinding.FragmentMapBinding
 import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.RecommendItem
+import com.example.freemates_android.model.map.AddFavorite
 import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.model.map.Place
 import com.example.freemates_android.sheet.CategoryResultSheet
@@ -33,9 +40,14 @@ import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
+import com.kakao.vectormap.Poi
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapFragment : Fragment(R.layout.fragment_map) {
@@ -53,44 +65,44 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private lateinit var viewModel: MapViewModel
 
 
-    val places = listOf(
-        Place(
-            id = "place_001",
-            thumbnailUrl = "https://example.com/image.jpg",
-            name = "세종대 학생회관",
-            isFavorite = false,
-            categories = listOf("카페", "디저트"),
-            tags = listOf("조용한", "맛있는 디저트"),
-            distance = "10분",
-            address = "서울특별시 중구 세종대로 110",
-            latitude = 37.5494,
-            longitude = 127.0750
-        ),
-        Place(
-            id = "place_002",
-            thumbnailUrl = "https://picsum.photos/seed/picsum/200/300",
-            name = "어린이대공원역",
-            isFavorite = false,
-            categories = listOf("카페", "디저트"),
-            tags = listOf("조용한", "맛있는 디저트"),
-            distance = "10분",
-            address = "서울특별시 중구 세종대로 110",
-            latitude = 37.5479,
-            longitude = 127.0746
-        ),
-        Place(
-            id = "place_003",
-            thumbnailUrl = "https://picsum.photos/seed/picsum/200/300",
-            name = "행복한 카페",
-            isFavorite = false,
-            categories = listOf("카페", "디저트"),
-            tags = listOf("조용한", "맛있는 디저트"),
-            distance = "10분",
-            address = "서울특별시 중구 세종대로 110",
-            latitude = 37.5462,
-            longitude = 127.0733
-        )
-    )
+//    val places = listOf(
+//        Place(
+//            id = "place_001",
+//            thumbnailUrl = "https://example.com/image.jpg",
+//            name = "세종대 학생회관",
+//            isFavorite = false,
+//            categories = listOf("카페", "디저트"),
+//            tags = listOf("조용한", "맛있는 디저트"),
+//            distance = "10분",
+//            address = "서울특별시 중구 세종대로 110",
+//            latitude = 37.5494,
+//            longitude = 127.0750
+//        ),
+//        Place(
+//            id = "place_002",
+//            thumbnailUrl = "https://picsum.photos/seed/picsum/200/300",
+//            name = "어린이대공원역",
+//            isFavorite = false,
+//            categories = listOf("카페", "디저트"),
+//            tags = listOf("조용한", "맛있는 디저트"),
+//            distance = "10분",
+//            address = "서울특별시 중구 세종대로 110",
+//            latitude = 37.5479,
+//            longitude = 127.0746
+//        ),
+//        Place(
+//            id = "place_003",
+//            thumbnailUrl = "https://picsum.photos/seed/picsum/200/300",
+//            name = "행복한 카페",
+//            isFavorite = false,
+//            categories = listOf("카페", "디저트"),
+//            tags = listOf("조용한", "맛있는 디저트"),
+//            distance = "10분",
+//            address = "서울특별시 중구 세종대로 110",
+//            latitude = 37.5462,
+//            longitude = 127.0733
+//        )
+//    )
 
     private val recommendList = listOf(
         RecommendItem(
@@ -273,7 +285,25 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 // 정상적으로 인증이 완료되었을 때 호출
                 kakaoMap = kakaomap
 
-                addMarkersToMap(places)
+//                addMarkersToMap(places)
+
+                kakaomap.setOnMapClickListener { kakaoMap, position, screenPoint, poi ->
+                    val clickedLat = position.latitude
+                    val clickedLng = position.longitude
+
+                    Log.d("Map", "지도 클릭 위치 - 위도: $clickedLat, 경도: $clickedLng")
+
+                    // TODO 클릭 시 위치의 장소 띄우기
+                    fetchPlaceInfo(clickedLng.toString(), clickedLat.toString())
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "클릭한 좌표: 위도 $clickedLat, 경도 $clickedLng",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+
+                    // 예: 클릭한 좌표를 ViewModel로 전달하고 싶다면
+                    // viewModel.handleMapClick(clickedLat, clickedLng)
+                }
 
                 kakaoMap!!.setOnLabelClickListener { _, _, clickedLabel ->
                     val place = clickedLabel.tag as? Place ?: return@setOnLabelClickListener
@@ -286,24 +316,84 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             }
 
             override fun getPosition(): LatLng {
+                Log.d("Map", "lat : ${currentLatLng.latitude}")
+                Log.d("Map", "long : ${currentLatLng.longitude}")
                 return currentLatLng
             }
         })
     }
 
-    private fun addMarkersToMap(places: List<Place>) {
+    private fun addMarkersToMap(place: Place) {
         val layer = kakaoMap!!.labelManager!!.layer      // null 아님 확정
-        places.forEach { place ->
-            val style = kakaoMap!!.labelManager!!
-                .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_skyblue_marker_png)))
+        val style = kakaoMap!!.labelManager!!
+            .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_skyblue_marker_png)))
 
-            val options = LabelOptions.from(LatLng.from(place.latitude, place.longitude))
-                .setStyles(style)          // 마커 아이콘
-                .setClickable(true)        // 클릭 가능
-            val label = layer?.addLabel(options)
+        val options = LabelOptions.from(LatLng.from(place.latitude, place.longitude))
+            .setStyles(style)          // 마커 아이콘
+            .setClickable(true)        // 클릭 가능
+        layer?.removeAll()
+        val label = layer?.addLabel(options)
 
-            // 여기서 place 객체(혹은 id)를 바로 태깅
-            label?.tag = place            // ★ 핵심 ★
+        // 여기서 place 객체(혹은 id)를 바로 태깅
+        label?.tag = place            // ★ 핵심 ★
+
+    }
+
+    private fun fetchPlaceInfo(long: String, lat: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val refreshToken = requireContext().getRefreshToken()
+
+            RetrofitClient.placeService.placeGeoCode(
+                "Bearer $refreshToken",
+                long,
+                lat
+            ).enqueue(object :
+                Callback<List<PlaceDto>> {
+                override fun onResponse(
+                    call: Call<List<PlaceDto>>,
+                    response: Response<List<PlaceDto>>
+                ) {
+                    Log.d("AddFavoritePlace", "response code :${response.code()}")
+                    when (response.code()) {
+                        200 -> {
+                            val item = response.body()?.get(0)
+                            val place: Place? = item?.let {
+                                Place(
+                                    it.placeId,
+                                    item.imageUrl,
+                                    item.placeName,
+                                    false,
+                                    item.categoryType,
+                                    item.tags,
+                                    item.distance,
+                                    item.addressName,
+                                    item.y.toDouble(),
+                                    item.x.toDouble()
+                                )
+                            }
+                            if (place != null) {
+                                viewModel.showPlacePreview(place)
+                                addMarkersToMap(place)
+                            }
+                        }
+
+                        404 -> {
+                            Toast.makeText(requireContext(), "존재하지 않는 장소입니다.", Toast.LENGTH_SHORT).show()
+                        }
+
+                        else -> {
+                            val errorCode = response.errorBody()?.string()
+                            Log.e("AddFavoritePlace", "응답 실패: ${response.code()} - $errorCode")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<PlaceDto>>, t: Throwable) {
+                    val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                    Log.d("AddFavoritePlace", value)
+                }
+            })
         }
+
     }
 }

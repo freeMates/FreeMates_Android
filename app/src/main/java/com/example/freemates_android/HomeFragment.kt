@@ -46,6 +46,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         getData()
         recommendRecyclerviewInit()
 
+
+        // TODO 즐겨찾기 리스트 띄우기
         val favoriteList = ArrayList<FavoriteItem>()
         favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
         favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
@@ -72,29 +74,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             addItemDecoration(favoriteHorizontalSpacingDecoration)
             setHasFixedSize(true)
         }
-
-//        val recommendList = ArrayList<RecommendItem>()
-//        recommendList.add(RecommendItem(
-//            R.drawable.image2.toString(), "브랫서울", true, 1345,
-//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-//        recommendList.add(RecommendItem(
-//            R.drawable.image2.toString(), "브랫서울", true, 1345,
-//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-//        recommendList.add(RecommendItem(R.drawable.image2, "브랫서울", true, 1345,
-//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-//            listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요"))))
-
     }
 
     private fun initUI(){
@@ -116,16 +95,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val categoryAdapter = CategoryAdapter(requireContext(), categoryList)
         categoryAdapter.setOnItemClickListener(object : CategoryAdapter.OnItemClickListener {
             override fun onItemClick(item: Category) {
-//                val category: String =
-//                    when (item.categoryTitle) {
-//                        "카페" -> "CAFE"
-//                        "먹거리" -> "FOOD"
-//                        "쇼핑" -> "SHOPPING"
-//                        "산책" -> "WALK"
-//                        "놀거리" -> "PLAY"
-//                        "병원" -> "HOSPITAL"
-//                        else -> ""
-//                    }
                 val bundle = bundleOf("categoryTitle" to item.categoryTitle)
                 findNavController().navigate(R.id.action_homeFragment_to_categoryFragment, bundle)
             }

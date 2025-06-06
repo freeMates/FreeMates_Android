@@ -1,11 +1,5 @@
 package com.example.freemates_android.api.dto
 
-data class CategoryRequest(
-    val category: String,
-    val page: Int,
-    val size: Int,
-)
-
 data class CategoryResponse(
     val content: List<PlaceDto>,
     val pageable: PageableDto,
@@ -30,25 +24,9 @@ data class PlaceDto(
     val categoryType: String,
     val likeCount: Int,
     val viewCount: Int,
-//
-//    val kakaoPlaceId: String,
-//    val addressName: String,
-//    val categoryGroupCode: String,
-//    val distance: String,
-//    val phone: String,
-//    val placeName: String,
-//    val placeUrl: String,
-//    val roadAddressName: String,
-//    val x: String,
-//    val y: String,
-//
-//    val introText: String,
-//
-//
-//
-//
-//    val createdDate: String,
-//    val updatedDate: String
+    val distance: String,
+    val y: String,
+    val x: String,
 )
 
 data class PageableDto(
@@ -61,6 +39,12 @@ data class PageableDto(
 )
 
 data class SortDto(
+    val empty: Boolean,
+    val sorted: Boolean,
+    val unsorted: Boolean
+)
+
+data class GeocodeDto(
     val empty: Boolean,
     val sorted: Boolean,
     val unsorted: Boolean

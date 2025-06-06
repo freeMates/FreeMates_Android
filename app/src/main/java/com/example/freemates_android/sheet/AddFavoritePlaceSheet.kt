@@ -17,6 +17,7 @@ import com.example.freemates_android.TokenManager.getRefreshToken
 import com.example.freemates_android.UserInfoManager.getNicknameInfo
 import com.example.freemates_android.api.RetrofitClient
 import com.example.freemates_android.api.dto.MyBookmarkListResponse
+import com.example.freemates_android.api.dto.PlaceDto
 import com.example.freemates_android.databinding.SheetAddFavoritePlaceBinding
 import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.model.map.AddFavorite
@@ -33,30 +34,31 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
     private lateinit var binding: SheetAddFavoritePlaceBinding
     val IMAGE_BASE_URL = "http://3.34.78.124:8087"
 
-    private val recommendList = listOf(
-        RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
-        RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
-        RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
-        RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
-        RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
-            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
-            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
-    )
+    private lateinit var recommendList: ArrayList<RecommendItem>
+//        listOf(
+//        RecommendItem(
+//            R.drawable.image2.toString(), "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
+//        RecommendItem(
+//            R.drawable.image2.toString(), "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
+//        RecommendItem(
+//            R.drawable.image2.toString(), "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
+//        RecommendItem(
+//            R.drawable.image2.toString(), "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
+//        RecommendItem(
+//            R.drawable.image2.toString(), "브랫서울", true, 1345,
+//            "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
+//            listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
+//    )
 
-    private var favoriteList: List<AddFavorite> = emptyList()
+    private lateinit var favoriteList: ArrayList<AddFavorite>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -108,33 +110,9 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
                         200 -> {
                             val tempList = mutableListOf<AddFavorite>()
                             response.body()?.forEach { items ->
-                                val pinColorRes: Int = when (items.pinColor.uppercase()) {
-                                    "RED" -> R.drawable.ic_red_marker
-                                    "YELLOW" -> R.drawable.ic_yellow_marker
-                                    "GREEN" -> R.drawable.ic_green_marker
-                                    "BLUE" -> R.drawable.ic_blue_marker
-                                    "PURPLE" -> R.drawable.ic_purple_marker
-                                    "PINK" -> R.drawable.ic_pink_marker
-                                    else -> R.drawable.ic_red_marker
-                                }
-                                val visibilityStatus: Boolean =
-                                    items.visibility.uppercase() == "PUBLIC"
-
-                                val imageUrl = IMAGE_BASE_URL + items.imageUrl
-
-                                val item = AddFavorite(
-                                    pinColorRes,
-                                    items.title,
-                                    imageUrl,
-                                    recommendList,
-                                    visibilityStatus
-                                )
-
-                                if (items.nickname == userNickname) {
-                                    tempList.add(item)
-                                }
+                                fetchBookmarkPlaces(items)
                             }
-                            favoriteList = tempList.toList()
+//                            favoriteList = tempList.toList()
 
                             setupRecyclerView()
                         }
@@ -154,8 +132,98 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
         }
     }
 
+    private fun fetchBookmarkPlaces(favoriteItems: MyBookmarkListResponse){
+        // TODO API를 못 찾음
+        //  API 오류
+        Log.d("AddFavoritePlace", "bookmarkId : ${favoriteItems.bookmarkId}")
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val userNickname: String = requireContext().getNicknameInfo()
+            val refreshToken = requireContext().getRefreshToken()  // 필요 시
+            favoriteItems.bookmarkId?.let {
+                RetrofitClient.bookmarkService.getBookmarkPlaces(
+                    "Bearer $refreshToken",
+                    it
+                ).enqueue(object :
+                    Callback<List<PlaceDto>> {
+                    override fun onResponse(
+                        call: Call<List<PlaceDto>>,
+                        response: Response<List<PlaceDto>>
+                    ) {
+                        Log.d("AddFavoritePlace", "response code :${response.code()}")
+                        when (response.code()) {
+                            200 -> {
+                                recommendList.clear()
+                                response.body()?.forEach { items ->
+                                    val selectedIconRes: Int =
+                                        when (items.categoryType.uppercase()) {
+                                            "CAFE" -> R.drawable.ic_cafe_small_on
+                                            "FOOD" -> R.drawable.ic_foods_small_on
+                                            "SHOPPING" -> R.drawable.ic_shopping_small_on
+                                            "WALK" -> R.drawable.ic_walk_small_on
+                                            "PLAY" -> R.drawable.ic_leisure_small_on
+                                            "HOSPITAL" -> R.drawable.ic_hospital_small_on
+                                            else -> R.drawable.ic_cafe_small_on
+                                        }
+                                    val selectedCategory: String =
+                                        when (items.categoryType.uppercase()) {
+                                            "CAFE" -> "카페"
+                                            "FOOD" -> "먹거리"
+                                            "SHOPPING" -> "쇼핑"
+                                            "WALK" -> "산책"
+                                            "PLAY" -> "놀거리"
+                                            "HOSPITAL" -> "병원"
+                                            else -> ""
+                                        }
+
+                                    recommendList.add(RecommendItem(items.imageUrl, items.placeName, false, items.likeCount, items.addressName, selectedIconRes, selectedCategory, items.tags, items.introText, "743"))
+                                }
+
+                                val pinColorRes: Int = when (favoriteItems.pinColor.uppercase()) {
+                                    "RED" -> R.drawable.ic_red_marker
+                                    "YELLOW" -> R.drawable.ic_yellow_marker
+                                    "GREEN" -> R.drawable.ic_green_marker
+                                    "BLUE" -> R.drawable.ic_blue_marker
+                                    "PURPLE" -> R.drawable.ic_purple_marker
+                                    "PINK" -> R.drawable.ic_pink_marker
+                                    else -> R.drawable.ic_red_marker
+                                }
+                                val visibilityStatus: Boolean =
+                                    favoriteItems.visibility.uppercase() == "PUBLIC"
+
+                                val imageUrl = IMAGE_BASE_URL + favoriteItems.imageUrl
+
+                                val item = AddFavorite(
+                                    pinColorRes,
+                                    favoriteItems.title,
+                                    imageUrl,
+                                    recommendList,
+                                    visibilityStatus
+                                )
+
+                                if (favoriteItems.nickname == userNickname) {
+                                    favoriteList.add(item)
+                                }
+                            }
+
+                            else -> {
+                                val errorCode = response.errorBody()?.string()
+                                Log.e("AddFavoritePlace", "응답 실패: ${response.code()} - $errorCode")
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<PlaceDto>>, t: Throwable) {
+                        val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                        Log.d("AddFavoritePlace", value)
+                    }
+                })
+            }
+        }
+    }
+
     private fun setupRecyclerView() {
-        val adapter = AddFavoriteAdapter(requireContext(), favoriteList) {
+        val adapter = AddFavoriteAdapter(requireContext(), emptyList()) {
             // 헤더 클릭 시 (즐겨찾기 목록 추가 클릭)
             showAddFavoriteDialog()
         }
@@ -170,7 +238,7 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
 
     val favoriteListInfo = FavoriteList(
         R.drawable.ic_red_marker, "", "R.drawable.image1",
-        "", recommendList, true)
+        "", emptyList(), true)
 
     // Header 부분
     private fun showAddFavoriteDialog() {

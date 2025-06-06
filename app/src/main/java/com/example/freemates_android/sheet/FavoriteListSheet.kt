@@ -89,7 +89,6 @@ class FavoriteListSheet : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[MapViewModel::class.java]
 
-        Toast.makeText(requireContext(), "FavoriteListSheet 들어옴", Toast.LENGTH_SHORT).show()
         lifecycleScope.launch {
             val userNickname: String = requireContext().getNicknameInfo()
             binding.tvFavoriteListPromptFavoriteList.text = "${userNickname}님의 목록"
@@ -147,7 +146,6 @@ class FavoriteListSheet : Fragment() {
                             }
                             favoriteList = tempList
 
-                            Toast.makeText(requireContext(), "데이터 로드 성공", Toast.LENGTH_SHORT).show()
                             setupRecyclerView()
                         }
 
