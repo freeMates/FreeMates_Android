@@ -1,20 +1,20 @@
 package com.example.freemates_android
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.freemates_android.Activity.EditFavoriteActivity
+import com.example.freemates_android.Activity.FavoriteDetailActivity
 import com.example.freemates_android.databinding.FragmentRecommendBinding
 import com.example.freemates_android.model.Category
-import com.example.freemates_android.model.CategoryItem
 import com.example.freemates_android.model.Course
 import com.example.freemates_android.model.FavoriteItem
-import com.example.freemates_android.model.FilterItem
 import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.model.map.FavoriteList
-import com.example.freemates_android.sheet.FavoriteDetailSheet
 import com.example.freemates_android.ui.adapter.course.CourseAdapter
 import com.example.freemates_android.ui.adapter.favorite.FavoriteAdapter
 import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
@@ -22,8 +22,12 @@ import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
 
 class RecommendFragment : Fragment(R.layout.fragment_recommend) {
-
     lateinit var binding: FragmentRecommendBinding
+
+    companion object {
+        private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentRecommendBinding.bind(view)
 
@@ -119,18 +123,22 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
                 listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요")), "", "")
         )
 
-        val favoriteListInfo = FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", R.drawable.image2,
-            "서울 광진구 광나루로 410 1층 101호", recommendList)
+        val favoriteListInfo = FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", "R.drawable.image2",
+            "서울 광진구 광나루로 410 1층 101호", recommendList, false)
 
         val favoriteAdapter = FavoriteAdapter(requireContext(), favoriteList)
         favoriteAdapter.setOnItemClickListener(object : FavoriteAdapter.OnItemClickListener {
             override fun onItemClick(item: FavoriteItem) {
-                val sourceTag = "recommend"
-                val bundle = bundleOf(
-                    FavoriteDetailSheet.ARG_FAVORITE_DETAIL to favoriteListInfo,
-                    FavoriteDetailSheet.ARG_FAVORITE_SOURCE to sourceTag
-                )
-                findNavController().navigate(R.id.action_recommendFragment_to_sheetFavoriteDetailFragment, bundle)
+                val intent = Intent(requireContext(), FavoriteDetailActivity::class.java).apply {
+                    putExtra(ARG_FAVORITE_DETAIL, favoriteListInfo)
+                }
+                startActivity(intent)
+//                val sourceTag = "recommend"
+//                val bundle = bundleOf(
+//                    FavoriteDetailSheet.ARG_FAVORITE_DETAIL to favoriteListInfo,
+//                    FavoriteDetailSheet.ARG_FAVORITE_SOURCE to sourceTag
+//                )
+//                findNavController().navigate(R.id.action_recommendFragment_to_sheetFavoriteDetailFragment, bundle)
             }
         })
 

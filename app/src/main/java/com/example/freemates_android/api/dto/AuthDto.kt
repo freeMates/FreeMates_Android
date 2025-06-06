@@ -26,3 +26,11 @@ data class RegisterResponse(
     val nickname: String,
     val mail: String
 )
+
+data class MyPageResponse(
+    val username: String,
+    val nickname: String,
+    val email: String,
+    val age: String,
+    val gender: String
+)

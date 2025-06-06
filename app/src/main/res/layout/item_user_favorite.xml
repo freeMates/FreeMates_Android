@@ -43,27 +43,59 @@
         app:layout_constraintDimensionRatio="1:1"
         tools:src="@drawable/image1"/>
 
+    <ImageView
+        android:id="@+id/ivFavoriteLock_UserFavoriteItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_lock"
+        app:layout_constraintEnd_toEndOf="@+id/ivFavoriteImage_UserFavoriteItem"
+        app:layout_constraintTop_toTopOf="@+id/ivFavoriteImage_UserFavoriteItem"/>
+
     <TextView
         android:id="@+id/tvFavoriteCnt_UserFavoriteItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textColor="@color/natural300"
-        android:fontFamily="@font/suit_regular"
+        android:fontFamily="@font/suit_semibold"
         app:layout_constraintStart_toEndOf="@+id/ivFavoriteMarker_UserFavoriteItem"
         app:layout_constraintTop_toBottomOf="@+id/tvFavoriteTitle_UserFavoriteItem"
         tools:text="35 장소"/>
+    
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivMiddleCircle_UserFavoriteItem"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:background="@color/natural300"
+        app:layout_constraintTop_toTopOf="@+id/tvFavoriteCnt_UserFavoriteItem"
+        app:layout_constraintEnd_toStartOf="@+id/tvFavoriteVisibilityStatus_UserFavoriteItem"
+        app:layout_constraintStart_toEndOf="@+id/tvFavoriteCnt_UserFavoriteItem"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFavoriteCnt_UserFavoriteItem"/>
+
+    <TextView
+        android:id="@+id/tvFavoriteVisibilityStatus_UserFavoriteItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:textSize="12sp"
+        android:textColor="@color/natural300"
+        android:fontFamily="@font/suit_semibold"
+        app:layout_constraintTop_toTopOf="@+id/tvFavoriteCnt_UserFavoriteItem"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFavoriteCnt_UserFavoriteItem"
+        app:layout_constraintStart_toEndOf="@+id/tvFavoriteCnt_UserFavoriteItem"
+        tools:text="비공개"/>
 
     <TextView
         android:id="@+id/tvFavoriteDescription_UserFavoriteItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="10dp"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textColor="@color/natural300"
         android:fontFamily="@font/suit_semibold"
         app:layout_constraintTop_toBottomOf="@+id/tvFavoriteCnt_UserFavoriteItem"

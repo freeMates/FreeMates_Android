@@ -16,9 +16,11 @@ import androidx.lifecycle.lifecycleScope
 import com.example.freemates_android.R
 import com.example.freemates_android.TokenManager.getRefreshToken
 import com.example.freemates_android.TokenManager.saveTokens
+import com.example.freemates_android.UserInfoManager.saveInfo
 import com.example.freemates_android.api.dto.LoginRequest
 import com.example.freemates_android.api.dto.LoginResponse
 import com.example.freemates_android.api.RetrofitClient
+import com.example.freemates_android.api.dto.MyPageResponse
 import com.example.freemates_android.databinding.ActivityLoginBinding
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -150,9 +152,7 @@ class LoginActivity : AppCompatActivity() {
                         Log.d("Login", "refreshToken : ${applicationContext.getRefreshToken()}")
                     }
 
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    getUserInfo()
 
                 } else {
                     val errorCode = response.errorBody()?.string()
@@ -176,5 +176,62 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun getUserInfo() {
+        Log.d("Login", "회원정보 불러오기")
+        val password = binding.etUserPasswordLogin.text.toString()
+
+        lifecycleScope.launch {
+            val refreshToken = getRefreshToken()
+            RetrofitClient.authService.mypage(
+                "Bearer $refreshToken",
+            ).enqueue(object :
+                Callback<MyPageResponse> {
+                override fun onResponse(
+                    call: Call<MyPageResponse>,
+                    response: Response<MyPageResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val value = response.body()
+                        Log.d("Login", "정보 저장")
+                        if (value != null) {
+                            Log.d("Login", "아이디 : ${value.username}")
+                            Log.d("Login", "닉네임 : ${value.nickname}")
+                            Log.d("Login", "이메일 : ${value.email}")
+                            Log.d("Login", "나이 : ${value.age}")
+                            Log.d("Login", "성별 : ${value.gender}")
+
+                            lifecycleScope.launch {
+                                applicationContext.saveInfo(          // ← TokenManager 확장함수
+                                    userName = value.username,
+                                    password = password,
+                                    nickname = value.nickname,
+                                    email = value.email,
+                                    age = value.age,
+                                    gender = value.gender,
+                                )
+                            }
+                        }
+
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+
+                    } else {
+                        val errorCode = response.errorBody()?.string()
+                        Log.e("Login", "응답 실패: ${response.code()} - $errorCode")
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<MyPageResponse>,
+                    t: Throwable
+                ) {
+                    val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                    Log.d("Login", value)
+                }
+            })
+        }
     }
 }

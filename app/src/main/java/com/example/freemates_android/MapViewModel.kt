@@ -16,8 +16,8 @@ class MapViewModel : ViewModel() {
         object Collapsed : SheetState()
         data class PlacePreview(val place: Place) : SheetState()
         data class CategoryResult(val category: String, val places: List<RecommendItem>) : SheetState()
-        data class FavoriteList(val favoritelist: List<com.example.freemates_android.model.map.FavoriteList>) : SheetState()
-        data class FavoriteDetail(val list: com.example.freemates_android.model.map.FavoriteList) : SheetState()
+        data class FavoriteList(val favoritelist: List<com.example.freemates_android.model.map.FavoriteList>?) : SheetState()
+//        data class FavoriteDetail(val list: com.example.freemates_android.model.map.FavoriteList) : SheetState()
     }
 
     private val _sheetState = MutableStateFlow<SheetState>(SheetState.Collapsed)
@@ -31,13 +31,13 @@ class MapViewModel : ViewModel() {
         _sheetState.value = SheetState.CategoryResult(category, places)
     }
 
-    fun showFavoriteList(lists: List<FavoriteList>) {
-        _sheetState.value = SheetState.FavoriteList(lists)
+    fun showFavoriteList() {
+        _sheetState.value = SheetState.FavoriteList(null)
     }
 
-    fun showFavoriteDetail(list: FavoriteList) {
-        Log.d("Event Click : ", "FavoriteDetail 상태 변경 직전")
-        _sheetState.value = SheetState.FavoriteDetail(list)
-        Log.d("Event Click : ", "FavoriteDetail 상태 변경 이후")
-    }
+//    fun showFavoriteDetail(list: FavoriteList) {
+//        Log.d("Event Click : ", "FavoriteDetail 상태 변경 직전")
+//        _sheetState.value = SheetState.FavoriteDetail(list)
+//        Log.d("Event Click : ", "FavoriteDetail 상태 변경 이후")
+//    }
 }

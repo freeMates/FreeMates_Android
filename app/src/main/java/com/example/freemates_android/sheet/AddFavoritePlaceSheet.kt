@@ -10,6 +10,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.freemates_android.Activity.EditFavoriteActivity
+import com.example.freemates_android.HeartOverlayUtil
+import com.example.freemates_android.R
+import com.example.freemates_android.TokenManager.getRefreshToken
+import com.example.freemates_android.UserInfoManager.getNicknameInfo
+import com.example.freemates_android.api.RetrofitClient
+import com.example.freemates_android.api.dto.MyBookmarkListResponse
 import com.example.freemates_android.databinding.SheetAddFavoritePlaceBinding
 import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.model.map.AddFavorite
@@ -17,13 +24,6 @@ import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.ui.adapter.favorite.AddFavoriteAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.example.freemates_android.Activity.EditFavoriteActivity
-import com.example.freemates_android.HeartOverlayUtil
-import com.example.freemates_android.R
-import com.example.freemates_android.TokenManager.getRefreshToken
-import com.example.freemates_android.api.RetrofitClient
-import com.example.freemates_android.api.dto.CategoryResponse
-import com.example.freemates_android.api.dto.MyBookmarkListResponse
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -57,18 +57,6 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
     )
 
     private var favoriteList: List<AddFavorite> = emptyList()
-
-//    private val favoriteList = listOf(
-//        AddFavorite(
-//            R.drawable.ic_red_marker, "절실한 카공이 필요할 때", R.drawable.image1,
-//            recommendList, true),
-//        AddFavorite(
-//            R.drawable.ic_yellow_marker, "먹짱의 먹거리 모음집ㅇ으아아ㅏ아아앙아아아ㅏ아앙아아앙아아ㅏ아ㅏ아", R.drawable.image2,
-//            recommendList, false),
-//        AddFavorite(
-//            R.drawable.ic_darkblue_marker, "먹짱의 먹거리 모음집ㅇ으아아ㅏ아아앙아아아ㅏ아앙아아앙아아ㅏ아ㅏ아", R.drawable.image3,
-//            recommendList, false),
-//    )
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -105,6 +93,7 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
 
     private fun fetchBookmarkList(){
         viewLifecycleOwner.lifecycleScope.launch {
+            val userNickname: String = requireContext().getNicknameInfo()
             val refreshToken = requireContext().getRefreshToken()  // 필요 시
             RetrofitClient.bookmarkService.myBookmarkList(
                 "Bearer $refreshToken",
@@ -114,7 +103,7 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
                     call: Call<List<MyBookmarkListResponse>>,
                     response: Response<List<MyBookmarkListResponse>>
                 ) {
-                    Log.d("Home", "response code :${response.code()}")
+                    Log.d("AddFavoritePlace", "response code :${response.code()}")
                     when (response.code()) {
                         200 -> {
                             val tempList = mutableListOf<AddFavorite>()
@@ -140,7 +129,10 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
                                     recommendList,
                                     visibilityStatus
                                 )
-                                tempList.add(item)
+
+                                if (items.nickname == userNickname) {
+                                    tempList.add(item)
+                                }
                             }
                             favoriteList = tempList.toList()
 
@@ -149,14 +141,14 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
-                            Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+                            Log.e("AddFavoritePlace", "응답 실패: ${response.code()} - $errorCode")
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<List<MyBookmarkListResponse>>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
-                    Log.d("ProfileSetup", value)
+                    Log.d("AddFavoritePlace", value)
                 }
             })
         }
@@ -177,18 +169,21 @@ class AddFavoritePlaceSheet : BottomSheetDialogFragment() {
     }
 
     val favoriteListInfo = FavoriteList(
-        R.drawable.ic_red_marker, "", R.drawable.image1,
-        "", recommendList)
+        R.drawable.ic_red_marker, "", "R.drawable.image1",
+        "", recommendList, true)
 
+    // Header 부분
     private fun showAddFavoriteDialog() {
         // 여기에 즐겨찾기 추가 Dialog 구현
         val intent = Intent(requireContext(), EditFavoriteActivity::class.java).apply {
             putExtra(ARG_FAVORITE_DETAIL, favoriteListInfo)
+            putExtra(ARG_PAGE_NAME, "addFavoritePlace")
         }
         startActivity(intent)
     }
 
     companion object {
         private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
+        private const val ARG_PAGE_NAME = "arg_page_name"
     }
 }

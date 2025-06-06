@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingVertical="8dp"
-    tools:context=".sheet.FavoriteDetailSheet">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.FavoriteDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clAppbarContainer_FavoriteDetail"
@@ -26,6 +26,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/btnEdit_FavoriteDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:background="@null"
+                android:src="@drawable/ic_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -62,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:fontFamily="@font/paperlogy_6semibold"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -75,21 +86,10 @@
                 android:id="@+id/btnShare_FavoriteDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:background="@null"
                 android:src="@drawable/ic_share"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnEdit_FavoriteDetail"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageButton
-                android:id="@+id/btnEdit_FavoriteDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:src="@drawable/ic_edit"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -101,8 +101,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="48dp"
             android:textColor="@color/natural300"
-            android:textSize="12sp"
-            android:fontFamily="@font/suit_semibold"
+            android:textSize="16sp"
+            android:fontFamily="@font/paperlogy_6semibold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:minLines="2"
             app:layout_constraintTop_toBottomOf="@+id/clTopContainer_FavoriteDetail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -113,14 +116,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            android:layout_marginTop="32dp"
-            android:textSize="10sp"
+            android:layout_marginTop="24dp"
+            android:textSize="12sp"
             android:textColor="@color/natural300"
-            android:fontFamily="@font/suit_regular"
+            android:fontFamily="@font/suit_semibold"
             app:layout_constraintTop_toBottomOf="@+id/tvFavoriteDescription_FavoriteDetail"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="35 장소"/>
-        
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFavoritePlaces_FavoriteDetail"
             android:layout_width="match_parent"

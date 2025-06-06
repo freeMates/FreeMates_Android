@@ -63,6 +63,9 @@
         android:textColor="@color/black"
         android:fontFamily="@font/suit_medium"
         android:inputType="textPassword"
+        android:clickable="false"
+        android:focusable="false"
+        android:editable="false"
         app:layout_constraintTop_toBottomOf="@+id/etUserId_Info"
         tools:text="ffdiks333" />
 

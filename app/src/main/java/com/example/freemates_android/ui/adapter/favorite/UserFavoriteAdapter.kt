@@ -1,7 +1,9 @@
 package com.example.freemates_android.ui.adapter.favorite
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -47,10 +49,22 @@ class UserFavoriteAdapter (val context: Context, val favoriteListItems: ArrayLis
                 .load(favoriteListItems[position].markerColor) // 불러올 이미지 url
                 .into(holder.marker) // 이미지를 넣을 뷰
             holder.title.text = favoriteListItems[position].title
+
+            Log.d("UserFavoriteAdapter", "imageUrl : $favoriteListItems[position].thumbnailUrl")
             Glide.with(context)
                 .load(favoriteListItems[position].thumbnailUrl) // 불러올 이미지 url
                 .into(holder.image) // 이미지를 넣을 뷰
-            holder.favoriteCnt.text = "${favoriteListItems[position].places.size} 장소"
+
+            if(favoriteListItems[position].visibilityStatus) {
+                holder.visibilityLock.visibility = View.GONE
+                holder.visibilityText.text = "공개"
+            }
+            else {
+                holder.visibilityLock.visibility = View.VISIBLE
+                holder.visibilityText.text = "비공개"
+            }
+
+            holder.favoriteCnt.text = "${favoriteListItems[position].places.size}개"
             holder.description.text = favoriteListItems[position].description
 
             holder.itemView.setOnClickListener{

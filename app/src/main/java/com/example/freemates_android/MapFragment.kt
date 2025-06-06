@@ -21,7 +21,6 @@ import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.model.map.Place
 import com.example.freemates_android.sheet.CategoryResultSheet
-import com.example.freemates_android.sheet.FavoriteDetailSheet
 import com.example.freemates_android.sheet.FavoriteListSheet
 import com.example.freemates_android.sheet.PlacePreviewSheet
 import com.example.freemates_android.ui.adapter.category.CategoryLargeAdapter
@@ -116,19 +115,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요")), "", ""),
     )
 
-    private val favoriteList = listOf(
-        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
-            "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", R.drawable.image2,
-            "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_darkblue_marker, "브랫서울", R.drawable.image3,
-            "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_red_marker, "브랫서울", R.drawable.image1,
-            "서울 광진구 광나루로 410 1층 101호", recommendList),
-        FavoriteList(R.drawable.ic_pink_marker, "브랫서울", R.drawable.image1,
-            "서울 광진구 광나루로 410 1층 101호", recommendList),
-    )
-
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentMapBinding.bind(view)
@@ -178,7 +164,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private fun initCategoryRecycler() {
         val categoryList = arrayListOf(
-            CategoryItem(R.drawable.ic_cafe_large_on, R.drawable.ic_cafe_large_off, "카페", true),
+            CategoryItem(R.drawable.ic_cafe_large_on, R.drawable.ic_cafe_large_off, "카페", false),
             CategoryItem(R.drawable.ic_leisure_large_on,R.drawable.ic_leisure_large_off, "놀거리", false),
             CategoryItem(R.drawable.ic_walk_large_on, R.drawable.ic_walk_large_off, "산책", false),
             CategoryItem(R.drawable.ic_foods_large_on, R.drawable.ic_foods_large_off, "먹거리", false),
@@ -202,7 +188,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private fun initViewModelAndCollector() {
         viewModel = ViewModelProvider(requireActivity())[MapViewModel::class.java]
 
-        viewModel.showFavoriteList(favoriteList)
+        viewModel.showFavoriteList()
 
         lifecycleScope.launchWhenStarted {
             viewModel.sheetState.collect { state ->
@@ -223,11 +209,11 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                         updateSheetContent(state)
                         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     }
-                    is MapViewModel.SheetState.FavoriteDetail -> {
-                        Log.d("Event Click : ", "FavoriteDetail 상태로 전환")
-                        updateSheetContent(state)
-                        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                    }
+//                    is MapViewModel.SheetState.FavoriteDetail -> {
+//                        Log.d("Event Click : ", "FavoriteDetail 상태로 전환")
+//                        updateSheetContent(state)
+//                        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+//                    }
                     is MapViewModel.SheetState.Hidden -> {
                         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
@@ -245,8 +231,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 CategoryResultSheet.newInstance(state.category, state.places) to "CategoryResult"
             is MapViewModel.SheetState.FavoriteList ->
                 FavoriteListSheet.newInstance(state.favoritelist) to "FavoriteList"
-            is MapViewModel.SheetState.FavoriteDetail ->
-                FavoriteDetailSheet.newInstance(state.list) to "FavoriteDetail"
+//            is MapViewModel.SheetState.FavoriteDetail ->
+//                FavoriteDetailSheet.newInstance(state.list) to "FavoriteDetail"
             else -> return
         }
 

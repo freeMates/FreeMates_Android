@@ -8,6 +8,8 @@ class UserFavoriteViewHolder (binding: ItemUserFavoriteBinding): RecyclerView.Vi
     val marker = binding.ivFavoriteMarkerUserFavoriteItem
     val title = binding.tvFavoriteTitleUserFavoriteItem
     val image = binding.ivFavoriteImageUserFavoriteItem
+    val visibilityLock = binding.ivFavoriteLockUserFavoriteItem
     val favoriteCnt = binding.tvFavoriteCntUserFavoriteItem
+    val visibilityText = binding.tvFavoriteVisibilityStatusUserFavoriteItem
     val description = binding.tvFavoriteDescriptionUserFavoriteItem
 }

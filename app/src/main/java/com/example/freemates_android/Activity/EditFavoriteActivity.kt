@@ -51,6 +51,7 @@ import java.io.InputStream
 class EditFavoriteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditFavoriteBinding
     private lateinit var favoriteList: FavoriteList
+    private lateinit var pageName: String
     private lateinit var markerContainers: List<FrameLayout>
     private lateinit var pinColor: String
     private val PICK_IMAGE_REQUEST = 1001
@@ -90,6 +91,7 @@ class EditFavoriteActivity : AppCompatActivity() {
         }
 
         favoriteList = intent.getParcelableExtra("arg_favorite_detail") ?: return
+        pageName = intent.getStringExtra("arg_page_name").toString()
 
         initUI()
         clickEvent()
@@ -158,6 +160,12 @@ class EditFavoriteActivity : AppCompatActivity() {
                 selectMarker(index)
             }
         }
+
+        if(pageName == "favoriteDetail"){
+            binding.btnCompleteEditEditFavorite.text = "수정하기"
+        } else {
+            binding.btnCompleteEditEditFavorite.text = "완료"
+        }
     }
 
     private fun selectMarker(selectedIndex: Int) {
@@ -186,7 +194,6 @@ class EditFavoriteActivity : AppCompatActivity() {
 
     private fun clickEvent(){
         binding.btnBackToMapEditFavorite.setOnClickListener {
-            Toast.makeText(this, "뒤로가기 버튼 클릭", Toast.LENGTH_SHORT).show()
             finish()
         }
 

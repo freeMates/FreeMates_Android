@@ -70,7 +70,12 @@
         android:id="@+id/mapFragment"
         android:name="com.example.freemates_android.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+
+        <action
+            android:id="@+id/action_mapFragment_to_placeInfoFragment"
+            app:destination="@id/placeInfoFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/recommendFragment"
@@ -86,9 +91,6 @@
             android:id="@+id/action_recommendFragment_to_courseInfoFragment"
             app:destination="@id/courseInfoFragment" />
 
-        <action
-            android:id="@+id/action_recommendFragment_to_sheetFavoriteDetailFragment"
-            app:destination="@id/sheetFavoriteDetailFragment" />
     </fragment>
 
     <fragment
@@ -120,14 +122,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/sheetFavoriteDetailFragment"
-        android:name="com.example.freemates_android.sheet.FavoriteDetailSheet"
-        android:label="fragment_sheet_favorite_detail"
-        tools:layout="@layout/sheet_favorite_detail">
+        android:id="@+id/sheetCategoryResultFragment"
+        android:name="com.example.freemates_android.sheet.CategoryResultSheet"
+        android:label="fragment_sheet_category_result"
+        tools:layout="@layout/sheet_category_result">
 
         <action
-            android:id="@+id/action_sheetFavoriteDetailFragment_to_recommendFragment"
-            app:destination="@id/recommendFragment" />
+            android:id="@+id/action_sheetCategoryResultFragment_to_placeInfoFragment"
+            app:destination="@id/placeInfoFragment" />
 
     </fragment>
 

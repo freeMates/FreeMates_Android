@@ -1,72 +1,55 @@
-package com.example.freemates_android.sheet
+package com.example.freemates_android.Activity
 
 import android.app.AlertDialog
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import android.widget.Toast
-import com.example.freemates_android.Activity.EditFavoriteActivity
 import com.example.freemates_android.R
-import com.example.freemates_android.databinding.SheetFavoriteDetailBinding
+import com.example.freemates_android.databinding.ActivityFavoriteDetailBinding
+import com.example.freemates_android.databinding.ActivityFindIdBinding
 import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
-import androidx.core.graphics.drawable.toDrawable
-import androidx.navigation.fragment.findNavController
 
-class FavoriteDetailSheet : Fragment() {
-    companion object {
-        const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
-        const val ARG_FAVORITE_SOURCE = "arg_favorite_source"
-
-        fun newInstance(favoriteList: FavoriteList): FavoriteDetailSheet {
-            val fragment = FavoriteDetailSheet()
-            val args = Bundle()
-            args.putParcelable(ARG_FAVORITE_DETAIL, favoriteList)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
+class FavoriteDetailActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityFavoriteDetailBinding
     private lateinit var favoriteList: FavoriteList
-    private lateinit var binding: SheetFavoriteDetailBinding
-    private var sourceTag: String? = null
+
+    companion object {
+        private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
+        private const val ARG_PAGE_NAME = "arg_page_name"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            favoriteList = it.getParcelable(ARG_FAVORITE_DETAIL)!!
-            sourceTag    = it.getString(ARG_FAVORITE_SOURCE)
+        enableEdgeToEdge()
+        binding = ActivityFavoriteDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        binding = SheetFavoriteDetailBinding.inflate(inflater, container, false)
-        // UI 초기화 및 이벤트 설정
-        Log.d("소스태그 : ",sourceTag.toString())
-        if(sourceTag == "recommend"){
-            binding.clTopContainerFavoriteDetail.visibility = View.VISIBLE
-        } else {
-            binding.clTopContainerFavoriteDetail.visibility = View.GONE
-        }
+        favoriteList = intent.getParcelableExtra(ARG_FAVORITE_DETAIL) ?: return
 
         binding.btnBackToRecommendFavoriteDetail.setOnClickListener {
-            findNavController().navigate(R.id.action_sheetFavoriteDetailFragment_to_recommendFragment)
+            finish()
         }
 
         Log.d("Event Click : ", "fragment changed")
@@ -83,11 +66,11 @@ class FavoriteDetailSheet : Fragment() {
         binding.tvPlaceCntFavoriteDetail.text = "${favoriteList.places.size} 장소"
 
         val favoriteDetailVerticalSpacingDecoration = VerticalSpacingDecoration(
-            context = requireContext(),
+            context = this,
             spacingDp = 12,
         )
 
-        val userFavoritePlacesAdapter = RecommendAdapter(requireContext(), ArrayList(favoriteList.places))
+        val userFavoritePlacesAdapter = RecommendAdapter(this, ArrayList(favoriteList.places))
         binding.rvFavoritePlacesFavoriteDetail.apply {
             adapter = userFavoritePlacesAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -97,8 +80,8 @@ class FavoriteDetailSheet : Fragment() {
 
         clickEvent()
 
-        return binding.root
     }
+
 
     private fun clickEvent(){
         binding.btnShareFavoriteDetail.setOnClickListener {
@@ -106,16 +89,17 @@ class FavoriteDetailSheet : Fragment() {
         }
 
         binding.btnEditFavoriteDetail.setOnClickListener {
-            val intent = Intent(requireContext(), EditFavoriteActivity::class.java).apply {
+            val intent = Intent(this, EditFavoriteActivity::class.java).apply {
                 putExtra(ARG_FAVORITE_DETAIL, favoriteList)
+                putExtra(ARG_PAGE_NAME, "favoriteDetail")
             }
             startActivity(intent)
         }
     }
 
     private fun showShareDialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_share, null)
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_share, null)
+        val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
         dialog.window?.setBackgroundDrawable(android.R.color.transparent.toDrawable())
@@ -154,15 +138,15 @@ class FavoriteDetailSheet : Fragment() {
             intent.putExtra(Intent.EXTRA_TEXT, "Check this out! https://your-url.com")
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "KakaoTalk is not installed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "KakaoTalk is not installed.", Toast.LENGTH_SHORT).show()
         }
     }
 
     // URL 클립보드에 복사
     private fun copyUrlToClipboard(url: String) {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = android.content.ClipData.newPlainText("URL", url)
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(requireContext(), "URL copied to clipboard.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "URL copied to clipboard.", Toast.LENGTH_SHORT).show()
     }
 }
