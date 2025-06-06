@@ -91,6 +91,10 @@
             android:id="@+id/action_recommendFragment_to_courseInfoFragment"
             app:destination="@id/courseInfoFragment" />
 
+        <action
+            android:id="@+id/action_recommendFragment_to_placeInfoFragment"
+            app:destination="@id/placeInfoFragment" />
+
     </fragment>
 
     <fragment

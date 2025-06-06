@@ -2,6 +2,7 @@ package com.example.freemates_android.api
 
 import com.example.freemates_android.api.service.AuthService
 import com.example.freemates_android.api.service.BookmarkService
+import com.example.freemates_android.api.service.CourseService
 import com.example.freemates_android.api.service.MailService
 import com.example.freemates_android.api.service.PlaceService
 import com.google.gson.Gson
@@ -57,4 +58,6 @@ private val retrofit: Retrofit = Retrofit.Builder()
     val placeService: PlaceService = retrofit.create(PlaceService::class.java)
 
     val bookmarkService: BookmarkService = retrofit.create(BookmarkService::class.java)
+
+    val courseService: CourseService = retrofit.create(CourseService::class.java)
 }
