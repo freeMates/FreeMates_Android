@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.freemates_android.TokenManager.getRefreshToken
 import com.example.freemates_android.UserInfoManager.getNicknameInfo
 import com.example.freemates_android.api.RetrofitClient
+import com.example.freemates_android.api.dto.MyBookmarkListResponse
 import com.example.freemates_android.api.dto.PlaceDto
 import com.example.freemates_android.databinding.FragmentMapBinding
 import com.example.freemates_android.model.Category
@@ -56,8 +57,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private val binding get() = _binding!!
 
     private var currentLatLng: LatLng = LatLng.from(37.5506, 127.0742)
-
+    val IMAGE_BASE_URL = "http://3.34.78.124:8087"
     private lateinit var sheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var favoriteList: ArrayList<FavoriteList>
 
     private lateinit var mapView: MapView
     private var kakaoMap: KakaoMap? = null
@@ -160,7 +162,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private fun initViewModelAndCollector() {
         viewModel = ViewModelProvider(requireActivity())[MapViewModel::class.java]
 
-        viewModel.showFavoriteList()
+//        viewModel.showFavoriteList(emp)
 
         lifecycleScope.launchWhenStarted {
             viewModel.sheetState.collect { state ->
@@ -195,14 +197,14 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         }
     }
 
-    fun updateSheetContent(state: MapViewModel.SheetState) {
+    private fun updateSheetContent(state: MapViewModel.SheetState) {
         val (fragment, tag) = when (state) {
             is MapViewModel.SheetState.PlacePreview ->
                 PlacePreviewSheet.newInstance(state.place) to "PlacePreview"
             is MapViewModel.SheetState.CategoryResult ->
                 CategoryResultSheet.newInstance(state.category, state.places) to "CategoryResult"
             is MapViewModel.SheetState.FavoriteList ->
-                FavoriteListSheet.newInstance(state.favoritelist) to "FavoriteList"
+                FavoriteListSheet.newInstance(state.favoritelist!!) to "FavoriteList"
 //            is MapViewModel.SheetState.FavoriteDetail ->
 //                FavoriteDetailSheet.newInstance(state.list) to "FavoriteDetail"
             else -> return
@@ -225,6 +227,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     // 즐겨찾기 값 마커로 찍기
     fun addMarkersToMap(place: Place, pinColor: Int) {
+        Log.d("Map", "지도에 핀 추가중...")
         val layer = kakaoMap!!.labelManager!!.layer      // null 아님 확정
         val style = kakaoMap!!.labelManager!!
             .addLabelStyles(LabelStyles.from(LabelStyle.from(pinColor)))
@@ -232,7 +235,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         val options = LabelOptions.from(LatLng.from(place.latitude, place.longitude))
             .setStyles(style)          // 마커 아이콘
             .setClickable(true)        // 클릭 가능
-        layer?.removeAll()
+//        layer?.removeAll()
         val label = layer?.addLabel(options)
 
         // 여기서 place 객체(혹은 id)를 바로 태깅
@@ -261,6 +264,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             override fun onMapReady(kakaomap: KakaoMap) {
                 // 정상적으로 인증이 완료되었을 때 호출
                 kakaoMap = kakaomap
+
+                fetchBookmarkList()
 
 //                addMarkersToMap(places)
 
@@ -364,6 +369,153 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 override fun onFailure(call: Call<List<PlaceDto>>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("AddFavoritePlace", value)
+                }
+            })
+        }
+    }
+
+    private fun fetchBookmarkList(){
+        Log.d("FavoriteList", "데이터 불러오기 시작")
+        viewLifecycleOwner.lifecycleScope.launch {
+            val userNickname: String = requireContext().getNicknameInfo()
+            val refreshToken = requireContext().getRefreshToken()  // 필요 시
+            RetrofitClient.bookmarkService.myBookmarkList(
+                "Bearer $refreshToken",
+            ).enqueue(object :
+                Callback<List<MyBookmarkListResponse>> {
+                override fun onResponse(
+                    call: Call<List<MyBookmarkListResponse>>,
+                    response: Response<List<MyBookmarkListResponse>>
+                ) {
+                    Log.d("FavoriteList", "response code :${response.code()}")
+                    when (response.code()) {
+                        200 -> {
+                            val tempList = ArrayList<FavoriteList>()
+                            response.body()?.forEach { items ->
+                                val pinColorRes: Int = when (items.pinColor.uppercase()) {
+                                    "RED" -> R.drawable.ic_red_marker
+                                    "YELLOW" -> R.drawable.ic_yellow_marker
+                                    "GREEN" -> R.drawable.ic_green_marker
+                                    "BLUE" -> R.drawable.ic_blue_marker
+                                    "PURPLE" -> R.drawable.ic_purple_marker
+                                    else -> R.drawable.ic_pink_marker
+                                }
+                                val visibilityStatus: Boolean =
+                                    items.visibility.uppercase() == "PUBLIC"
+
+                                val imageUrl = IMAGE_BASE_URL + items.imageUrl
+
+                                val placeList: ArrayList<RecommendItem> =
+                                    if (items.placeDtos != null) {
+                                        val list = ArrayList<RecommendItem>()
+                                        for (placeItem in items.placeDtos) {
+                                            list.add(
+                                                RecommendItem(
+                                                    placeItem.placeId,
+                                                    placeItem.imageUrl,
+                                                    placeItem.placeName,
+                                                    true,
+                                                    placeItem.likeCount,
+                                                    placeItem.addressName,
+                                                    when (placeItem.categoryType.uppercase()) {
+                                                        "CAFE" -> R.drawable.ic_cafe_small_on
+                                                        "FOOD" -> R.drawable.ic_foods_small_on
+                                                        "SHOPPING" -> R.drawable.ic_shopping_small_on
+                                                        "WALK" -> R.drawable.ic_walk_small_on
+                                                        "PLAY" -> R.drawable.ic_leisure_small_on
+                                                        "HOSPITAL" -> R.drawable.ic_hospital_small_on
+                                                        else -> R.drawable.ic_cafe_small_on
+                                                    },
+                                                    when (placeItem.categoryType.uppercase()) {
+                                                        "CAFE" -> "카페"
+                                                        "FOOD" -> "먹거리"
+                                                        "SHOPPING" -> "쇼핑"
+                                                        "WALK" -> "산책"
+                                                        "PLAY" -> "놀거리"
+                                                        "HOSPITAL" -> "병원"
+                                                        else -> ""
+                                                    },
+                                                    placeItem.tags,
+                                                    placeItem.introText,
+                                                    placeItem.distance
+                                                )
+                                            )
+
+                                            if(userNickname == items.nickname){
+                                                addMarkersToMap(
+                                                    Place(
+                                                       placeItem.placeId,
+                                                        placeItem.imageUrl,
+                                                        placeItem.placeName,
+                                                        true,
+                                                        when (placeItem.categoryType.uppercase()) {
+                                                            "CAFE" -> "카페"
+                                                            "FOOD" -> "먹거리"
+                                                            "SHOPPING" -> "쇼핑"
+                                                            "WALK" -> "산책"
+                                                            "PLAY" -> "놀거리"
+                                                            "HOSPITAL" -> "병원"
+                                                            else -> ""
+                                                        },
+                                                        placeItem.tags,
+                                                        placeItem.distance,
+                                                        placeItem.addressName,
+                                                        placeItem.y.toDouble(),
+                                                        placeItem.x.toDouble()
+                                                    ),
+                                                    when (items.pinColor.uppercase()) {
+                                                        "RED" -> R.drawable.ic_red_marker_image
+                                                        "YELLOW" -> R.drawable.ic_yellow_marker_image
+                                                        "GREEN" -> R.drawable.ic_green_marker_image
+                                                        "BLUE" -> R.drawable.ic_blue_marker_image
+                                                        "PURPLE" -> R.drawable.ic_purple_marker_image
+                                                        else -> R.drawable.ic_pink_marker_image
+                                                    }
+                                                )
+                                            }
+                                        }
+                                        list
+                                    } else {
+                                        // 빈 리스트
+                                        arrayListOf()
+                                    }
+
+
+                                val item = items.bookmarkId?.let {
+                                    FavoriteList(
+                                        pinColorRes,
+                                        items.title,
+                                        imageUrl,
+                                        items.description,
+                                        placeList,
+                                        visibilityStatus,
+                                        items.nickname,
+                                        it
+                                    )
+                                }
+
+                                if (items.nickname == userNickname) {
+                                    if (item != null) {
+                                        tempList.add(item)
+                                    }
+                                }
+                            }
+                            favoriteList = tempList
+
+                            // TODO !!
+                            viewModel.showFavoriteList(favoriteList)
+                        }
+
+                        else -> {
+                            val errorCode = response.errorBody()?.string()
+                            Log.e("FavoriteList", "응답 실패: ${response.code()} - $errorCode")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<MyBookmarkListResponse>>, t: Throwable) {
+                    val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                    Log.d("FavoriteList", value)
                 }
             })
         }

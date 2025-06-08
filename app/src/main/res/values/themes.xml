@@ -8,12 +8,10 @@
 
     <style name="Theme.FreeMates_Android" parent="Base.Theme.FreeMates_Android" />
 
-<!--    <style name="Theme.Freemates.Splash" parent="Theme.SplashScreen">-->
-<!--        <item name="android:windowSplashScreenBackground">@color/primary200</item>-->
-<!--        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_app_icon_white</item>-->
-<!--        <item name="android:windowSplashScreenAnimationDuration">1000</item>-->
-<!--        <item name="postSplashScreenTheme">@style/Theme.FreeMates_Android</item>-->
-<!--    </style>-->
+    <style name="CustomProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_fill</item>
+    </style>
+
     <style name="BottomNavigationViewTextStyle" parent="Widget.Design.BottomNavigationView">
         <!--    TextFont 설정    -->
         <item name="fontFamily">@font/suit_regular</item>

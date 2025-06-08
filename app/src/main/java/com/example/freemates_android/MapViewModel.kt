@@ -31,8 +31,8 @@ class MapViewModel : ViewModel() {
         _sheetState.value = SheetState.CategoryResult(category, places)
     }
 
-    fun showFavoriteList() {
-        _sheetState.value = SheetState.FavoriteList(null)
+    fun showFavoriteList(favoritelist: ArrayList<FavoriteList>) {
+        _sheetState.value = SheetState.FavoriteList(favoritelist)
     }
 
 //    fun showFavoriteDetail(list: FavoriteList) {

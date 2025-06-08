@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import com.example.freemates_android.LoadingDialog
 import com.example.freemates_android.R
 import com.example.freemates_android.TokenManager.getRefreshToken
 import com.example.freemates_android.TokenManager.saveTokens
@@ -30,6 +31,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var loadingDialog: LoadingDialog
     private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,13 +45,17 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        loadingDialog = LoadingDialog(this)
+
         // 기본값 설정
         binding.etUserPasswordLogin.inputType =
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
         binding.btnLoginLogin.setOnClickListener {
-            if(binding.btnLoginLogin.isSelected)
+            if(binding.btnLoginLogin.isSelected) {
+                loadingDialog.showLoading()
                 attemptLogin()
+            }
         }
 
         binding.tvFindIdLogin.setOnClickListener {
@@ -161,6 +167,8 @@ class LoginActivity : AppCompatActivity() {
                         text = "아이디 및 비밀번호가 맞지 않습니다."
                         visibility = View.VISIBLE
                     }
+
+                    loadingDialog.hideLoading()
                 }
             }
 
@@ -214,6 +222,8 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
 
+                        loadingDialog.hideLoading()
+
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -221,6 +231,7 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         val errorCode = response.errorBody()?.string()
                         Log.e("Login", "응답 실패: ${response.code()} - $errorCode")
+                        loadingDialog.hideLoading()
                     }
                 }
 
@@ -230,6 +241,7 @@ class LoginActivity : AppCompatActivity() {
                 ) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("Login", value)
+                    loadingDialog.hideLoading()
                 }
             })
         }
