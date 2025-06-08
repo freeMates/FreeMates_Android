@@ -6,5 +6,4 @@ import com.example.freemates_android.databinding.ItemCoursePlaceHeaderBinding
 
 class CourseInfoFooterViewHolder(binding: ItemCoursePlaceFooterBinding): RecyclerView.ViewHolder(binding.root) {
     val walkTime = binding.tvWalkTimeCoursePlaceItemFooter
-    val crosswalkCount = binding.tvCrosswalkCountCoursePlaceItemFooter
 }

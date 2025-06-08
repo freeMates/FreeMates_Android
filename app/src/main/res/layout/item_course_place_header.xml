@@ -16,7 +16,7 @@
     
     <View
         android:layout_width="2dp"
-        android:layout_height="68dp"
+        android:layout_height="50dp"
         android:background="@color/primary300"
         app:layout_constraintTop_toBottomOf="@+id/ivStartCircle_CoursePlaceItemHeader"
         app:layout_constraintStart_toStartOf="@+id/ivStartCircle_CoursePlaceItemHeader"

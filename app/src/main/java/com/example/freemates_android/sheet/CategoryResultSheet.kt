@@ -109,8 +109,8 @@ class CategoryResultSheet : Fragment() {
                                         else -> "카페"
                                     }
 
-                                // TODO API 수정되면 items.distance 넣기
                                 val item = RecommendItem(
+                                    items.placeId,
                                     items.imageUrl,
                                     items.placeName,
                                     false,
@@ -120,7 +120,7 @@ class CategoryResultSheet : Fragment() {
                                     selectedCategory,
                                     items.tags,
                                     items.introText,
-                                    "743"
+                                    items.distance
                                 )
                                 places.add(item)
                             }

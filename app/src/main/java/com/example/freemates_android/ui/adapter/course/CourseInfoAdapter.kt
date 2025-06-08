@@ -4,21 +4,27 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ItemCoursePlaceBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceFooterBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceHeaderBinding
+import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.CourseInfo
+import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.ui.adapter.category.CategoryLargeAdapter
 import com.example.freemates_android.ui.adapter.category.CategoryListAdapter
 import com.example.freemates_android.ui.adapter.filter.FilterAdapter
 import com.example.freemates_android.ui.decoration.HorizontalSpacingDecoration
+import kotlin.math.ceil
 
 class CourseInfoAdapter(
     val context: Context,
-    private val courseInfoList: List<CourseInfo>
+    private val courseInfoList: List<RecommendItem>
 //    private val onCourseInfoClick: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -80,49 +86,59 @@ class CourseInfoAdapter(
             }
         } else if (holder is CourseInfoFooterViewHolder) {
             Log.d("아이템 뷰 : ", "footer")
-            if(walkTime > 0)
-                holder.walkTime.text = "도보 30분"
-            else
-                holder.walkTime.text = ""
 
-            if(crosswalkCount > 0)
-                holder.crosswalkCount.text = "횡단보도 5회"
-            else
-                holder.crosswalkCount.text = ""
+            holder.walkTime.text = "도보 ${walkTime}분"
+
         } else if (holder is CourseInfoViewHolder){
             val pos = position - 1
-            holder.title.text = courseInfoList[pos].title
+            holder.title.text = courseInfoList[pos].placeTitle
 
-            walkTime += courseInfoList[pos].walkTime
-            crosswalkCount += courseInfoList[pos].crosswalkCount
-            if(courseInfoList[pos].walkTime > 0)
-                holder.walkTime.text = "도보 ${courseInfoList[pos].walkTime}분"
-            else
-                holder.walkTime.text = ""
-
-            if(courseInfoList[pos].crosswalkCount > 0)
-                holder.crosswalkCount.text = "횡단보도 ${courseInfoList[pos].crosswalkCount}회"
-            else
-                holder.crosswalkCount.text = ""
+            val minutes = courseInfoList[pos].placeDuration?.let { minutesFromDistance(it.toDouble()) }
+            holder.walkTime.text = "도보 ${minutes?.let { formatMinutes(it) }}"
+            if (minutes != null) {
+                walkTime += minutes
+            }
 
             Glide.with(context)
-                .load(courseInfoList[pos].image)
+                .load(courseInfoList[pos].placeImage)
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.image)
 
             val horizontalSpacingDecoration = HorizontalSpacingDecoration(
                 context = context, // or `this` in Activity
                 spacingDp = 4,              // 아이템 간 간격
             )
-            val categoryAdapter = CategoryListAdapter(context, courseInfoList[pos].categories)
-            holder.category.layoutManager =
-                LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
-            holder.category.addItemDecoration(horizontalSpacingDecoration)
-            holder.category.adapter = categoryAdapter
 
-            val filterAdapter = FilterAdapter(context, courseInfoList[pos].tags)
+            val drawable = courseInfoList[pos].placeCategoryImage?.let {
+                ContextCompat.getDrawable(context,
+                    it
+                )
+            }
+            holder.category.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+
+            val filterAdapter = courseInfoList[pos].filter?.let { FilterAdapter(context, it) }
             holder.filter.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
             holder.filter.addItemDecoration(horizontalSpacingDecoration)
             holder.filter.adapter = filterAdapter
+        }
+    }
+
+    private fun minutesFromDistance(distanceMeters: Double,
+                                    speedMps: Double = 1.4): Int {
+        val seconds = distanceMeters / speedMps
+        return ceil(seconds / 60).toInt()
+    }
+
+    private fun formatMinutes(koreanMinutes: Int): String {
+        if (koreanMinutes < 1) return "1분 미만"
+        val hours = koreanMinutes / 60
+        val minutes = koreanMinutes % 60
+        return when {
+            hours == 0        -> "${minutes}분"
+            minutes == 0      -> "${hours}시간"
+            else              -> "${hours}시간 ${minutes}분"
         }
     }
 

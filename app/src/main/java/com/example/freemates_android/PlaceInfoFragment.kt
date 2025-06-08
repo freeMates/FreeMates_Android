@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -45,6 +46,8 @@ class PlaceInfoFragment : Fragment(R.layout.fragment_place_info) {
 
         binding.clLikeContainerPlaceInfo.setOnClickListener {
             val addFavoritePlace = AddFavoritePlaceSheet()
+            val bundle = bundleOf("placeId" to placeInfo.placeId)
+            addFavoritePlace.arguments = bundle
             addFavoritePlace.show(childFragmentManager, addFavoritePlace.tag)
         }
     }
@@ -54,6 +57,9 @@ class PlaceInfoFragment : Fragment(R.layout.fragment_place_info) {
         val imageUrl = placeInfo.placeImage?.replaceFirst("http://", "https://")
         Glide.with(requireContext())
             .load(imageUrl)
+            .placeholder(R.drawable.ic_image_default)
+            .error(R.drawable.ic_image_default)
+            .fallback(R.drawable.ic_image_default)
             .into(binding.ivPlaceImagePlaceInfo)
         // 제목
         binding.tvPlaceTitlePlaceInfo.text = placeInfo.placeTitle
@@ -68,7 +74,8 @@ class PlaceInfoFragment : Fragment(R.layout.fragment_place_info) {
         binding.tvPlaceAddressPlaceInfo.text = placeInfo.placeAddress
         // 소요시간
         val minutes = placeInfo.placeDuration?.let { minutesFromDistance(it.toDouble()) }
-        binding.tvPlaceDurationPlaceInfo.text = minutes?.let { formatMinutes(it) }
+        binding.tvPlaceDurationPlaceInfo.text = "도보 ${minutes?.let { formatMinutes(it) }}"
+//        binding.tvPlaceDurationPlaceInfo.text = "도보 ${placeInfo.placeDuration}"
         // 카테고리
         binding.tvPlaceCategoryPlaceInfo.text = placeInfo.placeCategoryTitle
         val drawable = placeInfo.placeCategoryImage
@@ -97,13 +104,13 @@ class PlaceInfoFragment : Fragment(R.layout.fragment_place_info) {
         }
     }
 
-    fun minutesFromDistance(distanceMeters: Double,
-                            speedMps: Double = 1.4): Int {
+    private fun minutesFromDistance(distanceMeters: Double,
+                                    speedMps: Double = 1.4): Int {
         val seconds = distanceMeters / speedMps
         return ceil(seconds / 60).toInt()
     }
 
-    fun formatMinutes(koreanMinutes: Int): String {
+    private fun formatMinutes(koreanMinutes: Int): String {
         if (koreanMinutes < 1) return "1분 미만"
         val hours = koreanMinutes / 60
         val minutes = koreanMinutes % 60

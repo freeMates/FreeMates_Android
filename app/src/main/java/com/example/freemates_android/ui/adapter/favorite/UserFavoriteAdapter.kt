@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ItemUserFavoriteBinding
 import com.example.freemates_android.model.map.FavoriteList
 
@@ -47,12 +48,18 @@ class UserFavoriteAdapter (val context: Context, val favoriteListItems: ArrayLis
         if (holder is UserFavoriteViewHolder) {
             Glide.with(context)
                 .load(favoriteListItems[position].markerColor) // 불러올 이미지 url
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.marker) // 이미지를 넣을 뷰
             holder.title.text = favoriteListItems[position].title
 
             Log.d("UserFavoriteAdapter", "imageUrl : $favoriteListItems[position].thumbnailUrl")
             Glide.with(context)
                 .load(favoriteListItems[position].thumbnailUrl) // 불러올 이미지 url
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.image) // 이미지를 넣을 뷰
 
             if(favoriteListItems[position].visibilityStatus) {

@@ -2,6 +2,14 @@ package com.example.freemates_android.api.dto
 
 import com.example.freemates_android.model.map.Place
 
+data class CourseRequest(
+    val title: String,
+    val description: String,
+    val freeTime : Int,          // ex) 30, 60 …
+    val visibility: String,     // "PUBLIC" / "PRIVATE"
+    val placeIds: List<String>
+)
+
 data class CourseResponse(
     val content: List<CourseDto>,
     val pageable: PageableDto,
@@ -25,5 +33,6 @@ data class CourseDto(
     val visibility: String,
     val imageUrl: String,
     val placeIds: List<String>,
-    val coursePlaceDtos: List<PlaceDto>,
+    val placeDtos: List<PlaceDto>,
+    val likeCount: Int,
 )

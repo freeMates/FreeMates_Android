@@ -2,6 +2,7 @@ package com.example.freemates_android.api.service
 
 import com.example.freemates_android.api.dto.BookmarkCreateResponse
 import com.example.freemates_android.api.dto.MyBookmarkListResponse
+import com.example.freemates_android.api.dto.PageBookmarkResponse
 import com.example.freemates_android.api.dto.PlaceDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,10 +33,19 @@ interface BookmarkService {
         @Header("Authorization") authorization: String?,
     ): Call<List<MyBookmarkListResponse>>
 
-
-    @GET("bookmark/places/{bookmarkId}")
-    fun getBookmarkPlaces(
+    @GET("bookmark/list")
+    fun getBookmarkList(
         @Header("Authorization") authorization: String?,
-        @Path("bookmarkId") bookmarkId: String
-    ): Call<List<PlaceDto>>
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("visibility") visibility: String,
+    ): Call<PageBookmarkResponse>
+
+
+    @POST("bookmark/add/place/{bookmarkId}")
+    fun addBookmarkPlace(
+        @Header("Authorization") authorization: String?,
+        @Path("bookmarkId") bookmarkId: String,
+        @Query("placeId") placeId: String
+    ): Call<Void>
 }

@@ -18,5 +18,21 @@ data class MyBookmarkListResponse(
     val pinColor: String,       // "RED", "BLUE", ... 등의 문자열
     val visibility: String,     // "PUBLIC" 또는 "PRIVATE"
     val memberId: String,
-    val nickname: String
+    val nickname: String,
+    val likeCount : Int,
+    val placeDtos: List<PlaceDto>?
+)
+
+data class PageBookmarkResponse(
+    val content: List<MyBookmarkListResponse>,
+    val pageable: PageableDto,
+    val last: Boolean,
+    val totalPages: Int,
+    val totalElements: Int,
+    val first: Boolean,
+    val size: Int,
+    val number: Int,
+    val sort: SortDto,
+    val numberOfElements: Int,
+    val empty: Boolean
 )

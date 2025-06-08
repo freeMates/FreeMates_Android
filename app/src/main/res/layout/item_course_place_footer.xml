@@ -38,25 +38,13 @@
         android:id="@+id/tvWalkTime_CoursePlaceItemFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:textSize="12sp"
-        android:textColor="@color/natural300"
-        android:fontFamily="@font/suit_regular"
-        app:layout_constraintStart_toStartOf="@+id/ivUniversityLogo_CoursePlaceItemFooter"
-        app:layout_constraintTop_toBottomOf="@+id/ivUniversityLogo_CoursePlaceItemFooter"
-        tools:text="도보 15분"/>
-
-    <TextView
-        android:id="@+id/tvCrosswalkCount_CoursePlaceItemFooter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
         android:layout_marginStart="8dp"
         android:textSize="12sp"
         android:textColor="@color/natural300"
         android:fontFamily="@font/suit_regular"
-        app:layout_constraintStart_toEndOf="@+id/tvWalkTime_CoursePlaceItemFooter"
-        app:layout_constraintTop_toBottomOf="@+id/ivUniversityLogo_CoursePlaceItemFooter"
-        tools:text="횡단보도 2회"/>
+        app:layout_constraintStart_toEndOf="@+id/ivUniversityLogo_CoursePlaceItemFooter"
+        app:layout_constraintTop_toTopOf="@+id/ivUniversityLogo_CoursePlaceItemFooter"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUniversityLogo_CoursePlaceItemFooter"
+        tools:text="도보 15분"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

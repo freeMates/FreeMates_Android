@@ -17,6 +17,7 @@ import com.example.freemates_android.ui.adapter.course.CourseInfoAdapter
 class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
 
     private lateinit var binding: FragmentCourseInfoBinding
+    private lateinit var course: Course
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentCourseInfoBinding.bind(view)
@@ -27,7 +28,7 @@ class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
     }
 
     private fun initUI(){
-        val course = requireArguments().getParcelable<Course>("courseInfo")
+        course = requireArguments().getParcelable<Course>("courseInfo")!!
 
         if (course != null) {
             // creator랑 현재 아이디랑 똑같은지 비교
@@ -41,6 +42,9 @@ class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
 
             Glide.with(this)
                 .load(course.courseImage)
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(binding.ivCourseImageCourseInfo)
             if(course.visibilityStatus)
                 binding.ivCourseVisibilityStatusCourseInfo.visibility = View.GONE
@@ -58,11 +62,12 @@ class CourseInfoFragment : Fragment(R.layout.fragment_course_info) {
     }
 
     private fun recyclerviewInit(){
-        val courseInfoList = ArrayList<CourseInfo>()
-        courseInfoList.add(CourseInfo("스시붐", 11, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 5, 3, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 3, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
-        courseInfoList.add(CourseInfo("스시붐", 11, 2, listOf(Category(R.drawable.ic_category_cafe, "카페")),listOf("혼자서도 좋아요"), R.drawable.image2))
+        val courseInfoList = course.places
+//            ArrayList<CourseInfo>()
+//        courseInfoList.add(CourseInfo("스시붐", 11, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+//        courseInfoList.add(CourseInfo("스시붐", 5, 3, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+//        courseInfoList.add(CourseInfo("스시붐", 3, 0, listOf(Category(R.drawable.ic_category_cafe, "카페")), listOf("혼자서도 좋아요"), R.drawable.image2))
+//        courseInfoList.add(CourseInfo("스시붐", 11, 2, listOf(Category(R.drawable.ic_category_cafe, "카페")),listOf("혼자서도 좋아요"), R.drawable.image2))
 
         val courseInfoAdapter = CourseInfoAdapter(requireContext(), courseInfoList)
 //        courseInfoAdapter.setOnItemClickListener(object : CourseInfoAdapter.OnItemClickListener {

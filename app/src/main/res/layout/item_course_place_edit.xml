@@ -36,6 +36,8 @@
         android:ellipsize="end"
         android:background="@drawable/roundedbox_50"
         android:elevation="6dp"
+        android:editable="false"
+        android:focusable="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivMiddleCircle_CoursePlaceEditItem"
         app:layout_constraintEnd_toEndOf="parent"

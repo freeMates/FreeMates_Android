@@ -5,6 +5,7 @@ import com.example.freemates_android.api.service.BookmarkService
 import com.example.freemates_android.api.service.CourseService
 import com.example.freemates_android.api.service.MailService
 import com.example.freemates_android.api.service.PlaceService
+import com.example.freemates_android.api.service.SearchService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -30,9 +31,9 @@ object RetrofitClient {
 //                val request = requestBuilder.build()
 //                chain.proceed(request)
 //            }
-    .connectTimeout(30, TimeUnit.SECONDS)
-    .readTimeout(30, TimeUnit.SECONDS)
-    .writeTimeout(30, TimeUnit.SECONDS)             //타임아웃 조건 추가
+    .connectTimeout(60, TimeUnit.SECONDS)
+    .readTimeout(60, TimeUnit.SECONDS)
+    .writeTimeout(60, TimeUnit.SECONDS)             //타임아웃 조건 추가
     .callTimeout(0,  TimeUnit.SECONDS)
     .addNetworkInterceptor(interceptor)                     //로그용 okhttp 달아주고
     .build()
@@ -60,4 +61,6 @@ private val retrofit: Retrofit = Retrofit.Builder()
     val bookmarkService: BookmarkService = retrofit.create(BookmarkService::class.java)
 
     val courseService: CourseService = retrofit.create(CourseService::class.java)
+
+    val searchService: SearchService = retrofit.create(SearchService::class.java)
 }

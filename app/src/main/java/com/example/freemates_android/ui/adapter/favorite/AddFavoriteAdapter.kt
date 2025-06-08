@@ -1,5 +1,6 @@
 package com.example.freemates_android.ui.adapter.favorite
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -18,9 +19,9 @@ class AddFavoriteAdapter(
     private val onAddFavoriteClick: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var onItemClickListener: (() -> Unit)? = null
+    private var onItemClickListener: (((AddFavorite)) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: () -> Unit) {
+    fun setOnItemClickListener(listener: ((AddFavorite)) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -45,6 +46,7 @@ class AddFavoriteAdapter(
         }
     }
 
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is HeaderViewHolder) {
             holder.itemView.setOnClickListener {
@@ -53,21 +55,27 @@ class AddFavoriteAdapter(
         } else if (holder is FavoriteViewHolder) {
             val favorite = favoriteList[position - 1] // Header 때문에 -1
             holder.tvFavoriteTitle.text = favorite.title
-            holder.tvPlaceCnt.text = "${favorite.places.size}개"
+            holder.tvPlaceCnt.text = "${favorite.places?.size}개"
             if(favorite.visibilityStatus)
                 holder.tvFavoriteVisibilityStatus.text = "공개"
             else holder.tvFavoriteVisibilityStatus.text = "비공개"
 
             Glide.with(context)
                 .load(favorite.markerColor) // 불러올 이미지 url
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.ivFavoriteMarker) // 이미지를 넣을 뷰
 
             Glide.with(context)
                 .load(favorite.thumbnailUrl) // 불러올 이미지 url
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.ivFavoriteImage) // 이미지를 넣을 뷰
 
             holder.itemView.setOnClickListener {
-                onItemClickListener?.invoke()
+                onItemClickListener?.invoke(favorite)
             }
         }
     }

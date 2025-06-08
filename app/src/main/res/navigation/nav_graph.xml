@@ -33,6 +33,14 @@
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
 
+        <action
+            android:id="@+id/action_searchFragment_to_placeInfoFragment"
+            app:destination="@id/placeInfoFragment" />
+
+        <action
+            android:id="@+id/action_searchFragment_to_courseEditFragment"
+            app:destination="@id/courseEditFragment" />
+
     </fragment>
 
     <fragment
@@ -95,6 +103,10 @@
             android:id="@+id/action_recommendFragment_to_placeInfoFragment"
             app:destination="@id/placeInfoFragment" />
 
+        <action
+            android:id="@+id/action_recommendFragment_to_courseEditFragment"
+            app:destination="@id/courseEditFragment" />
+
     </fragment>
 
     <fragment
@@ -144,8 +156,12 @@
         tools:layout="@layout/fragment_course_edit" >
 
         <action
-            android:id="@+id/action_courseEditFragment_to_courseInfoFragment"
-            app:destination="@id/courseInfoFragment" />
+            android:id="@+id/action_courseEditFragment_to_recommendFragment"
+            app:destination="@id/recommendFragment" />
+
+        <action
+            android:id="@+id/action_courseEditFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
 
     </fragment>
 

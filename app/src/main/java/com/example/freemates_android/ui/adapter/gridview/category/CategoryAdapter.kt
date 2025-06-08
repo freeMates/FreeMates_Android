@@ -9,6 +9,7 @@ import com.example.freemates_android.model.CategoryItem
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.freemates_android.R
 import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.FavoriteItem
 
@@ -49,6 +50,9 @@ class CategoryAdapter (val context: Context, val categoryItemList: ArrayList<Cat
         if (holder is CategoryViewHolder) {
             Glide.with(context)
                 .load(categoryItemList[position].categoryImage) // 불러올 이미지 url
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.categoryImage) // 이미지를 넣을 뷰
             holder.categoryText.text = categoryItemList[position].categoryTitle
 

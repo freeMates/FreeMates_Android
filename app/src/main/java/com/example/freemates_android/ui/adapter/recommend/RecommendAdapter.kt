@@ -2,12 +2,14 @@ package com.example.freemates_android.ui.adapter.recommend
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.freemates_android.R
 import com.example.freemates_android.databinding.ItemRecommendBinding
 import com.example.freemates_android.model.RecommendItem
 import com.example.freemates_android.ui.adapter.filter.FilterAdapter
@@ -49,8 +51,13 @@ class RecommendAdapter (val context: Context, val recommendItemList: ArrayList<R
     ) {
         if (holder is RecommendViewHolder) {
             val imageUrl = recommendItemList[position].placeImage?.replaceFirst("http://", "https://")
+            Log.d("RecommendAdapter", "image Check : ${recommendItemList[position].placeImage}")
+//            if(recommendItemList[position].placeImage?.isEmpty())
             Glide.with(context)
                 .load(imageUrl)
+                .placeholder(R.drawable.ic_image_default) // 로딩 중
+                .error(R.drawable.ic_image_default)       // 404 등 에러
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.image)
             holder.title.text = recommendItemList[position].placeTitle
             holder.likeState.isSelected = recommendItemList[position].like == true

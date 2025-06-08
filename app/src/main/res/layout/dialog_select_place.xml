@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/roundedbox_20"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvPlaceTitle_DialogSelectPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="스시붐\n코스를 선택하시겠습니까?"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:minLines="2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPlaceUnselect_DialogSelectPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginBottom="16dp"
+        android:text="취소"
+        android:textSize="15sp"
+        android:textColor="@color/red"
+        android:fontFamily="@font/suit_medium"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceTitle_DialogSelectPlace"
+        app:layout_constraintEnd_toStartOf="@+id/tvPlaceSelect_DialogSelectPlace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvPlaceSelect_DialogSelectPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginBottom="16dp"
+        android:text="확인"
+        android:textSize="15sp"
+        android:textColor="@color/primary400"
+        android:fontFamily="@font/suit_medium"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaceTitle_DialogSelectPlace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvPlaceUnselect_DialogSelectPlace"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -64,65 +64,25 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private lateinit var viewModel: MapViewModel
 
-
-//    val places = listOf(
-//        Place(
-//            id = "place_001",
-//            thumbnailUrl = "https://example.com/image.jpg",
-//            name = "세종대 학생회관",
-//            isFavorite = false,
-//            categories = listOf("카페", "디저트"),
-//            tags = listOf("조용한", "맛있는 디저트"),
-//            distance = "10분",
-//            address = "서울특별시 중구 세종대로 110",
-//            latitude = 37.5494,
-//            longitude = 127.0750
-//        ),
-//        Place(
-//            id = "place_002",
-//            thumbnailUrl = "https://picsum.photos/seed/picsum/200/300",
-//            name = "어린이대공원역",
-//            isFavorite = false,
-//            categories = listOf("카페", "디저트"),
-//            tags = listOf("조용한", "맛있는 디저트"),
-//            distance = "10분",
-//            address = "서울특별시 중구 세종대로 110",
-//            latitude = 37.5479,
-//            longitude = 127.0746
-//        ),
-//        Place(
-//            id = "place_003",
-//            thumbnailUrl = "https://picsum.photos/seed/picsum/200/300",
-//            name = "행복한 카페",
-//            isFavorite = false,
-//            categories = listOf("카페", "디저트"),
-//            tags = listOf("조용한", "맛있는 디저트"),
-//            distance = "10분",
-//            address = "서울특별시 중구 세종대로 110",
-//            latitude = 37.5462,
-//            longitude = 127.0733
-//        )
-//    )
-
     private val recommendList = listOf(
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요")), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요")), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "",  R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요")), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "",  R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요")), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf(("콘센트가 있어요"), ("조용해요"), ("좌석이 많아요")), "", ""),
     )
@@ -263,6 +223,23 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             }
     }
 
+    // 즐겨찾기 값 마커로 찍기
+    fun addMarkersToMap(place: Place, pinColor: Int) {
+        val layer = kakaoMap!!.labelManager!!.layer      // null 아님 확정
+        val style = kakaoMap!!.labelManager!!
+            .addLabelStyles(LabelStyles.from(LabelStyle.from(pinColor)))
+
+        val options = LabelOptions.from(LatLng.from(place.latitude, place.longitude))
+            .setStyles(style)          // 마커 아이콘
+            .setClickable(true)        // 클릭 가능
+        layer?.removeAll()
+        val label = layer?.addLabel(options)
+
+        // 여기서 place 객체(혹은 id)를 바로 태깅
+        label?.tag = place
+
+    }
+
     private fun showMapView() {
 
         mapView = binding.mvMap
@@ -293,7 +270,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
                     Log.d("Map", "지도 클릭 위치 - 위도: $clickedLat, 경도: $clickedLng")
 
-                    // TODO 클릭 시 위치의 장소 띄우기
                     fetchPlaceInfo(clickedLng.toString(), clickedLat.toString())
 //                    Toast.makeText(
 //                        requireContext(),
@@ -301,8 +277,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 //                        Toast.LENGTH_SHORT
 //                    ).show()
 
-                    // 예: 클릭한 좌표를 ViewModel로 전달하고 싶다면
-                    // viewModel.handleMapClick(clickedLat, clickedLng)
                 }
 
                 kakaoMap!!.setOnLabelClickListener { _, _, clickedLabel ->
@@ -323,7 +297,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         })
     }
 
-    private fun addMarkersToMap(place: Place) {
+    private fun addMarkerToMap(place: Place) {
         val layer = kakaoMap!!.labelManager!!.layer      // null 아님 확정
         val style = kakaoMap!!.labelManager!!
             .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_skyblue_marker_png)))
@@ -335,8 +309,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         val label = layer?.addLabel(options)
 
         // 여기서 place 객체(혹은 id)를 바로 태깅
-        label?.tag = place            // ★ 핵심 ★
-
+        label?.tag = place
     }
 
     private fun fetchPlaceInfo(long: String, lat: String) {
@@ -373,7 +346,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                             }
                             if (place != null) {
                                 viewModel.showPlacePreview(place)
-                                addMarkersToMap(place)
+                                addMarkerToMap(place)
                             }
                         }
 
@@ -394,6 +367,5 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 }
             })
         }
-
     }
 }

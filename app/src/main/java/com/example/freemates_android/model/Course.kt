@@ -6,14 +6,14 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Course(
-    val courseImage: String,
+    val courseImage: String?,
     val courseTitle: String,
-    val courseCreator: String,
-    val like: Boolean,
+    val courseCreator: String?,
+    var like: Boolean,
     val likeCnt: Int,
     val courseDuration: String,
     val courseDescription: String,
-    val places: List<RecommendItem>,
+    var places: List<RecommendItem>,
     val categories: List<Category>,
     val visibilityStatus: Boolean,
 ) : Parcelable

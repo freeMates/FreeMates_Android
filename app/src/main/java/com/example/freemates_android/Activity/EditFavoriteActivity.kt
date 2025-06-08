@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide
 import com.example.freemates_android.R
 import com.example.freemates_android.TokenManager.getRefreshToken
 import com.example.freemates_android.TokenManager.saveTokens
+import com.example.freemates_android.UserInfoManager.getNicknameInfo
 import com.example.freemates_android.api.RetrofitClient
 import com.example.freemates_android.api.dto.BookmarkCreateResponse
 import com.example.freemates_android.databinding.ActivityEditFavoriteBinding
@@ -59,6 +60,7 @@ class EditFavoriteActivity : AppCompatActivity() {
 
     // 선택된 이미지 Uri를 보관할 변수
     private var selectedImageUri: Uri? = null
+
     // MultipartBody.Part로 변환된 이미지 파트를 보관
     private var imagePart: MultipartBody.Part? = null
 
@@ -110,12 +112,15 @@ class EditFavoriteActivity : AppCompatActivity() {
         }
     }
 
-    private fun initUI(){
+    private fun initUI() {
         binding.btnCompleteEditEditFavorite.isSelected = false
         binding.btnCompleteEditEditFavorite.isClickable = false
 
         Glide.with(this)
             .load(favoriteList.thumbnailUrl)
+            .placeholder(R.drawable.ic_image_default) // 로딩 중
+            .error(R.drawable.ic_image_default)       // 404 등 에러
+            .fallback(R.drawable.ic_image_default)
             .into(binding.ivFavoriteImageEditFavorite)
         binding.etFavoriteTitleEditFavorite.setText(favoriteList.title)
         binding.btnFavoriteVisibilityPublicEditFavorite.isSelected = true
@@ -133,24 +138,19 @@ class EditFavoriteActivity : AppCompatActivity() {
         if (favoriteList.markerColor == R.drawable.ic_red_marker) {
             selectMarker(0)
             pinColor = "RED"
-        }
-        else if(favoriteList.markerColor == R.drawable.ic_yellow_marker) {
+        } else if (favoriteList.markerColor == R.drawable.ic_yellow_marker) {
             selectMarker(1)
             pinColor = "YELLOW"
-        }
-        else if(favoriteList.markerColor == R.drawable.ic_green_marker) {
+        } else if (favoriteList.markerColor == R.drawable.ic_green_marker) {
             selectMarker(2)
             pinColor = "GREEN"
-        }
-        else if(favoriteList.markerColor == R.drawable.ic_darkblue_marker) {
+        } else if (favoriteList.markerColor == R.drawable.ic_darkblue_marker) {
             selectMarker(3)
             pinColor = "BLUE"
-        }
-        else if(favoriteList.markerColor == R.drawable.ic_purple_marker) {
+        } else if (favoriteList.markerColor == R.drawable.ic_purple_marker) {
             selectMarker(4)
             pinColor = "PURPLE"
-        }
-        else if(favoriteList.markerColor == R.drawable.ic_pink_marker) {
+        } else if (favoriteList.markerColor == R.drawable.ic_pink_marker) {
             selectMarker(5)
             pinColor = "PINK"
         }
@@ -161,7 +161,7 @@ class EditFavoriteActivity : AppCompatActivity() {
             }
         }
 
-        if(pageName == "favoriteDetail"){
+        if (pageName == "favoriteDetail") {
             binding.btnCompleteEditEditFavorite.text = "수정하기"
         } else {
             binding.btnCompleteEditEditFavorite.text = "완료"
@@ -192,7 +192,7 @@ class EditFavoriteActivity : AppCompatActivity() {
 
     private lateinit var image: MultipartBody.Part
 
-    private fun clickEvent(){
+    private fun clickEvent() {
         binding.btnBackToMapEditFavorite.setOnClickListener {
             finish()
         }
@@ -213,23 +213,26 @@ class EditFavoriteActivity : AppCompatActivity() {
             Log.d("EditFavorite", "완료버튼 클릭")
             val title = binding.etFavoriteTitleEditFavorite.text.toString()
             val description = binding.etFavoriteDescriptionEditFavorite.text.toString()
-            val visibility = if(binding.btnFavoriteVisibilityPublicEditFavorite.isSelected) "PUBLIC" else "PRIVATE"
+            val visibility =
+                if (binding.btnFavoriteVisibilityPublicEditFavorite.isSelected) "PUBLIC" else "PRIVATE"
 
             val finalImagePart: MultipartBody.Part = if (imagePart != null) {
                 imagePart!!
             } else {
                 // drawable 에 있는 기본 이미지를 사용
                 createMultipartFromDrawable(
-                    resId     = R.drawable.image2, // ← 프로젝트에 있는 기본 이미지 리소스 ID로 변경
+                    resId = R.drawable.image2, // ← 프로젝트에 있는 기본 이미지 리소스 ID로 변경
                     fieldName = "image",                     // ← 서버 API 문서에 맞춰 필드명 설정
-                    fileName  = "default.jpg"                // ← 서버에 전달할 파일 이름 설정
+                    fileName = "default.jpg"                // ← 서버에 전달할 파일 이름 설정
                 )
             }
 
             val titleBody: RequestBody = title.toRequestBody("text/plain".toMediaTypeOrNull())
-            val descriptionBody: RequestBody = description.toRequestBody("text/plain".toMediaTypeOrNull())
+            val descriptionBody: RequestBody =
+                description.toRequestBody("text/plain".toMediaTypeOrNull())
             val pinColorBody: RequestBody = pinColor.toRequestBody("text/plain".toMediaTypeOrNull())
-            val visibilityBody: RequestBody = visibility.toRequestBody("text/plain".toMediaTypeOrNull())
+            val visibilityBody: RequestBody =
+                visibility.toRequestBody("text/plain".toMediaTypeOrNull())
 
             lifecycleScope.launch {
                 val refreshToken = getRefreshToken()
@@ -246,7 +249,7 @@ class EditFavoriteActivity : AppCompatActivity() {
                         call: Call<BookmarkCreateResponse>,
                         response: Response<BookmarkCreateResponse>
                     ) {
-                        if (response.isSuccessful) {
+                        if (response.code() == 201) {
                             Log.d("EditFavorite", "즐겨찾기 추가 성공")
                             finish()
 
@@ -298,7 +301,8 @@ class EditFavoriteActivity : AppCompatActivity() {
             val cr: ContentResolver = contentResolver
             // MIME 타입을 얻어오거나, 기본값을 image/*
             val mimeType = cr.getType(uri) ?: "image/*"
-            val inputStream: InputStream = cr.openInputStream(uri) ?: throw FileNotFoundException("Cannot open input stream from URI")
+            val inputStream: InputStream = cr.openInputStream(uri)
+                ?: throw FileNotFoundException("Cannot open input stream from URI")
             val bytes = inputStream.use { it.readBytes() }
 
             // 파일명 추출 (OpenableColumns.DISPLAY_NAME 사용)
@@ -315,7 +319,11 @@ class EditFavoriteActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("EditFavorite", "이미지 Multipart 생성 오류", e)
             withContext(Dispatchers.Main) {
-                Toast.makeText(this@EditFavoriteActivity, "이미지를 처리하는 도중에 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@EditFavoriteActivity,
+                    "이미지를 처리하는 도중에 오류가 발생했습니다.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -344,7 +352,7 @@ class EditFavoriteActivity : AppCompatActivity() {
         return result
     }
 
-    private fun textChangeEvent(){
+    private fun textChangeEvent() {
         binding.etFavoriteTitleEditFavorite.addTextChangedListener {
             updateCompleteButtonState()
         }
@@ -360,6 +368,7 @@ class EditFavoriteActivity : AppCompatActivity() {
                 binding.btnFavoriteVisibilityPublicEditFavorite.isSelected = true
                 binding.btnFavoriteVisibilityPrivateEditFavorite.isSelected = false
             }
+
             "비공개" -> {
                 binding.btnFavoriteVisibilityPublicEditFavorite.isSelected = false
                 binding.btnFavoriteVisibilityPrivateEditFavorite.isSelected = true
@@ -368,7 +377,8 @@ class EditFavoriteActivity : AppCompatActivity() {
     }
 
     private fun updateCompleteButtonState() {
-        val isValid: Boolean = binding.etFavoriteTitleEditFavorite.length() > 0 && binding.etFavoriteDescriptionEditFavorite.length() > 0
+        val isValid: Boolean =
+            binding.etFavoriteTitleEditFavorite.length() > 0 && binding.etFavoriteDescriptionEditFavorite.length() > 0
         binding.btnCompleteEditEditFavorite.isSelected = isValid
         binding.btnCompleteEditEditFavorite.isClickable = isValid
     }

@@ -10,10 +10,12 @@ import com.example.freemates_android.databinding.ItemCoursePlaceEditBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceFooterBinding
 import com.example.freemates_android.databinding.ItemCoursePlaceHeaderBinding
 import com.example.freemates_android.model.CourseInfo
+import com.example.freemates_android.model.RecommendItem
 
 class CourseEditAdapter(
     val context: Context,
-    private val courseInfoList: List<CourseInfo>
+    private val courseInfoList: MutableList<RecommendItem>,
+    private val onAddCourseInfoClick: (String) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var onItemClickListener: (() -> Unit)? = null
@@ -82,14 +84,23 @@ class CourseEditAdapter(
             }
         } else if (holder is CourseInfoFooterViewHolder) {
             holder.walkTime.text = ""
-            holder.crosswalkCount.text = ""
         } else if(holder is CourseEditViewHolder) {
-            holder.title.setText(courseInfoList[position - 1].title)
+            holder.title.setText(courseInfoList[position - 1].placeTitle)
+            holder.title.setOnClickListener {
+                Log.d("CourseEditAdapter", "itemview clicked")
+                onAddCourseInfoClick("Place")
+            }
         } else if (holder is CourseInfoAddViewHolder){
             holder.itemView.setOnClickListener {
-//                onCourseInfoClick()
+                onAddCourseInfoClick("Add")
             }
         }
+    }
+
+    fun addItem(item: RecommendItem) {
+        val insertPosition = courseInfoList.size + 1 // ADD_VIEW_TYPE 앞
+        courseInfoList.add(item)
+        notifyItemInserted(insertPosition)
     }
 
     override fun getItemCount(): Int = courseInfoList.size + 3

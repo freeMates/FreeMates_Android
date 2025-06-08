@@ -40,6 +40,9 @@ class CategoryListAdapter (val context: Context, val items: List<Category>) :
         if (holder is CategoryListViewHolder) {
             Glide.with(context)
                 .load(items[position].categoryImage) // 불러올 이미지 url
+                .placeholder(R.drawable.ic_image_default)
+                .error(R.drawable.ic_image_default)
+                .fallback(R.drawable.ic_image_default)
                 .into(holder.image) // 이미지를 넣을 뷰
             holder.title.text = items[position].categoryTitle
         }

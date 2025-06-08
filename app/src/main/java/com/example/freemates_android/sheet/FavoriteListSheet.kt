@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.ceil
 
 class FavoriteListSheet : Fragment() {
 
@@ -53,23 +54,23 @@ class FavoriteListSheet : Fragment() {
 
     private val recommendList = listOf(
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
         RecommendItem(
-            R.drawable.image2.toString(), "브랫서울", true, 1345,
+            "", R.drawable.image2.toString(), "브랫서울", true, 1345,
             "서울 광진구 광나루로 410 1층 101호", R.drawable.ic_cafe_small_on, "카페",
             listOf("콘센트가 있어요", "조용해요", "좌석이 많아요"), "", ""),
     )
@@ -131,17 +132,68 @@ class FavoriteListSheet : Fragment() {
 
                                 val imageUrl = IMAGE_BASE_URL + items.imageUrl
 
-                                val item = FavoriteList(
-                                    pinColorRes,
-                                    items.title,
-                                    imageUrl,
-                                    items.description,
-                                    recommendList,
-                                    visibilityStatus
-                                )
+                                val placeList: ArrayList<RecommendItem> =
+                                    if (items.placeDtos != null) {
+                                        val list = ArrayList<RecommendItem>()
+                                        for (placeItem in items.placeDtos) {
+                                            list.add(
+                                                RecommendItem(
+                                                    placeItem.placeId,
+                                                    placeItem.imageUrl,
+                                                    placeItem.placeName,
+                                                    true,
+                                                    placeItem.likeCount,
+                                                    placeItem.addressName,
+                                                    when (placeItem.categoryType.uppercase()) {
+                                                        "CAFE" -> R.drawable.ic_cafe_small_on
+                                                        "FOOD" -> R.drawable.ic_foods_small_on
+                                                        "SHOPPING" -> R.drawable.ic_shopping_small_on
+                                                        "WALK" -> R.drawable.ic_walk_small_on
+                                                        "PLAY" -> R.drawable.ic_leisure_small_on
+                                                        "HOSPITAL" -> R.drawable.ic_hospital_small_on
+                                                        else -> R.drawable.ic_cafe_small_on
+                                                    },
+                                                    when (placeItem.categoryType.uppercase()) {
+                                                        "CAFE" -> "카페"
+                                                        "FOOD" -> "먹거리"
+                                                        "SHOPPING" -> "쇼핑"
+                                                        "WALK" -> "산책"
+                                                        "PLAY" -> "놀거리"
+                                                        "HOSPITAL" -> "병원"
+                                                        else -> ""
+                                                    },
+                                                    placeItem.tags,
+                                                    placeItem.introText,
+                                                    formatMinutes(minutesFromDistance(placeItem.distance.toDouble()))
+                                                )
+                                            )
+                                        }
+                                        list
+                                    } else {
+                                        // 빈 리스트
+                                        arrayListOf()
+                                    }
+
+
+                                val item = items.bookmarkId?.let {
+                                    FavoriteList(
+                                        pinColorRes,
+                                        items.title,
+                                        imageUrl,
+                                        items.description,
+                                        placeList,
+                                        visibilityStatus,
+                                        items.nickname,
+                                        it
+                                    )
+                                }
 
                                 if (items.nickname == userNickname) {
-                                    tempList.add(item)
+                                    if (item != null) {
+                                        tempList.add(item)
+
+
+                                    }
                                 }
                             }
                             favoriteList = tempList
@@ -184,6 +236,25 @@ class FavoriteListSheet : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(favoriteListVerticalSpacingDecoration)
             setHasFixedSize(true)
+        }
+    }
+
+    fun minutesFromDistance(
+        distanceMeters: Double,
+        speedMps: Double = 1.4
+    ): Int {
+        val seconds = distanceMeters / speedMps
+        return ceil(seconds / 60).toInt()
+    }
+
+    fun formatMinutes(koreanMinutes: Int): String {
+        if (koreanMinutes < 1) return "1분 미만"
+        val hours = koreanMinutes / 60
+        val minutes = koreanMinutes % 60
+        return when {
+            hours == 0 -> "${minutes}분"
+            minutes == 0 -> "${hours}시간"
+            else -> "${hours}시간 ${minutes}분"
         }
     }
 }

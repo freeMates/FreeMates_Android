@@ -1,9 +1,11 @@
 package com.example.freemates_android.Activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
@@ -54,7 +56,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.ibtnSearchButtonMain.setOnClickListener {
-            navController.navigate(R.id.searchFragment)
+            val bundle = bundleOf("pageName" to "home")
+            navController.navigate(R.id.searchFragment, bundle)
         }
     }
 

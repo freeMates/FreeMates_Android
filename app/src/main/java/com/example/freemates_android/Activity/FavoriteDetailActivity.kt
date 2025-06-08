@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,19 +17,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.freemates_android.R
+import com.example.freemates_android.UserInfoManager.getNicknameInfo
 import com.example.freemates_android.databinding.ActivityFavoriteDetailBinding
 import com.example.freemates_android.databinding.ActivityFindIdBinding
 import com.example.freemates_android.model.map.FavoriteList
 import com.example.freemates_android.ui.adapter.recommend.RecommendAdapter
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
+import kotlinx.coroutines.launch
 
 class FavoriteDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoriteDetailBinding
     private lateinit var favoriteList: FavoriteList
+    private var myName: String = ""
 
     companion object {
         private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
@@ -48,17 +53,36 @@ class FavoriteDetailActivity : AppCompatActivity() {
 
         favoriteList = intent.getParcelableExtra(ARG_FAVORITE_DETAIL) ?: return
 
-        binding.btnBackToRecommendFavoriteDetail.setOnClickListener {
-            finish()
+        viewInit()
+        clickEvent()
+    }
+
+    private fun viewInit(){
+        lifecycleScope.launch {
+            myName = getNicknameInfo()
+
+            Log.d("FavoriteDetail", "name : $myName")
+            Log.d("FavoriteDetail", "nickname : ${favoriteList.nickname}")
+            if (favoriteList.nickname == myName)
+                binding.btnEditFavoriteDetail.visibility = View.VISIBLE
+            else
+                binding.btnEditFavoriteDetail.visibility = View.GONE
         }
+
 
         Log.d("Event Click : ", "fragment changed")
         Glide.with(this)
             .load(favoriteList.thumbnailUrl)
+            .placeholder(R.drawable.ic_image_default) // 로딩 중
+            .error(R.drawable.ic_image_default)       // 404 등 에러
+            .fallback(R.drawable.ic_image_default)
             .into(binding.ivFavoriteImageFavoriteDetail)
 
         Glide.with(this)
             .load(favoriteList.markerColor)
+            .placeholder(R.drawable.ic_image_default) // 로딩 중
+            .error(R.drawable.ic_image_default)       // 404 등 에러
+            .fallback(R.drawable.ic_image_default)
             .into(binding.ivFavoriteMarkerFavoriteDetail)
 
         binding.tvFavoriteTitleFavoriteDetail.text = favoriteList.title
@@ -77,13 +101,13 @@ class FavoriteDetailActivity : AppCompatActivity() {
             addItemDecoration(favoriteDetailVerticalSpacingDecoration)
             setHasFixedSize(true)
         }
-
-        clickEvent()
-
     }
 
-
     private fun clickEvent(){
+        binding.btnBackToRecommendFavoriteDetail.setOnClickListener {
+            finish()
+        }
+
         binding.btnShareFavoriteDetail.setOnClickListener {
             showShareDialog()
         }

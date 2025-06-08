@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -12,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.freemates_android.Activity.EditFavoriteActivity
 import com.example.freemates_android.Activity.FavoriteDetailActivity
 import com.example.freemates_android.TokenManager.getRefreshToken
+import com.example.freemates_android.UserInfoManager.getNicknameInfo
 import com.example.freemates_android.api.RetrofitClient
 import com.example.freemates_android.api.dto.CategoryResponse
 import com.example.freemates_android.api.dto.CourseDto
 import com.example.freemates_android.api.dto.CourseResponse
+import com.example.freemates_android.api.dto.PageBookmarkResponse
 import com.example.freemates_android.databinding.FragmentRecommendBinding
 import com.example.freemates_android.model.Category
 import com.example.freemates_android.model.Course
@@ -38,6 +41,7 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
     private lateinit var binding: FragmentRecommendBinding
     private var courseList = ArrayList<Course>()
     private var recommendList = ArrayList<RecommendItem>()
+    private val favoriteList: ArrayList<FavoriteList> = ArrayList<FavoriteList>()
 
     companion object {
         private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
@@ -51,61 +55,44 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
     }
 
     private fun recyclerviewInit(){
-//        courseList.add(Course(R.drawable.image2, "맛집 탐방하기1", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
-//        courseList.add(Course(R.drawable.image2, "맛집 탐방하기2", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
-//        courseList.add(Course(R.drawable.image2, "맛집 탐방하기3", "파인애플농부애옹", true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
-//        courseList.add(Course(R.drawable.image2, "맛집 탐방하기4", "파인애플농부애옹",true, 13, "2시간 소요 코스", "광진구 구석구석을 누비며 만나는 진짜 맛의 세계. 입과 마음이 모두 행복해지는 맛집 탐방 코스!", listOf(Category(R.drawable.ic_category_cafe, "카페"), Category(R.drawable.ic_category_sports, "스포츠")), true))
-
-        val favoriteList = ArrayList<FavoriteItem>()
-        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
-        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
-        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
-        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
-        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
-        favoriteList.add(FavoriteItem(R.drawable.image1, "카공이 필요할 때 카공이 필요할 때", "파인애플농부애옹"))
-
-        val favoriteHorizontalSpacingDecoration = HorizontalSpacingDecoration(
-            context = requireContext(), // or `this` in Activity
-            spacingDp = 8,              // 아이템 간 간격
-        )
-
-        val favoriteListInfo = FavoriteList(R.drawable.ic_yellow_marker, "브랫서울", "R.drawable.image2",
-            "서울 광진구 광나루로 410 1층 101호", emptyList(), false)
-
-        val favoriteAdapter = FavoriteAdapter(requireContext(), favoriteList)
-        favoriteAdapter.setOnItemClickListener(object : FavoriteAdapter.OnItemClickListener {
-            override fun onItemClick(item: FavoriteItem) {
-                val intent = Intent(requireContext(), FavoriteDetailActivity::class.java).apply {
-                    putExtra(ARG_FAVORITE_DETAIL, favoriteListInfo)
-                }
-                startActivity(intent)
-            }
-        })
-
-        binding.rvFavoriteListRecommend.apply {
-            adapter = favoriteAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            addItemDecoration(favoriteHorizontalSpacingDecoration)
-            setHasFixedSize(true)
-        }
-
         getCourseData()
+        getBookmarkData()
         getRecommendData()
     }
 
     private fun clickEvent(){
         binding.tvPopularCourseDetailRecommend.setOnClickListener {
-            findNavController().navigate(R.id.action_recommendFragment_to_durationCourseFragment)
+            val bundle = bundleOf("courseList" to courseList)
+            findNavController().navigate(R.id.action_recommendFragment_to_durationCourseFragment, bundle)
         }
 
         binding.ivAdsRecommend.setOnClickListener{
             findNavController().navigate(R.id.action_recommendFragment_to_durationCourseFragment)
+        }
+
+        binding.fabAddCourseRecommend.setOnClickListener {
+            val course = Course(
+                "R.drawable.image2",
+                "",
+                "",
+                false,
+                0,
+                "0",
+                "",
+                emptyList(),
+                emptyList(),
+                false
+            )
+
+            val bundle = bundleOf("courseInfo" to course)
+            findNavController().navigate(R.id.action_recommendFragment_to_courseEditFragment, bundle)
         }
     }
 
     private fun getCourseData(){
         viewLifecycleOwner.lifecycleScope.launch {
             // ① suspend 함수 안전 호출
+            val myName = requireContext().getNicknameInfo()
             val refreshToken = requireContext().getRefreshToken()
             Log.d("Home", "refreshToken : $refreshToken")
             RetrofitClient.courseService.getCourseList(
@@ -124,15 +111,17 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
                         200 -> {
                             if (response.body()?.empty == false) {
                                 for (items in response.body()!!.content) {
-                                    var placeList: ArrayList<RecommendItem> = ArrayList()
+                                    val imageUrl = IMAGE_BASE_URL + items.imageUrl
+                                    val placeList: ArrayList<RecommendItem> = ArrayList()
                                     var courseDuration: Int = 0
-                                    var courseCategory: ArrayList<Category> = ArrayList()
-                                    for(place in items.coursePlaceDtos){
-                                        // TODO duration이 없음(PLaceDTO에.
+                                    val courseCategory: ArrayList<Category> = ArrayList()
+
+                                    for(place in items.placeDtos){
                                         val tmpItem = RecommendItem(
+                                            place.placeId,
                                             place.imageUrl,
                                             place.placeName,
-                                        false,
+                                            myName == items.nickname,
                                             place.likeCount,
                                             place.addressName,
                                             when(place.categoryType.uppercase()) {
@@ -155,28 +144,51 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
                                             },
                                             place.tags,
                                             place.introText,
-                                            formatMinutes(minutesFromDistance(place.distance.toDouble()))
+                                            place.distance
                                         )
-
                                         placeList.add(tmpItem)
+
+//                                        tmpItem.placeCategoryImage?.let {
+//                                            tmpItem.placeCategoryTitle?.let { it1 ->
+//                                                Category(
+//                                                    it, it1
+//                                                )
+//                                            }
+//                                        }?.let { courseCategory.add(it) }
+
                                         tmpItem.placeCategoryImage?.let {
                                             tmpItem.placeCategoryTitle?.let { it1 ->
                                                 Category(
-                                                    it, it1
+                                                    it,
+                                                    it1
                                                 )
                                             }
-                                        }?.let { courseCategory.add(it) }
+                                        }?.let {
+                                            courseCategory.add(
+                                                it
+                                            )
+                                        }
+
                                         courseDuration += tmpItem.placeDuration?.toInt() ?: 0
                                     }
 
-                                    // TODO API 수정되면 items.distance 넣기
+                                    Log.d("Recommend", "placeList : $placeList")
+                                    Log.d("Recommend", "courseCategory : $courseCategory")
+
                                     val item = Course(
-                                        items.imageUrl,
+                                        imageUrl,
                                         items.title,
                                         items.nickname,
-                                        false,
-                                        743,
-                                        courseDuration.toString(),
+                                        myName == items.nickname,
+                                        items.likeCount,
+                                        when(courseDuration) {
+                                            30  -> "30분 소요 코스"
+                                            60  -> "1시간 소요 코스"
+                                            90  -> "1시간 30분 소요 코스"
+                                            120 -> "2시간 소요 코스"
+                                            150 -> "2시간 30분 소요 코스"
+                                            else -> "3시간 소요 코스"
+                                        },
                                         items.description,
                                         placeList.toList(),
                                         courseCategory,
@@ -236,6 +248,144 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
         }
     }
 
+    val IMAGE_BASE_URL = "http://3.34.78.124:8087"
+    private fun getBookmarkData(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            // ① suspend 함수 안전 호출
+            val refreshToken = requireContext().getRefreshToken()
+            Log.d("Home", "refreshToken : $refreshToken")
+            RetrofitClient.bookmarkService.getBookmarkList(
+                "Bearer $refreshToken",
+                0,
+                10,
+                "PUBLIC"
+            ).enqueue(object :
+                Callback<PageBookmarkResponse> {
+                override fun onResponse(
+                    call: Call<PageBookmarkResponse>,
+                    response: Response<PageBookmarkResponse>
+                ) {
+                    Log.d("Home", "response code :${response.code()}")
+                    when (response.code()) {
+                        200 -> {
+                            if (response.body()?.empty == false) {
+                                for (items in response.body()!!.content) {
+                                    val imageUrl = IMAGE_BASE_URL + items.imageUrl
+
+                                    val selectedPin: Int =
+                                        when (items.pinColor.uppercase()) {
+                                            "RED" -> R.drawable.ic_red_marker
+                                            "YELLOW" -> R.drawable.ic_yellow_marker
+                                            "GREEN" -> R.drawable.ic_green_marker
+                                            "BLUE" -> R.drawable.ic_blue_marker
+                                            "PURPLE" -> R.drawable.ic_purple_marker
+                                            "PINK" -> R.drawable.ic_pink_marker
+                                            else -> R.drawable.ic_red_marker
+                                        }
+
+                                    val recommendList: ArrayList<RecommendItem> = ArrayList()
+//                                    if(!items.placeDto.isNullOrEmpty()) {
+
+                                    Log.d("Recommend", "item : $items")
+                                    items.placeDtos?.takeIf { it.isNotEmpty() }?.forEach { placeItem ->
+                                        Log.d("Recommend", "items.placeDto is not null or empty")
+                                        recommendList.add(
+                                            RecommendItem(
+                                                placeItem.placeId,
+                                                placeItem.imageUrl,
+                                                placeItem.placeName,
+                                                false,
+                                                placeItem.likeCount,
+                                                placeItem.addressName,
+                                                when (placeItem.categoryType.uppercase()) {
+                                                    "CAFE" -> R.drawable.ic_cafe_small_on
+                                                    "FOOD" -> R.drawable.ic_foods_small_on
+                                                    "SHOPPING" -> R.drawable.ic_shopping_small_on
+                                                    "WALK" -> R.drawable.ic_walk_small_on
+                                                    "PLAY" -> R.drawable.ic_leisure_small_on
+                                                    "HOSPITAL" -> R.drawable.ic_hospital_small_on
+                                                    else -> R.drawable.ic_cafe_small_on
+                                                },
+                                                when (placeItem.categoryType.uppercase()) {
+                                                    "CAFE" -> "카페"
+                                                    "FOOD" -> "먹거리"
+                                                    "SHOPPING" -> "쇼핑"
+                                                    "WALK" -> "산책"
+                                                    "PLAY" -> "놀거리"
+                                                    "HOSPITAL" -> "병원"
+                                                    else -> ""
+                                                },
+                                                placeItem.tags,
+                                                placeItem.introText,
+                                                placeItem.distance
+                                            )
+                                        )
+                                    }
+//                                        }
+
+
+                                    val tmpList = items.bookmarkId?.let {
+                                        FavoriteList(
+                                            selectedPin,
+                                            items.title,
+                                            imageUrl,
+                                            items.description,
+                                            recommendList,
+                                            items.visibility == "PUBLIC",
+                                            items.nickname,
+                                            it
+                                        )
+                                    }
+
+                                    if (tmpList != null) {
+                                        favoriteList.add(tmpList)
+                                    }
+                                }
+
+
+                            }
+                            bookmarkRecyclerviewInit()
+                        }
+
+                        else -> {
+                            val errorCode = response.errorBody()?.string()
+                            Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<PageBookmarkResponse>, t: Throwable) {
+                    val value = "Failure: ${t.message}"  // 네트워크 오류 처리
+                    Log.d("ProfileSetup", value)
+                }
+            })
+        }
+    }
+
+    private fun bookmarkRecyclerviewInit(){
+        val favoriteHorizontalSpacingDecoration = HorizontalSpacingDecoration(
+            context = requireContext(), // or `this` in Activity
+            spacingDp = 8,              // 아이템 간 간격
+        )
+
+        val favoriteAdapter = FavoriteAdapter(requireContext(), favoriteList)
+        favoriteAdapter.setOnItemClickListener(object : FavoriteAdapter.OnItemClickListener {
+            override fun onItemClick(item: FavoriteList) {
+                val intent = Intent(requireContext(), FavoriteDetailActivity::class.java).apply {
+                    putExtra(ARG_FAVORITE_DETAIL, item)
+                }
+                startActivity(intent)
+            }
+        })
+
+        binding.rvFavoriteListRecommend.apply {
+            adapter = favoriteAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            addItemDecoration(favoriteHorizontalSpacingDecoration)
+            setHasFixedSize(true)
+        }
+    }
+
     private fun getRecommendData(){
         viewLifecycleOwner.lifecycleScope.launch {
             // ① suspend 함수 안전 호출
@@ -280,8 +430,8 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
 
                                     Log.d("Home", "category is $selectedCategory")
 
-                                    // TODO API 수정되면 items.distance 넣기
                                     val item = RecommendItem(
+                                        items.placeId,
                                         items.imageUrl,
                                         items.placeName,
                                         false,
@@ -291,7 +441,7 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
                                         selectedCategory,
                                         items.tags,
                                         items.introText,
-                                        "743"
+                                        items.distance
                                     )
                                     recommendList.add(item)
                                 }
@@ -325,7 +475,8 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
         val recommendAdapter = RecommendAdapter(requireContext(), recommendList)
         recommendAdapter.setOnItemClickListener(object : RecommendAdapter.OnItemClickListener {
             override fun onItemClick(item: RecommendItem) {
-                findNavController().navigate(R.id.action_recommendFragment_to_placeInfoFragment)
+                val bundle = bundleOf("placeInfo" to item)
+                findNavController().navigate(R.id.action_recommendFragment_to_placeInfoFragment, bundle)
             }
         })
 

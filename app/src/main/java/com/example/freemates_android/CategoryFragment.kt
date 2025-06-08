@@ -122,8 +122,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
                                             else -> "카페"
                                         }
 
-                                    // TODO API 수정되면 items.distance 넣기
                                     val item = RecommendItem(
+                                        items.placeId,
                                         items.imageUrl,
                                         items.placeName,
                                         false,
@@ -133,7 +133,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
                                         selectedCategory,
                                         items.tags,
                                         items.introText,
-                                        "743"
+                                        items.distance
                                     )
                                     recommendList.add(item)
                                 }
