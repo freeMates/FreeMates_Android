@@ -27,9 +27,12 @@ import retrofit2.Response
 class CategoryFragment : Fragment(R.layout.fragment_category) {
     private lateinit var binding: FragmentCategoryBinding
     private val recommendList = ArrayList<RecommendItem>()
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentCategoryBinding.bind(view)
+
+        loadingDialog = LoadingDialog(requireContext())
 
         var category = requireArguments().getString("categoryTitle").toString()
 
@@ -79,6 +82,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
     private fun getData(category: String){
+        loadingDialog.showLoading()
         Log.d("Category", "categoryName : ${category}")
         recommendList.clear()
 
@@ -138,11 +142,15 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
                                     recommendList.add(item)
                                 }
                             recommendRecyclerviewInit()
+
+                            loadingDialog.hideLoading()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+
+                            loadingDialog.hideLoading()
                         }
                     }
                 }
@@ -150,6 +158,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
                 override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("ProfileSetup", value)
+
+                    loadingDialog.hideLoading()
                 }
             })
         }

@@ -60,6 +60,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     val IMAGE_BASE_URL = "http://3.34.78.124:8087"
     private lateinit var sheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var favoriteList: ArrayList<FavoriteList>
+    private lateinit var loadingDialog: LoadingDialog
 
     private lateinit var mapView: MapView
     private var kakaoMap: KakaoMap? = null
@@ -92,6 +93,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentMapBinding.bind(view)
+
+        loadingDialog = LoadingDialog(requireContext())
 
         initPersistentSheet()
         initCategoryRecycler()
@@ -318,6 +321,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     }
 
     private fun fetchPlaceInfo(long: String, lat: String) {
+        loadingDialog.showLoading()
         viewLifecycleOwner.lifecycleScope.launch {
             val refreshToken = requireContext().getRefreshToken()
 
@@ -353,15 +357,21 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                                 viewModel.showPlacePreview(place)
                                 addMarkerToMap(place)
                             }
+
+                            loadingDialog.hideLoading()
                         }
 
                         404 -> {
                             Toast.makeText(requireContext(), "존재하지 않는 장소입니다.", Toast.LENGTH_SHORT).show()
+
+                            loadingDialog.hideLoading()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("AddFavoritePlace", "응답 실패: ${response.code()} - $errorCode")
+
+                            loadingDialog.hideLoading()
                         }
                     }
                 }
@@ -369,12 +379,15 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 override fun onFailure(call: Call<List<PlaceDto>>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("AddFavoritePlace", value)
+
+                    loadingDialog.hideLoading()
                 }
             })
         }
     }
 
     private fun fetchBookmarkList(){
+        loadingDialog.showLoading()
         Log.d("FavoriteList", "데이터 불러오기 시작")
         viewLifecycleOwner.lifecycleScope.launch {
             val userNickname: String = requireContext().getNicknameInfo()
@@ -502,13 +515,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                             }
                             favoriteList = tempList
 
-                            // TODO !!
+                            loadingDialog.hideLoading()
+
                             viewModel.showFavoriteList(favoriteList)
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("FavoriteList", "응답 실패: ${response.code()} - $errorCode")
+
+                            loadingDialog.hideLoading()
                         }
                     }
                 }
@@ -516,6 +532,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 override fun onFailure(call: Call<List<MyBookmarkListResponse>>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("FavoriteList", value)
+
+                    loadingDialog.hideLoading()
                 }
             })
         }

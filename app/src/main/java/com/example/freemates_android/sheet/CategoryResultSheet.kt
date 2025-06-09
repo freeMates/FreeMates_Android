@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.freemates_android.LoadingDialog
 import com.example.freemates_android.R
 import com.example.freemates_android.TokenManager.getRefreshToken
 import com.example.freemates_android.api.RetrofitClient
@@ -40,6 +41,7 @@ class CategoryResultSheet : Fragment() {
 
     private lateinit var category: String
     private var places = ArrayList<RecommendItem>()
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,7 @@ class CategoryResultSheet : Fragment() {
         binding = SheetCategoryResultBinding.inflate(inflater, container, false)
         // UI 초기화 및 이벤트 설정
 
+        loadingDialog = LoadingDialog(requireContext())
         Log.d("CategoryResultSheet", "category is $category")
         getData(category)
 
@@ -66,6 +69,8 @@ class CategoryResultSheet : Fragment() {
     }
 
     private fun getData(category: String){
+        loadingDialog.showLoading()
+
         Log.d("Category", "categoryName : $category")
         places.clear()
 
@@ -125,11 +130,15 @@ class CategoryResultSheet : Fragment() {
                                 places.add(item)
                             }
                             recommendRecyclerviewInit()
+
+                            loadingDialog.hideLoading()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+
+                            loadingDialog.hideLoading()
                         }
                     }
                 }
@@ -137,6 +146,8 @@ class CategoryResultSheet : Fragment() {
                 override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("ProfileSetup", value)
+
+                    loadingDialog.hideLoading()
                 }
             })
         }

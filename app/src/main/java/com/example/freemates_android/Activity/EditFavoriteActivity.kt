@@ -24,6 +24,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.freemates_android.LoadingDialog
 import com.example.freemates_android.R
 import com.example.freemates_android.TokenManager.getRefreshToken
 import com.example.freemates_android.TokenManager.saveTokens
@@ -57,6 +58,7 @@ class EditFavoriteActivity : AppCompatActivity() {
     private lateinit var pinColor: String
     private val PICK_IMAGE_REQUEST = 1001
     private var imageUri: Uri? = null
+    private lateinit var loadingDialog: LoadingDialog
 
     // 선택된 이미지 Uri를 보관할 변수
     private var selectedImageUri: Uri? = null
@@ -91,6 +93,8 @@ class EditFavoriteActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        loadingDialog = LoadingDialog(this)
 
         favoriteList = intent.getParcelableExtra("arg_favorite_detail") ?: return
         pageName = intent.getStringExtra("arg_page_name").toString()
@@ -210,6 +214,8 @@ class EditFavoriteActivity : AppCompatActivity() {
         }
 
         binding.btnCompleteEditEditFavorite.setOnClickListener {
+            loadingDialog.showLoading()
+
             Log.d("EditFavorite", "완료버튼 클릭")
             val title = binding.etFavoriteTitleEditFavorite.text.toString()
             val description = binding.etFavoriteDescriptionEditFavorite.text.toString()
@@ -251,11 +257,15 @@ class EditFavoriteActivity : AppCompatActivity() {
                     ) {
                         if (response.code() == 201) {
                             Log.d("EditFavorite", "즐겨찾기 추가 성공")
-                            finish()
 
+                            loadingDialog.hideLoading()
+
+                            finish()
                         } else {
                             val errorCode = response.errorBody()?.string()
                             Log.e("EditFavorite", "응답 실패: ${response.code()} - $errorCode")
+
+                            loadingDialog.hideLoading()
                         }
                     }
 
@@ -265,6 +275,8 @@ class EditFavoriteActivity : AppCompatActivity() {
                     ) {
                         val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                         Log.d("EditFavorite", value)
+
+                        loadingDialog.hideLoading()
                     }
                 })
             }

@@ -6,4 +6,5 @@ import com.example.freemates_android.databinding.ItemSearchBinding
 
 class SearchViewHolder(binding: ItemSearchBinding): RecyclerView.ViewHolder(binding.root) {
     val searchTitle = binding.tvSearchTitleSearch
+    val textDelete = binding.btnSearchCancelSearch
 }

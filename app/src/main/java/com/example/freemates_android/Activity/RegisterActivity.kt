@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import com.example.freemates_android.LoadingDialog
 import com.example.freemates_android.R
 import com.example.freemates_android.api.RetrofitClient
 import com.example.freemates_android.api.dto.MailSendResponse
@@ -28,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
     private var isEmailVerified = false
     private var isPasswordVisible = false
     private var isPasswordConfirmVisible = false
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,8 @@ class RegisterActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        loadingDialog = LoadingDialog(this)
 
         // 기본값 설정
         binding.etUserPasswordRegister.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -128,6 +132,7 @@ class RegisterActivity : AppCompatActivity() {
 
             return
         }
+        loadingDialog.showLoading()
 
         RetrofitClient.authService.duplicateUsername(
             username
@@ -154,10 +159,12 @@ class RegisterActivity : AppCompatActivity() {
 
                         isIdChecked = false
                     }
-
+                    loadingDialog.hideLoading()
                 } else {
                     val errorCode = response.errorBody()?.string()
                     Log.e("Register", "응답 실패: ${response.code()} - $errorCode")
+
+                    loadingDialog.hideLoading()
                 }
             }
 
@@ -167,6 +174,8 @@ class RegisterActivity : AppCompatActivity() {
             ) {
                 val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                 Log.d("Register", value)
+
+                loadingDialog.hideLoading()
             }
         })
     }
@@ -284,6 +293,7 @@ class RegisterActivity : AppCompatActivity() {
         val email = binding.etUserEmailRegister.text.toString()
 
         binding.btnVerificationCodeCheckRegister.isSelected = false
+        loadingDialog.showLoading()
 
         RetrofitClient.mailService.mailSend(
             email
@@ -296,6 +306,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     val responseText = response.body()!!.string()
                     Log.d("Register", "Response Text: $responseText")
+                    loadingDialog.hideLoading()
                     showToast("메일 전송을 완료하였습니다.")
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -310,18 +321,23 @@ class RegisterActivity : AppCompatActivity() {
                     } else {
                         showToast("알 수 없는 오류가 발생했습니다.")
                     }
+
+                    loadingDialog.hideLoading()
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                 Log.d("Register", value)
+
+                loadingDialog.hideLoading()
             }
         })
     }
 
     private fun submitUserVerificationCode(){
         val email = binding.etUserEmailRegister.text.toString()
+        loadingDialog.showLoading()
 
         isEmailVerified = false
         RetrofitClient.mailService.mailCheckVerification(
@@ -348,16 +364,21 @@ class RegisterActivity : AppCompatActivity() {
                         isEmailVerified = false
                     }
                     updateRegisterButtonState()
+
+                    loadingDialog.hideLoading()
                 } else {
                     val errorCode = response.errorBody()?.string()
                     Log.e("Register", "응답 실패: ${response.code()} - $errorCode")
 
+                    loadingDialog.hideLoading()
                 }
             }
 
             override fun onFailure(call: Call<Boolean>, t: Throwable) {
                 val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                 Log.d("Register", value)
+
+                loadingDialog.hideLoading()
             }
         })
 

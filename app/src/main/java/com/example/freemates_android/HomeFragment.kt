@@ -34,6 +34,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
     val recommendList = ArrayList<RecommendItem>()
     private val favoriteList: ArrayList<FavoriteList> = ArrayList<FavoriteList>()
+    private lateinit var loadingDialog: LoadingDialog
+
+    private var bookmarkFlag = false
+    private var recommendFlag = false
 
     companion object {
         private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
@@ -41,6 +45,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentHomeBinding.bind(view)
+
+        loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.showLoading()
 
         initUI()
         getRecommendData()
@@ -143,11 +150,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                             }
                             recommendRecyclerviewInit()
+
+                            recommendFlag = true
+                            dialogDismiss()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+                            recommendFlag = true
+                            dialogDismiss()
                         }
                     }
                 }
@@ -155,6 +167,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("ProfileSetup", value)
+                    recommendFlag = true
+                    dialogDismiss()
                 }
             })
         }
@@ -275,11 +289,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                             }
                             bookmarkRecyclerviewInit()
+
+                            bookmarkFlag = true
+                            dialogDismiss()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+                            bookmarkFlag = true
+                            dialogDismiss()
                         }
                     }
                 }
@@ -287,6 +306,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 override fun onFailure(call: Call<PageBookmarkResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("ProfileSetup", value)
+                    bookmarkFlag = true
+                    dialogDismiss()
                 }
             })
         }
@@ -314,5 +335,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             addItemDecoration(favoriteHorizontalSpacingDecoration)
             setHasFixedSize(true)
         }
+    }
+
+    private fun dialogDismiss(){
+        if(recommendFlag && bookmarkFlag)
+            loadingDialog.hideLoading()
     }
 }

@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.freemates_android.databinding.ItemSearchBinding
 import com.example.freemates_android.model.SearchItem
+import com.example.freemates_android.saveStringList
 
-class SearchAdapter (val context: Context, val searchItemList: List<SearchItem>) :
+class SearchAdapter (val context: Context, val searchItemList: ArrayList<String>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -32,7 +33,18 @@ class SearchAdapter (val context: Context, val searchItemList: List<SearchItem>)
         position: Int
     ) {
         if (holder is SearchViewHolder) {
-            holder.searchTitle.text = searchItemList[position].searchTitle
+            holder.searchTitle.text = searchItemList[position]
+
+            holder.textDelete.setOnClickListener {
+                val pos = holder.bindingAdapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    searchItemList.removeAt(pos)
+
+                    notifyItemRemoved(pos)
+
+                    context.saveStringList(searchItemList)
+                }
+            }
         }
     }
 }

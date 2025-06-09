@@ -42,6 +42,10 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
     private var courseList = ArrayList<Course>()
     private var recommendList = ArrayList<RecommendItem>()
     private val favoriteList: ArrayList<FavoriteList> = ArrayList<FavoriteList>()
+    private lateinit var loadingDialog: LoadingDialog
+    private var bookmarkFlag = false
+    private var recommendFlag = false
+    private var courseFlag = false
 
     companion object {
         private const val ARG_FAVORITE_DETAIL = "arg_favorite_detail"
@@ -49,6 +53,9 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentRecommendBinding.bind(view)
+
+        loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.showLoading()
 
         recyclerviewInit()
         clickEvent()
@@ -200,11 +207,17 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
 
                             }
                             courseRecyclerviewInit()
+
+                            courseFlag = true
+                            dialogDismiss()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+
+                            courseFlag = true
+                            dialogDismiss()
                         }
                     }
                 }
@@ -212,6 +225,9 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
                 override fun onFailure(call: Call<CourseResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("ProfileSetup", value)
+
+                    courseFlag = true
+                    dialogDismiss()
                 }
             })
         }
@@ -345,11 +361,17 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
 
                             }
                             bookmarkRecyclerviewInit()
+
+                            bookmarkFlag = true
+                            dialogDismiss()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+
+                            bookmarkFlag = true
+                            dialogDismiss()
                         }
                     }
                 }
@@ -357,6 +379,9 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
                 override fun onFailure(call: Call<PageBookmarkResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("ProfileSetup", value)
+
+                    bookmarkFlag = true
+                    dialogDismiss()
                 }
             })
         }
@@ -449,11 +474,17 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
 
                             }
                             recommendRecyclerviewInit()
+
+                            recommendFlag = true
+                            dialogDismiss()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("ProfileSetup", "응답 실패: ${response.code()} - $errorCode")
+
+                            recommendFlag = true
+                            dialogDismiss()
                         }
                     }
                 }
@@ -461,6 +492,9 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
                 override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("ProfileSetup", value)
+
+                    recommendFlag = true
+                    dialogDismiss()
                 }
             })
         }
@@ -488,20 +522,8 @@ class RecommendFragment : Fragment(R.layout.fragment_recommend) {
         }
     }
 
-    fun minutesFromDistance(distanceMeters: Double,
-                            speedMps: Double = 1.4): Int {
-        val seconds = distanceMeters / speedMps
-        return ceil(seconds / 60).toInt()
-    }
-
-    fun formatMinutes(koreanMinutes: Int): String {
-        if (koreanMinutes < 1) return "1분 미만"
-        val hours = koreanMinutes / 60
-        val minutes = koreanMinutes % 60
-        return when {
-            hours == 0        -> "${minutes}분"
-            minutes == 0      -> "${hours}시간"
-            else              -> "${hours}시간 ${minutes}분"
-        }
+    private fun dialogDismiss(){
+        if(recommendFlag && bookmarkFlag && courseFlag)
+            loadingDialog.hideLoading()
     }
 }

@@ -32,6 +32,8 @@ import com.example.freemates_android.ui.adapter.search.SearchAdapter
 import com.example.freemates_android.ui.adapter.search.SearchViewHolder
 import com.example.freemates_android.ui.decoration.GridSpacingDecoration
 import com.example.freemates_android.ui.decoration.VerticalSpacingDecoration
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,9 +45,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var pageName: String
     private var recommendList: ArrayList<RecommendItem> = ArrayList()
+    private lateinit var searchList: ArrayList<String>
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentSearchBinding.bind(view)
+
+        loadingDialog = LoadingDialog(requireContext())
 
         pageName = requireArguments().getString("pageName").toString()
         Log.d("Search", "pageName: ${pageName}")
@@ -66,6 +72,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
             if(searchText.isNotEmpty()) {
                 binding.tvSearchContentSearch.text = "'$searchText'검색 결과"
+                searchList.add(searchText)
+                requireContext().saveStringList(searchList)
                 fetchSearchData(searchText)
             } else {
                 binding.clRecentSearchContainerSearch.visibility = View.VISIBLE
@@ -76,6 +84,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun fetchSearchData(keyword: String){
+        loadingDialog.showLoading()
+
         viewLifecycleOwner.lifecycleScope.launch {
             // ① suspend 함수 안전 호출
             val refreshToken = requireContext().getRefreshToken()
@@ -143,11 +153,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
                             }
                             recommendRecyclerviewInit()
+
+                            loadingDialog.hideLoading()
                         }
 
                         else -> {
                             val errorCode = response.errorBody()?.string()
                             Log.e("Search", "응답 실패: ${response.code()} - $errorCode")
+
+                            loadingDialog.hideLoading()
                         }
                     }
                 }
@@ -155,21 +169,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                     val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                     Log.d("Search", value)
+
+                    loadingDialog.hideLoading()
                 }
             })
         }
     }
 
     private fun recentSearchRecyclerviewInit() {
-        val searchList = ArrayList<SearchItem>()
-        searchList.add(SearchItem("공강시간 때 친구 없을 때 할 것 추천"))
-        searchList.add(SearchItem("학교 주변 카페 추천"))
-        searchList.add(SearchItem("전시회"))
-        searchList.add(SearchItem("학교 근처 예쁜 포토존 있는 곳"))
-        searchList.add(SearchItem("만화카페"))
-        searchList.add(SearchItem("PC방"))
-        searchList.add(SearchItem("공강 시간에 친구들이랑 가기 좋은 맛집"))
-
+        searchList = requireContext().loadStringList()
 
         val verticalSpacingDecoration = VerticalSpacingDecoration(
             context = requireContext(),

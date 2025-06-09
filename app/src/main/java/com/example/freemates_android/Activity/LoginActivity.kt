@@ -182,6 +182,8 @@ class LoginActivity : AppCompatActivity() {
                     text = "네트워크 오류가 발생했습니다."
                     visibility = View.VISIBLE
                 }
+
+                loadingDialog.hideLoading()
             }
         })
     }

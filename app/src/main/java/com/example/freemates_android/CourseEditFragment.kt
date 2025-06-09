@@ -58,6 +58,7 @@ import java.io.InputStream
 class CourseEditFragment : Fragment(R.layout.fragment_course_edit) {
 
     private lateinit var binding: FragmentCourseEditBinding
+    private lateinit var loadingDialog: LoadingDialog
     private lateinit var course: Course
     private var courseDuration: Int = 0
     private val PICK_IMAGE_REQUEST = 1001
@@ -94,6 +95,8 @@ class CourseEditFragment : Fragment(R.layout.fragment_course_edit) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentCourseEditBinding.bind(view)
+
+        loadingDialog = LoadingDialog(requireContext())
 
         initUI()
         clickEvent()
@@ -311,6 +314,8 @@ class CourseEditFragment : Fragment(R.layout.fragment_course_edit) {
             if(!binding.btnCourseEditCompleteCourseEdit.isSelected)
                 return@setOnClickListener
 
+            loadingDialog.showLoading()
+
             Log.d("CourseEdit", "완료버튼 클릭")
             val title = binding.etCourseTitleCourseEdit.text.toString()
             val description = binding.etCourseDescriptionCourseEdit.text.toString()
@@ -369,10 +374,12 @@ class CourseEditFragment : Fragment(R.layout.fragment_course_edit) {
                         if (response.code() == 201) {
                             Log.d("CourseEdit", "코스 추가 성공")
                             findNavController().navigate(R.id.action_courseEditFragment_to_recommendFragment)
-
+                            loadingDialog.hideLoading()
                         } else {
                             val errorCode = response.errorBody()?.string()
                             Log.e("CourseEdit", "응답 실패: ${response.code()} - $errorCode")
+
+                            loadingDialog.hideLoading()
                         }
                     }
 
@@ -382,6 +389,8 @@ class CourseEditFragment : Fragment(R.layout.fragment_course_edit) {
                     ) {
                         val value = "Failure: ${t.message}"  // 네트워크 오류 처리
                         Log.d("CourseEdit", value)
+
+                        loadingDialog.hideLoading()
                     }
                 })
             }
